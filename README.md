@@ -2,7 +2,8 @@
 
 Para as premissas detalhadas do projeto, consulte [docs/premissas.md](docs/premissas.md).
 Para o roteiro detalhado do projeto, consulte [docs/workflow.md](docs/workflow.md).
-Para o esquema do banco de dados, consulte [docs/db_schema.sql](docs/db_schema.sql).
+Para o esquema do banco de dados, consulte [docs/modelo_entidade_relacionamento.md](docs/modelo_entidade_relacionamento.md).
+Para o conhecimento da biblioteca de features, consulte [docs/conhecimento_biblioteca_features.md](docs/conhecimento_biblioteca_features.md).
 
 ## Estrutura do Projeto
 
@@ -58,19 +59,41 @@ Para configurar o ambiente de desenvolvimento, siga os passos abaixo:
    pip install -r requirements.txt
    ```
 
+4. **Configure o kernel Jupyter (opcional, mas recomendado para notebooks):**
+   ```bash
+   python -m ipykernel install --user --name=.venv --display-name="Python (.venv)"
+   ```
+
 ## Como Rodar o Projeto
 
-Para executar o script de ETL que processa os dados de `extracao_mtech` e os salva no banco de dados SQLite, utilize o seguinte comando a partir da raiz do projeto:
+### Processamento de Dados ETL
 
-```bash
-python -m src.etl.extract_mtech_data
-```
+Para executar os scripts de ETL que processam os dados e os salvam no banco de dados SQLite, utilize os seguintes comandos a partir da raiz do projeto:
 
-Para exportar o esquema do banco de dados para `docs/db_schema.sql`:
+-   **Extração e Transformação de Dados de Features (BANCO_VARIAVEIS.xlsx):**
+    ```bash
+    python -m src.etl.extract_excel_to_db
+    ```
+    Este script extrai dados das abas 'VARIABLES' e 'CONSTANTES' do arquivo `BANCO_VARIAVEIS.xlsx`, aplica transformações (formatação de cabeçalhos, conversão de datas, tratamento de strings) e os salva nas tabelas `variables` e `constantes` no `prediction_data.db`.
 
-```bash
-python -m src.utils.export_db_schema
-```
+-   **Extração e Transformação de Dados MTECH (Arquivos Semanais):**
+    ```bash
+    python -m src.etl.extract_mtech_data
+    ```
+    Este script processa os arquivos semanais de `extracao_mtech`, aplica racionalização de cabeçalhos, processa a coluna `lote_composto` (incluindo a criação de `lote_prefixo`), converte tipos de dados e carrega tudo para a tabela `extracao_mtech_data` no `prediction_data.db`.
+
+### Análise de Qualidade de Dados
+
+-   **Notebook de Qualidade de Dados:**
+    Abra o notebook `notebooks/data_quality_extracao_mtech.ipynb` no Jupyter e selecione o kernel `Python (.venv)` para executar as análises de qualidade dos dados da tabela `extracao_mtech_data`.
+
+### Outras Ferramentas
+
+-   **Exportar Esquema do Banco de Dados:**
+    Para exportar o esquema do banco de dados para `docs/db_schema.sql` (ou para gerar o MER em `docs/modelo_entidade_relacionamento.md`), utilize:
+    ```bash
+    python -m src.utils.export_db_schema
+    ```
 
 (Instruções detalhadas sobre como rodar outros scripts ou notebooks serão adicionadas aqui conforme o projeto avança.)
 

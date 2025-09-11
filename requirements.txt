@@ -1,14 +1,5 @@
 pandas
 numpy
-scikit-learn
+openpyxl
 matplotlib
 seaborn
-dvc
-black
-ruff
-pre-commit
-pytest
-python-dotenv
-mlflow
-streamlit
-openpyxl
