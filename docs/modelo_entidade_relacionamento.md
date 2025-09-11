@@ -26,7 +26,7 @@ Este documento descreve o esquema do banco de dados `prediction_data.db`, que ar
 | `id_usurio_criao` | TEXT | ID do usuário que criou o registro. |
 | `extensionista` | TEXT | Nome do extensionista. |
 | `id_usurio` | TEXT | ID do usuário. |
-| `lote_prefixo` | REAL | Prefixo numérico do lote composto. |
+| `fazenda` | REAL | Número do aviário. |
 
 ### Tabela: variables
 

@@ -71,14 +71,14 @@ def run_etl():
                 else:
                     logger.warning(f"'lote_composto' column not found in {filename}. Skipping processing for this column.")
 
-                # Create 'lote_prefixo' column from 'lote_composto'
+                # Create 'fazenda' column from 'lote_composto'
                 if 'lote_composto' in df.columns:
                     # Ensure 'lote_composto' is string type before splitting
-                    df['lote_prefixo'] = df['lote_composto'].astype(str).apply(
+                    df['fazenda'] = df['lote_composto'].astype(str).apply(
                         lambda x: int(x.split('-')[0]) if '-' in x and x.split('-')[0].isdigit() else None
                     )
                 else:
-                    logger.warning(f"'lote_composto' column not found in {filename}. Cannot create 'lote_prefixo'.")
+                    logger.warning(f"'lote_composto' column not found in {filename}. Cannot create 'fazenda'.")
 
                 # Convert specified columns to date format
                 date_columns = ['data_alojamento', 'data_hora_transao', 'data_evento', 'data_criao']
