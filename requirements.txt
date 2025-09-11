@@ -1,0 +1,14 @@
+pandas
+numpy
+scikit-learn
+matplotlib
+seaborn
+dvc
+black
+ruff
+pre-commit
+pytest
+python-dotenv
+mlflow
+streamlit
+openpyxl

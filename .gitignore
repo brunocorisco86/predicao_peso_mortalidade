@@ -1,0 +1,36 @@
+# Data
+data/
+# *.csv
+# *.xlsx
+# *.json
+# *.db
+*.parquet
+
+# Python
+__pycache__/
+*.pyc
+*.pyd
+*.pyo
+.Python/
+env/
+venv/
+.venv/
+*/venv/
+*/.venv/
+*.log
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+.jupyter/
+jupyter_notebook_config.py
+
+# IDEs
+.idea/
+.vscode/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
