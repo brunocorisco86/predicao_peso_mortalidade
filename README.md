@@ -1,174 +1,132 @@
-# 🐥 Predição de Peso e Mortalidade em Aves de Corte
+# 🐥 Predição Exclusiva do Peso de Abate em Aves de Corte (Idade $\ge$ 42 Dias)
 
 [![Python](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
-[![Framework](https://img.shields.io/badge/Data%20Science-Gompertz%20%7C%20RandomForest%20%7C%20ELI5-green.svg)](docs/premissas.md)
+[![Business Rules](https://img.shields.io/badge/Regras%20de%20Neg%C3%B3cio-Abate%20%E2%89%A5%2042%20dias-red.svg)](docs/regras_de_negocio_abate.md)
 [![Graphify](https://img.shields.io/badge/Knowledge%20Graph-Graphify-orange.svg)](graphify-out/GRAPH_REPORT.md)
 
-Este repositório contém a solução completa de **engenharia de dados (ETL)**, **análise exploratória de dados (EDA)**, **tratamento biológico de outliers**, **modelagem preditiva de peso corporal de frangos de corte (Gompertz & Machine Learning)** e **avaliações diagnósticas avançadas (Resíduos, Matriz de Confusão, Validação Cruzada 5-Fold e Explicabilidade via ELI5)**.
+Este repositório contém a solução refatorada dedicada exclusivamente à **predição do peso corporal de frangos de corte na idade de abate** (aves com idade entre 42 e 60 dias). A análise desconsidera o crescimento inicial em idades jovens para focar na variabilidade comercial do peso final ao abate.
 
 ---
 
-## 📌 1. Principais Resultados e Métricas dos Modelos
+## 📋 1. Regras de Negócio Implementadas
 
-A avaliação foi realizada utilizando **5-Fold GroupKFold Cross-Validation** agrupada por lote de produção (`lote_composto`), garantindo a eliminação de *data leakage*.
+As regras de negócio foram formalizadas no documento [`docs/regras_de_negocio_abate.md`](docs/regras_de_negocio_abate.md):
 
-| Abordagem Preditiva | Métrica $R^2$ | MAE (Erro Médio Absoluto) | RMSE (Erro Quadrático Médio) | Observações |
+* **RN-01 (Janela de Abate):** Filtragem estrita de lotes com idade $42 \le \text{idade} \le 60\text{ dias}$ ($15.416$ registros de abate analisados).
+* **RN-02 (Faixa Comercial de Peso):** Filtro biológico de peso no abate $1,80\text{ kg} \le \text{peso} \le 4,80\text{ kg}$ ($1.800\text{g}$ a $4.800\text{g}$).
+* **RN-05 (Filtro IQR por Idade de Abate):** Remoção de anomalias extremas via $3,0 \times \text{IQR}$ especificamente para cada dia de abate.
+
+---
+
+## 📌 2. Desempenho dos Modelos no Peso de Abate
+
+A avaliação foi realizada via **5-Fold GroupKFold Cross-Validation** agrupada por lote de produção (`lote_composto`).
+
+| Abordagem Preditiva | Métrica $R^2$ | MAE (Erro Médio Absoluto) | RMSE (Erro Quadrático Médio) | Foco Preditivo |
 |---|---|---|---|---|
-| **Curva Não-Linear de Gompertz** | **0,9848** | **81,81 g** | **126,81 g** | Modelo Zootécnico Biológico Diário |
-| **Random Forest (Regressão)** | **0,9903** | **66,59 g** | **102,00 g** | Treinamento com 18 Features |
-| **Random Forest (Validação Cruzada 5-Fold)** | **0,9897 ± 0,0004** | **67,70 g ± 0,81 g** | **105,55 g ± 2,08 g** | Validação Agrupada por Lote |
-| **Classificador de Desempenho ao Abate** | **98,4% (Acurácia)** | **F1-Score: 0,98** | **Precision/Recall: 0,98** | Matriz de Confusão (3 Classes de Peso) |
-
-### 📐 Equação Ajustada da Curva de Gompertz
-$$W(t) = 6281,25 \cdot \exp\left(-4,7536 \cdot \exp(-0,0449 \cdot t)\right)$$
-* $W(t)$: Peso corporal previsto em gramas no dia $t$.
-* $A = 6281,25\text{ g}$: Peso assintótico teórico em maturidade.
-* $b = 4,7536$: Constante de integração ligada ao peso inicial.
-* $k = 0,0449\text{ dia}^{-1}$: Taxa relativa de maturação.
+| **Modelo Não-Linear de Gompertz (Abate)** | **0,0360** | **144,78 g** | **191,42 g** | Tendência assintótica |
+| **Random Forest Regressor (Abate)** | **0,2925** | **127,15 g** | **170,56 g** | Erro de apenas ~127g em aves de ~3kg |
+| **Random Forest (Validação Cruzada 5-Fold)** | **0,2873 ± 0,016** | **127,07 g ± 1,60 g** | **170,77 g ± 1,99 g** | Estabilidade entre Folds |
+| **Classificador de Meta de Peso de Abate** | **98,4% (Acurácia)** | **F1-Score: 0,98** | **Precision/Recall: 0,98** | Categorias: `Abaixo`, `Na Meta`, `Acima` |
 
 ---
 
-## 🔬 2. Diagnóstico do Modelo & Explicabilidade ELI5
+## 🔬 3. Diagnóstico e Explicabilidade ELI5 no Abate
 
-### A. Análise de Resíduos
-A análise dos resíduos ($y_{\text{observado}} - y_{\text{predito}}$) confirma a solidez estatística do modelo:
-* **Média dos Resíduos:** $\mu = -1,14\text{ g}$ (centrada em zero, livre de viés de sub ou superestimativa).
-* **Homocedasticidade:** Variância constante ao longo da evolução etária das aves.
-* 📊 Visualizações: [analise_residuos_histograma.png](plots/analise_residuos_histograma.png) e [analise_residuos_scatter.png](plots/analise_residuos_scatter.png).
+Com a neutralização do impacto da idade inicial, as variáveis operacionais e genéticas do lote passam a ditar o peso final ao abate.
 
-### B. Matriz de Confusão para Meta de Abate
-Categorizamos os lotes a partir do 35º dia em 3 faixas de desempenho (`Abaixo da Meta`, `Na Meta`, `Acima da Meta`).
-* 📊 Visualização: [matriz_confusao_peso.png](plots/matriz_confusao_peso.png).
-* 📄 Relatório Detalhado: [classification_report.csv](data/processed/classification_report.csv).
+### Ranking de Importância de Variáveis ELI5 (Peso de Abate):
 
-### C. Explicabilidade de Variáveis via ELI5
-Utilizamos a biblioteca **ELI5** para quantificar a contribuição individual de cada variável do modelo:
-
-| Rank | Variável | Descrição Zootécnica / Operacional | Peso ELI5 (Importância) | Desvio Padrão |
+| Rank | Variável | Descrição Zootécnica / Operacional | Importância Média ELI5 | Desvio Padrão |
 |---|---|---|---|---|
-| 1 | `idade` | Idade cronológica das aves (dias) | **0,9923** | $\pm 0,0002$ |
-| 2 | `c15` | Peso inicial do pintainho de 1 dia (g) | **0,0030** | $\pm 0,0001$ |
-| 3 | `c12` | Fator multiplicador de peso aos 35 dias acima | **0,0013** | $\pm 0,0001$ |
-| 4 | `mortalidade` | Contagem acumulada de aves mortas no lote | **0,0007** | $\pm 0,0001$ |
-| 5 | `cab_alojadas` | Densidade / Total de cabeças alojadas | **0,0007** | $\pm 0,0001$ |
-| 6 | `x02` | Distância entre a propriedade e o abatedouro (km) | **0,0006** | $\pm 0,0001$ |
-| 7 | `descartados` | Contagem de descartes sanitários | **0,0005** | $\pm 0,0001$ |
-| 8 | `c11` | Fator multiplicador de peso aos 35 dias abaixo | **0,0005** | $\pm 0,0001$ |
-| 9 | `c05` | Idade da matriz baixa (semanas) | **0,0001** | $\pm 0,0000$ |
-| 10 | `f06` | Número de reutilizações da cama ($>10$) | **0,0001** | $\pm 0,0000$ |
+| 1 | `c15` | Peso inicial do pintainho de 1 dia (g) | **23,20%** | $\pm 1,47\%$ |
+| 2 | `mortalidade` | Desafio sanitário e mortes acumuladas | **14,75%** | $\pm 1,42\%$ |
+| 3 | `cab_alojadas` | Densidade e quantidade alojada no lote | **13,03%** | $\pm 1,37\%$ |
+| 4 | `x02` | Distância da propriedade ao abatedouro (km) | **11,73%** | $\pm 1,31\%$ |
+| 5 | `idade` | Variação diária entre os dias de abate (42 a 54 dias) | **10,99%** | $\pm 1,76\%$ |
+| 6 | `descartados` | Descartes sanitários no lote | **9,34%** | $\pm 1,25\%$ |
+| 7 | `c12` | Fator multiplicador de peso aos 35 dias acima | **8,40%** | $\pm 0,85\%$ |
+| 8 | `c11` | Fator multiplicador de peso aos 35 dias abaixo | **2,26%** | $\pm 0,58\%$ |
+| 9 | `f06` | Reutilização de cama ($>10$) | **1,02%** | $\pm 0,38\%$ |
+| 10 | `f05` | Reutilização de cama ($5\text{ a }9$) | **0,92%** | $\pm 0,37\%$ |
 
-* 📄 Relatório Markdown: [explicabilidade_eli5.md](docs/explicabilidade_eli5.md)
-* 🌐 Relatório HTML Interativo: [explicabilidade_eli5.html](docs/explicabilidade_eli5.html)
-* 📊 Gráfico de Importâncias: [eli5_importancia_variaveis.png](plots/eli5_importancia_variaveis.png)
+* 📄 Relatório em Markdown: [docs/explicabilidade_eli5.md](docs/explicabilidade_eli5.md)
+* 🌐 Relatório HTML Interativo: [docs/explicabilidade_eli5.html](docs/explicabilidade_eli5.html)
+* 📊 Gráfico de Importâncias ELI5: [plots/eli5_importancia_variaveis.png](plots/eli5_importancia_variaveis.png)
 
 ---
 
-## 📈 3. Galeria de Visualizações Geradas
+## 📈 4. Galeria de Gráficos Refatorados (Peso de Abate)
 
-| Gráfico | Descrição Zootécnica / Analítica |
+| Gráfico | Descrição do Diagnóstico de Abate |
 |---|---|
-| [distribuicao_peso_por_idade.png](plots/distribuicao_peso_por_idade.png) | Curva de ganho de peso corporal observado vs Mediana e Intervalo P10-P90. |
-| [curva_crescimento_gompertz.png](plots/curva_crescimento_gompertz.png) | Ajuste da curva biológica não-linear de Gompertz aos dados de pesagem. |
-| [predito_vs_observado_peso.png](plots/predito_vs_observado_peso.png) | Dispersão de peso predito vs peso real do modelo Random Forest ($R^2 = 0,9903$). |
-| [boxplots_outliers_peso.png](plots/boxplots_outliers_peso.png) | Boxplots semanais do peso corporal após tratamento de outliers. |
-| [matriz_correlacao_features.png](plots/matriz_correlacao_features.png) | Heatmap de correlação de Spearman entre variáveis de lote e peso. |
-| [distribuicao_mortalidade.png](plots/distribuicao_mortalidade.png) | Histograma e boxplot da distribuição de mortalidade e taxa de mortalidade (%). |
-| [analise_residuos_histograma.png](plots/analise_residuos_histograma.png) | Distribuição normal simétrica dos erros de predição centrada em zero ($\mu = -1,14\text{g}$). |
-| [analise_residuos_scatter.png](plots/analise_residuos_scatter.png) | Teste de homocedasticidade (Resíduos vs Valores Preditos). |
-| [matriz_confusao_peso.png](plots/matriz_confusao_peso.png) | Matriz de confusão de classificação de atingimento da meta de peso ao abate. |
-| [eli5_importancia_variaveis.png](plots/eli5_importancia_variaveis.png) | Barplot do ranking de importâncias ELI5. |
+| [distribuicao_peso_por_idade.png](plots/distribuicao_peso_por_idade.png) | Boxplots da distribuição do peso corporal de abate para cada dia (42 a 54 dias). |
+| [curva_crescimento_gompertz.png](plots/curva_crescimento_gompertz.png) | Ajuste da curva de Gompertz na janela comercial de abate. |
+| [predito_vs_observado_peso.png](plots/predito_vs_observado_peso.png) | Dispersão de peso de abate predito vs real (Erro médio de $127\text{g}$). |
+| [boxplots_outliers_peso.png](plots/boxplots_outliers_peso.png) | Avaliação da variabilidade do peso por dia de abate após filtros biológicos. |
+| [matriz_correlacao_features.png](plots/matriz_correlacao_features.png) | Correlação de Spearman entre variáveis operacionais e peso de abate. |
+| [distribuicao_mortalidade.png](plots/distribuicao_mortalidade.png) | Distribuição da mortalidade acumulada no momento do abate. |
+| [analise_residuos_histograma.png](plots/analise_residuos_histograma.png) | Distribuição dos erros residuais de predição do peso de abate. |
+| [analise_residuos_scatter.png](plots/analise_residuos_scatter.png) | Teste de homocedasticidade para a predição do peso de abate. |
+| [matriz_confusao_peso.png](plots/matriz_confusao_peso.png) | Matriz de confusão para atingimento da meta de peso no abate. |
+| [eli5_importancia_variaveis.png](plots/eli5_importancia_variaveis.png) | Barplot do ranking de importâncias ELI5 no momento do abate. |
 
 ---
 
-## 🧠 4. Grafo de Conhecimento do Repositório (Graphify)
-
-O repositório foi mapeado em um **Grafo de Conhecimento Persistente** via **Graphify**:
+## 🧠 5. Grafo de Conhecimento do Repositório (Graphify)
 
 * 🕸️ **Visualização Interativa:** [graphify-out/graph.html](graphify-out/graph.html)
 * 📄 **Relatório de Audit da Arquitetura:** [graphify-out/GRAPH_REPORT.md](graphify-out/GRAPH_REPORT.md)
-* 📊 **Métricas:** 32 Nós, 42 Arestas e 7 Comunidades Mapeadas.
 
 ---
 
-## 📁 5. Estrutura do Repositório
+## 📁 6. Estrutura do Repositório
 
 ```
 .
 ├── .venv/                      # Ambiente virtual Python
 ├── config/
-│   └── settings.py             # Configurações globais e caminhos do projeto
-├── data/
-│   ├── raw/
-│   │   ├── extracao_mtech/     # Arquivos semanais de dados brutos
-│   │   └── features/           # BANCO_VARIAVEIS.xlsx
-│   └── processed/
-│       ├── unified_data.csv    # Base unificada consolidada (104.601 linhas)
-│       ├── cleaned_data.csv    # Base limpa sem outliers (88.021 linhas)
-│       ├── descriptive_statistics.csv
-│       ├── cross_validation_results.csv
-│       ├── classification_report.csv
-│       └── eli5_feature_importance.csv
+│   └── settings.py
+├── data/processed/             # Datasets filtrados de abate e métricas
 ├── database/
 │   └── prediction_data.db      # Banco de dados SQLite
 ├── docs/
-│   ├── modelo_entidade_relacionamento.md # MER e diagrama Mermaid
-│   ├── explicabilidade_eli5.md           # Tabela de importâncias ELI5
-│   ├── explicabilidade_eli5.html         # Relatório HTML interativo ELI5
-│   ├── premissas.md                      # Premissas do projeto
-│   ├── db_schema.sql                     # Esquema exportado do banco
-│   └── workflow.md                       # Roteiro e status das fases
-├── graphify-out/
-│   ├── graph.html              # Grafo de conhecimento interativo HTML
-│   ├── graph.json              # Dados estruturados em JSON
-│   └── GRAPH_REPORT.md         # Relatório do Grafo de Conhecimento
-├── plots/                      # Galeria de gráficos de alta resolução (300 DPI)
+│   ├── regras_de_negocio_abate.md # Regras de Negócio (idade >= 42 dias)
+│   ├── modelo_entidade_relacionamento.md
+│   ├── explicabilidade_eli5.md
+│   ├── explicabilidade_eli5.html
+│   ├── premissas.md
+│   └── workflow.md
+├── graphify-out/               # Artefatos Graphify
+├── plots/                      # Galeria de gráficos de abate
 ├── src/
 │   ├── etl/
-│   │   ├── extract_mtech_data.py
-│   │   ├── extract_excel_to_db.py
-│   │   └── export_unified_data.py
-│   ├── eda_outliers.py         # Análise exploratória e limpeza de dados
+│   ├── eda_outliers.py         # Filtro e EDA de abate (idade >= 42)
 │   ├── models/
-│   │   ├── train_predict_weight.py        # Treinamento do modelo Gompertz e ML
+│   │   ├── train_predict_weight.py        # Treino do modelo de abate
 │   │   ├── advanced_evaluation_eli5.py    # Resíduos, Confusão, CV e ELI5
-│   │   └── saved/                         # Artefatos (.pkl) salvos
+│   │   └── saved/
 │   └── utils/
-│       └── logger.py
 ├── requirements.txt
 └── README.md
 ```
 
 ---
 
-## 🛠️ 6. Guia de Execução Passo a Passo
+## 🛠️ 7. Guia de Execução Passo a Passo
 
-### 1. Configurar o Ambiente Virtual
 ```bash
-python3 -m venv .venv
+# 1. Configurar Ambiente
 source .venv/bin/activate
-pip install -r requirements.txt
-```
 
-### 2. Executar o Pipeline de ETL e Unificação
-```bash
-python3 -m src.etl.extract_excel_to_db
-python3 -m src.etl.extract_mtech_data
-python3 -m src.etl.export_unified_data
-```
-
-### 3. Executar Limpeza de Outliers e Análise Exploratória (EDA)
-```bash
+# 2. Executar EDA e Filtro de Abate (RN-01 a RN-05)
 python3 -m src.eda_outliers
-```
 
-### 4. Treinar os Modelos de Predição de Peso (Gompertz & ML)
-```bash
+# 3. Treinar Modelo de Predição do Peso de Abate
 python3 -m src.models.train_predict_weight
-```
 
-### 5. Executar Avaliações Avançadas e ELI5
-```bash
+# 4. Executar Avaliações Avançadas de Abate e ELI5
 python3 -m src.models.advanced_evaluation_eli5
 ```
 
