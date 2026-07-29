@@ -194,8 +194,6 @@ def main():
 
     g1_path = os.path.join(plots_dir, 'distribuicao_peso_por_idade.png')
     plt.savefig(g1_path, dpi=300)
-    plt.savefig(os.path.join(plots_dir, 'evolucao_peso_idade.png'), dpi=300)
-    plt.savefig(os.path.join(plots_dir, 'distribuicao_peso.png'), dpi=300)
     plt.close()
     logger.info(f"Gráfico 1 salvo em: {g1_path}")
 
@@ -230,7 +228,6 @@ def main():
 
     g2_path = os.path.join(plots_dir, 'boxplots_outliers_peso.png')
     plt.savefig(g2_path, dpi=300)
-    plt.savefig(os.path.join(plots_dir, 'boxplots_outliers.png'), dpi=300)
     plt.close()
     logger.info(f"Gráfico 2 salvo em: {g2_path}")
 
@@ -304,7 +301,6 @@ def main():
 
     g4_path = os.path.join(plots_dir, 'matriz_correlacao_features.png')
     plt.savefig(g4_path, dpi=300)
-    plt.savefig(os.path.join(plots_dir, 'correlacao_variaveis.png'), dpi=300)
     plt.close()
     logger.info(f"Gráfico 4 salvo em: {g4_path}")
 

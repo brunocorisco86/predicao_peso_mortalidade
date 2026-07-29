@@ -1,25 +1,36 @@
-# Python & Virtual Environments
+# Ambientes Virtuais
 .venv/
-.venv_linux/
 venv/
 env/
+*/venv/
+*/.venv/
+
+# Python Bytecode & Logs
 __pycache__/
 *.pyc
 *.pyd
 *.pyo
+.Python/
 *.log
 
-# Data
-data/processed/
+# Dados Brutos e Processados (CSVs pesados)
+data/
+data/processed/*.csv
+data/processed/*.zip
+data/raw/
 *.parquet
 
-# Graphify Temporary Cache Files (Keep graph.html, graph.json, GRAPH_REPORT.md)
-graphify-out/.graphify_*
+# Artefatos do Graphify Cache
+graphify-out/cache/
 
 # Jupyter & IDEs
 .ipynb_checkpoints/
-.vscode/
+.jupyter/
+jupyter_notebook_config.py
 .idea/
+.vscode/
+
+# Sistema Operacional & Variáveis de Ambiente
 .DS_Store
 Thumbs.db
 .env
