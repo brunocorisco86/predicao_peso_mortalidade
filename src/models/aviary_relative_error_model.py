@@ -138,11 +138,11 @@ def run_aviary_relative_error_experiment():
         if c in df_hybrid.columns:
             df_hybrid[c] = df_hybrid[c].astype('category').cat.codes
 
-    # Features set
+    # Features set (RN-08: Apenas taxas relativas em %, sem contagens brutas de mortes/descartes)
     full_feature_set = [
         'delta_aviario_g', 'erro_relativo_aviario_pct', 'std_erro_relativo_aviario_pct',
         'w_gompertz', 'w_arima',
-        'idade', 'cab_alojadas', 'mortalidade', 'descartados',
+        'idade', 'cab_alojadas',
         'mortalidade_pct', 'descartados_pct', 'taxa_perda_total',
         'f01', 'f02', 'f03', 'f04', 'f05', 'f06',
         'c05', 'c06', 'c11', 'c12', 'c15', 'c16', 'c17', 'f07', 'f15', 'x02', 'log_x02_distancia',
