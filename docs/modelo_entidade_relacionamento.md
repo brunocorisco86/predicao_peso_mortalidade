@@ -9,7 +9,7 @@ Este documento define formalmente o **Modelo Entidade-Relacionamento (MER/DER)**
 | Regra de Negócio | Entidade / Atributo | Sintaxe / Padrão de Formatação | Definição Zootécnica e Estrutural |
 |---|---|---|---|
 | **RN-06: Aviário / Fazenda** | `aviario` / `fazenda` | **$100 \le \text{aviario} \le 1500$** (Inteiro) | O termo **Aviário** é sinônimo de **Fazenda** nos datasets. Identifica a propriedade/unidade física de produção (número inteiro entre 100 e 1500). |
-| **RN-07: Lote Composto** | `lote_composto` / `LoteComposto` | Padrão 1: `<aviario>-<lote>`<br>Padrão 2: `<aviario>-<lote>-<nucleo>` | Chave universal de junção entre tabelas. Formada pela concatenação do aviário e número do lote (ex: `1223-8`), podendo incluir a identificação do núcleo (ex: `1223-8-1`). |
+| **RN-07: Lote Composto** | `lote_composto` / `LoteComposto` | Padrão 1: `<aviario>-<lote>`<br>Padrão 2: `<aviario>-<lote>-N<nucleo>` | Chave universal de junção entre tabelas. Formada pela concatenação do aviário e número do lote (ex: `1223-8`), podendo incluir a identificação do núcleo prefixado por 'N' (ex: `1223-8-N1`). |
 
 ---
 
