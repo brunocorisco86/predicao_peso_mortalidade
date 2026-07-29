@@ -1,6 +1,29 @@
 -- SQLite Database Schema Export
 -- Database: /home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/database/prediction_data.db
--- Exported on: 2026-07-29 18:11:55.890388
+-- Exported on: 2026-07-29 18:48:35.387767
+
+-- Table: extracao_mtech_data
+CREATE TABLE "extracao_mtech_data" (
+"data_alojamento" TEXT,
+  "nome_fazenda" TEXT,
+  "data_hora_transao" TEXT,
+  "lote_composto" TEXT,
+  "data_evento" TEXT,
+  "idade" REAL,
+  "cab_alojadas" REAL,
+  "estoque_aves" REAL,
+  "mortalidade" INTEGER,
+  "_mortalidade" REAL,
+  "descartados" INTEGER,
+  "_descartados" REAL,
+  "_mortalidade__descartados" REAL,
+  "data_criao" TEXT,
+  "peso" REAL,
+  "id_usurio_criao" TEXT,
+  "extensionista" TEXT,
+  "id_usurio" TEXT,
+  "fazenda" REAL
+);
 
 -- Table: variables
 CREATE TABLE "variables" (
@@ -60,29 +83,6 @@ CREATE TABLE "constantes" (
   "x01" INTEGER,
   "x02" INTEGER,
   "i01" INTEGER
-);
-
--- Table: extracao_mtech_data
-CREATE TABLE "extracao_mtech_data" (
-"data_alojamento" TEXT,
-  "nome_fazenda" TEXT,
-  "data_hora_transao" TEXT,
-  "lote_composto" TEXT,
-  "data_evento" TEXT,
-  "idade" REAL,
-  "cab_alojadas" REAL,
-  "estoque_aves" REAL,
-  "mortalidade" INTEGER,
-  "_mortalidade" REAL,
-  "descartados" INTEGER,
-  "_descartados" REAL,
-  "_mortalidade__descartados" REAL,
-  "data_criao" TEXT,
-  "peso" REAL,
-  "id_usurio_criao" TEXT,
-  "extensionista" TEXT,
-  "id_usurio" TEXT,
-  "fazenda" REAL
 );
 
 -- Table: peso_abate
