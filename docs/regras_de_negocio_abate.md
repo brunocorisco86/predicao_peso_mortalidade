@@ -23,6 +23,8 @@ Este documento define formalmente as regras de negócio, limites biológicos e p
 | **RN-06: Identificação de Aviário / Fazenda** | `aviario` / `fazenda` | Número antes do hífen em `LoteComposto` | O aviário (ou **fazenda**) é representado exclusivamente pelo número inteiro localizado antes do primeiro hífen do `LoteComposto` (ex: `100` em `100-39` ou `1223` em `1223-8`). |
 | **RN-07: Composição do Lote Composto** | `lote_composto` / `LoteComposto` | `<aviario>-<lote>` ou `<aviario>-<lote>-N<nucleo>` | O identificador `Lote Composto` (ou `LoteComposto`) é formado pela concatenação do aviário e lote (ex: `1223-8`), podendo opcionalmente incluir a identificação do núcleo prefixado por 'N' (ex: `1223-8-N1`). |
 | **RN-08: Preferência por Taxas Relativas (%)** | `_mortalidade` / `_descartados` | Porcentagem acumulada (%) | Sempre priorizar taxas relativas em % (`_mortalidade`, `_descartados`) em vez de contagens brutas de cabeças (`mortalidade`, `descartados`) para evitar colinearidade e ruídos em modelos preditivos. |
+| **RN-09: Elegibilidade Mínima de Pesagens** | `qtd_pesagens`, `tem_pesagem_35d` | Mínimo 3 pesagens + Pesagem obrigatória de 35d | Para entrada no modelo preditivo, o lote DEVE ter no mínimo 3 pesagens de campo e obrigatoriamente a pesagem dos 35 dias (janela 33-37d). Lotes sem pesagem aos 35d são descartados. Ter pesagem aos 42d é altamente desejável. |
+| **RN-10: Índice de Confiança de Amostragem** | `score_confianca_amostragem` | Pontuação contínua de 0,0 a 10,0 | Pontuação atribuída ao lote e agregada por aviário/fazenda baseada na frequência de pesagens, presença dos marcos críticos (35d e 42d) e regularidade do GMD amostral, integrando os datasets preditivos. |
 
 ---
 

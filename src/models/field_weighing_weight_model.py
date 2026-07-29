@@ -71,10 +71,18 @@ def load_data(db_path=DB_PATH):
       AND idade_abate BETWEEN 42 AND 60
     """
     df_abate = pd.read_sql_query(query_abate, conn)
+
+    # Query da tabela de confiança e elegibilidade (RN-09 e RN-10)
+    query_confidence = "SELECT lote_composto, qtd_pesagens, tem_pesagem_35d, tem_pesagem_42d, elegivel_modelo, categoria_amostragem, score_confianca_lote, score_confianca_fazenda FROM lote_sampling_confidence"
+    df_conf = pd.read_sql_query(query_confidence, conn)
     conn.close()
     
-    logger.info(f"Carregados {len(df_mtech)} registros de pesagem de campo normalizados e {len(df_abate)} lotes de abate.")
-    return df_mtech, df_abate
+    # Filtrar apenas lotes de abate que cumprem a RN-09
+    df_abate = df_abate.merge(df_conf, on='lote_composto', how='inner')
+    df_abate_elegiveis = df_abate[df_abate['elegivel_modelo'] == 1].copy()
+    
+    logger.info(f"Carregados {len(df_mtech)} registros de pesagem. Lotes de abate totais: {len(df_abate)} | Lotes elegíveis pela RN-09: {len(df_abate_elegiveis)}.")
+    return df_mtech, df_abate_elegiveis
 
 
 def extract_field_features(df_mtech, df_abate):
@@ -147,6 +155,8 @@ def extract_field_features(df_mtech, df_abate):
             'pred_peso_gmd_g': pred_peso_gmd_g,
             'pred_peso_gompertz_g': pred_peso_gompertz_g,
             'pred_peso_campo_base_g': pred_peso_campo_base_g,
+            'score_confianca_lote': row.get('score_confianca_lote', 8.0),
+            'categoria_amostragem': row.get('categoria_amostragem', 'Desconhecida'),
             'erro_g': pred_peso_campo_base_g - peso_abate_g,
             'erro_abs_g': abs(pred_peso_campo_base_g - peso_abate_g),
             'erro_pct': ((pred_peso_campo_base_g - peso_abate_g) / peso_abate_g) * 100.0
