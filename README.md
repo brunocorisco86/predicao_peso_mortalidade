@@ -2,91 +2,66 @@
 
 [![Python](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
-[![Simulações](https://img.shields.io/badge/Simula%C3%A7%C3%B5es-10%20Lotes-orange.svg)](data/processed/simulacoes_peso_abate_10_lotes.csv)
-[![Tri-Hybrid Model](https://img.shields.io/badge/Modelo%20Tri--H%C3%ADbrido-Gompertz%20%7C%20ARIMA%20%7C%20ML-purple.svg)](docs/sugestoes_melhoria_predicao.md)
+[![Dimensão Aviário](https://img.shields.io/badge/Dimens%C3%A3o-Delta%20por%20Avi%C3%A1rio-success.svg)](data/processed/dimensao_delta_por_aviario.csv)
 [![Graphify](https://img.shields.io/badge/Knowledge%20Graph-Graphify-orange.svg)](graphify-out/GRAPH_REPORT.md)
 
 Este repositório contém a solução dedicada à **predição do peso corporal de frangos de corte na idade de abate** (aves com idade entre 42 e 60 dias).
 
 ---
 
-## 🎯 1. Simulações Comparativas em 10 Lotes Comerciais de Abate
+## 🏆 1. Incorporação da Dimensão do Delta por Aviário (Correção por Propriedade)
 
-Abaixo é apresentada a tabela de **10 simulações amostradas entre 42 e 52 dias de abate**, comparando o peso real medido no abatedouro vs o peso predito pelo Modelo Tri-Híbrido:
+A pedido da análise de negócio, criamos a **Dimensão do Delta por Aviário** ([`data/processed/dimensao_delta_por_aviario.csv`](data/processed/dimensao_delta_por_aviario.csv)), capturando o viés fixo histórico de desempenho de cada aviário ($1.132$ aviários mapeados).
 
-| Simulação | Lote ID | Idade (dias) | Peso Pintainho (1d) | Peso 35d | Peso Real (g) | Peso Predito (g) | Erro Absoluto (g) | Erro (%) | Status Meta |
-|---|---|---|---|---|---|---|---|---|---|
-| **#01** | `891-68` | 42d | 49.0g | 2500g | **2.950,0 g** | **3.173,4 g** | 223,4 g | 7,57% | Abaixo da Meta |
-| **#02** | `1121-22` | 43d | 44.0g | 2521g | **3.536,0 g** | **3.346,3 g** | 189,7 g | 5,37% | Acima da Meta |
-| **#03** | `767-80` | 44d | 42.0g | 2352g | **3.075,0 g** | **3.056,1 g** | **18,9 g** | **0,61%** | Na Meta |
-| **#04** | `671-88` | 45d | 46.0g | 2330g | **2.998,0 g** | **3.024,6 g** | **26,6 g** | **0,89%** | Na Meta |
-| **#05** | `652-93` | 46d | 46.0g | 2350g | **2.990,0 g** | **3.070,1 g** | 80,1 g | 2,68% | Abaixo da Meta |
-| **#06** | `228-150` | 47d | 47.0g | 2330g | **3.300,0 g** | **3.107,3 g** | 192,7 g | 5,84% | Acima da Meta |
-| **#07** | `122-169` | 48d | 41.0g | 2330g | **3.276,0 g** | **3.172,8 g** | 103,2 g | 3,15% | Acima da Meta |
-| **#08** | `1182-24` | 49d | 34.0g | 2250g | **3.310,0 g** | **3.742,4 g** | 432,4 g | 13,06% | Abaixo da Meta |
-| **#09** | `491-117` | 50d | 48.0g | 2540g | **3.490,0 g** | **3.524,1 g** | **34,1 g** | **0,98%** | Na Meta |
-| **#10** | `1256-14` | 52d | 47.0g | 2330g | **3.900,0 g** | **3.596,6 g** | 303,4 g | 7,78% | Na Meta |
-
-* 📊 Visualização de Barras Lote a Lote: [plots/simulacoes_predito_vs_real_10lotes.png](plots/simulacoes_predito_vs_real_10lotes.png).
-* 📄 Arquivo CSV de Simulações: [data/processed/simulacoes_peso_abate_10_lotes.csv](data/processed/simulacoes_peso_abate_10_lotes.csv).
-
----
-
-## 🚀 2. Arquitetura Tri-Híbrida: Gompertz + ARIMA + Machine Learning Stacking
-
-União de três dimensões analíticas complementares:
-
-1. **Componente 1 (Curva Biológica de Gompertz):** Ancoragem fisiológica de longo prazo $W(t) = A \cdot \exp(-b \cdot \exp(-k \cdot t))$.
-2. **Componente 2 (Séries Temporais ARIMA(1,1,1)):** Captura a tendência autoregressiva diária.
-3. **Componente 3 (Machine Learning Stacking: LightGBM + XGBoost + HistGB):** Aprende os desvios residuais de lote (densidade `cab_alojadas`, pesagens intermediárias `peso_dia_35`, mortalidade `mortalidade_pct`, distância `x02`).
-
-### 📊 Comparativo de Desempenho dos Componentes:
-
-| Abordagem Preditiva | Métrica $R^2$ | MAE (Erro Médio Absoluto) | RMSE (Erro Quadrático Médio) | Papel no Ensemble |
+| Abordagem Preditiva | Métrica $R^2$ | MAE (Erro Médio Absoluto) | RMSE (Erro Quadrático Médio) | Redução de Erro / Ganho |
 |---|---|---|---|---|
-| **Componente 1: Gompertz Puro** | 0,0102 | 151,04 g | 208,83 g | Ancoragem Biológica |
-| **Componente 2: ARIMA(1,1,1) Puro** | 0,0320 | 144,30 g | 193,80 g | Tendência Temporal |
-| **Modelo Tri-Híbrido (Gompertz + ARIMA + Stacking ML)** | **0,5401** | **96,15 g** | **137,16 g** | **🏆 Fusão dos 3 Componentes ($\mathbf{MAE < 96g}$ / Desvio 3,2%)** |
+| **Modelo Estático Baseline** | 0,3684 | 118,80 g | 160,74 g | Sem Séries / Aviário |
+| **Modelo Longitudinal (Item 2)** | 0,5359 | 96,92 g | 137,79 g | Séries Temporais |
+| **Modelo Tri-Híbrido (Gompertz + ARIMA + ML)** | 0,5401 | 96,15 g | 137,16 g | Tri-Híbrido |
+| **Modelo Calibrado com Dimensão do Aviário** | **0,5770** | **92,57 g** | **131,54 g** | **🏆 Menor Erro Absoluto ($\mathbf{MAE < 93g}$ / $R^2 = 57,7\%$)** |
+
+> 📌 **Impacto no Negócio:** Ao adicionar o deslocamento histórico do aviário (`delta_aviario_g`), o erro médio absoluto caiu para **$92,57\text{g}$** e o poder explicativo ($R^2$) subiu para **$57,70\%$**.
 
 ---
 
-## 🔬 3. Diagnósticos Avançados do Modelo
+## 🎯 2. Simulações em 10 Lotes Comerciais com Correção por Aviário
 
-### A. Análise de Resíduos (Erro Residual = $y_{\text{real}} - y_{\text{predito\_tri\_hibrido}}$)
-* **Média dos Resíduos:** $\mu = 0,08\text{ g}$ (imparcialidade perfeita, 100% centrado em zero).
-* **Desvio Padrão:** $\sigma = 137,13\text{ g}$.
-* **Homocedasticidade:** Teste scatterplot confirma erros uniformes ao longo de toda a curva de abate.
+Tabela de **10 simulações comerciais de abate** com a calibração da Dimensão de Delta por Aviário:
+
+| Simulação | Lote ID | Idade (dias) | Delta Aviário | Peso Real (g) | Peso Predito Corrigido (g) | Erro Absoluto ($\Delta$) | Erro (%) | Status Meta |
+|---|---|---|---|---|---|---|---|---|
+| **#01** | `891-68` | 42d | $-12,1\text{g}$ | **2.950,0 g** | **3.153,3 g** | 203,3 g | 6,89% | Abaixo da Meta |
+| **#02** | `1121-22` | 43d | $+81,5\text{g}$ | **3.536,0 g** | **3.362,9 g** | 173,1 g | 4,89% | Acima da Meta |
+| **#03** | `767-80` | 44d | $-16,5\text{g}$ | **3.075,0 g** | **3.053,2 g** | **21,8 g** | **0,71%** | Na Meta |
+| **#04** | `671-88` | 45d | $-50,8\text{g}$ | **2.998,0 g** | **3.005,1 g** | **7,1 g** | **0,24%** | Na Meta |
+| **#05** | `652-93` | 46d | $-17,8\text{g}$ | **2.990,0 g** | **3.064,6 g** | 74,6 g | 2,50% | Abaixo da Meta |
+| **#06** | `228-150` | 47d | $+7,6\text{g}$ | **3.300,0 g** | **3.172,0 g** | 128,0 g | 3,88% | Acima da Meta |
+| **#07** | `122-169` | 48d | $+38,4\text{g}$ | **3.276,0 g** | **3.247,2 g** | **28,8 g** | **0,88%** | Acima da Meta |
+| **#08** | `1182-24` | 49d | $-139,8\text{g}$ | **3.310,0 g** | **3.563,3 g** | 253,3 g | 7,65% | Abaixo da Meta |
+| **#09** | `491-117` | 50d | $-5,6\text{g}$ | **3.490,0 g** | **3.503,2 g** | **13,2 g** | **0,38%** | Na Meta |
+| **#10** | `1256-14` | 52d | $+58,1\text{g}$ | **3.900,0 g** | **3.520,2 g** | 379,8 g | 9,74% | Na Meta |
+
+* 📊 Visualização Comparativa com Aviário: [plots/simulacoes_predito_vs_real_correcao_aviario.png](plots/simulacoes_predito_vs_real_correcao_aviario.png).
+* 📄 Dimensão de Delta Exportada: [data/processed/dimensao_delta_por_aviario.csv](data/processed/dimensao_delta_por_aviario.csv).
+
+---
+
+## 🔬 3. Diagnósticos Avançados
+
+### A. Análise de Resíduos (Erro Residual = $y_{\text{real}} - y_{\text{predito\_aviario}}$)
+* **Média dos Resíduos:** $\mu = 0,08\text{ g}$ (100% livre de viés).
+* **Desvio Padrão:** $\sigma = 131,54\text{ g}$.
 * 📊 Visualização: [plots/analise_residuos_histograma.png](plots/analise_residuos_histograma.png) e [plots/analise_residuos_scatter.png](plots/analise_residuos_scatter.png).
 
 ---
 
-## 📋 4. Regras de Negócio Implementadas ([`docs/regras_de_negocio_abate.md`](docs/regras_de_negocio_abate.md))
-
-* **RN-01 (Janela de Abate):** $42 \le \text{idade} \le 60\text{ dias}$ ($15.416$ registros de abate analisados).
-* **RN-02 (Faixa Comercial de Peso):** $1,80\text{ kg} \le \text{peso} \le 4,80\text{ kg}$ ($1.800\text{g}$ a $4.800\text{g}$).
-* **RN-05 (Filtro IQR por Idade de Abate):** Remoção de anomalias extremas via $3,0 \times \text{IQR}$ por dia de abate.
-
----
-
-## 📈 5. Galeria de Gráficos
-
-| Gráfico | Descrição do Diagnóstico de Abate |
-|---|---|
-| [simulacoes_predito_vs_real_10lotes.png](plots/simulacoes_predito_vs_real_10lotes.png) | Comparativo gráfico lote a lote do Peso Real vs Peso Predito para 10 simulações de abate. |
-| [modelo_tri_hibrido_predito_vs_real.png](plots/modelo_tri_hibrido_predito_vs_real.png) | Dispersão do Modelo Tri-Híbrido (Gompertz + ARIMA + ML Stacking) com $R^2 = 0,5401$. |
-| [comparativo_tri_hibrido_gompertz_arima.png](plots/comparativo_tri_hibrido_gompertz_arima.png) | Barplot comparativo do erro absoluto entre Gompertz, ARIMA e o Modelo Tri-Híbrido. |
-| [analise_residuos_histograma.png](plots/analise_residuos_histograma.png) | Distribuição simétrica normal dos resíduos sem viés ($\mu = 0,08\text{g}$). |
-| [matriz_confusao_peso.png](plots/matriz_confusao_peso.png) | Heatmap da Matriz de Confusão comercial de abate. |
-
----
-
-## 🛠️ 6. Guia de Execução
+## 🛠️ 4. Guia de Execução
 
 ```bash
 source .venv/bin/activate
 
-# 1. Executar 10 Simulações de Peso de Abate
-python3 -m src.models.simulate_slaughter_weights
+# Executar Otimização com a Dimensão de Delta por Aviário
+python3 -m src.models.aviary_delta_correction_model
 ```
 
 ---
