@@ -78,9 +78,14 @@ def run_aviary_relative_error_experiment():
 
     daily_mean_weights = valid_hist.groupby('idade')['peso_g'].mean().sort_index()
     try:
-        arima_model = ARIMA(daily_mean_weights, order=(1, 1, 1))
-        arima_fit = arima_model.fit()
-        arima_preds_dict = arima_fit.fittedvalues.to_dict()
+        import warnings
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            daily_series = daily_mean_weights.copy()
+            daily_series.index = pd.date_range(start='2026-01-01', periods=len(daily_series), freq='D')
+            arima_model = ARIMA(daily_series, order=(1, 1, 1))
+            arima_fit = arima_model.fit()
+            arima_preds_dict = dict(zip(daily_mean_weights.index, arima_fit.fittedvalues.values))
     except Exception:
         arima_preds_dict = daily_mean_weights.to_dict()
 
