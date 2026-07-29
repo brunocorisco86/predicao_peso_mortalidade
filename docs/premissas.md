@@ -25,14 +25,4 @@ Este projeto tem como objetivo analisar e prever o peso corporal e a mortalidade
 - **Modelo de Machine Learning (Random Forest):**
   - Incorpora idade, quantidade de aves alojadas, peso do pintainho, tempo de vazio sanitário, idade da matriz e distância do abatedouro.
   - Desempenho: $R^2 = 0,9903$, $\text{MAE} = 66,59\text{ g}$, $\text{RMSE} = 102,00\text{ g}$.
-
-## 3. Integração com a Solução de Entregas de Ração (Os 3 Pilares)
-
-Para mitigar falhas na entrega de ração decorrentes de desvios no crescimento ou estimativas incorretas de consumo, a solução proposta integra-se aos três pilares estratégicos:
-
-1. **Comunicação Eficiente (Plataforma Centralizada):**
-   - Centralização dos dados de curva predita de peso e projeção de consumo diário de ração em um painel único acessível por produtores, extensionistas e equipe de logística.
-2. **Processos Otimizados (Redesenho de Fluxo e Confirmação de Pedidos):**
-   - Redesenho do fluxo de agendamento de entregas baseado na curva de crescimento predita ($W(t)$), exigindo confirmação automatizada antes do despacho para evitar desabastecimento ou sobrecarga nos silos.
-3. **Tecnologia Habilitadora (TMS e Sensores de Nível nos Silos):**
-   - Integração com sistema de gerenciamento de transporte (TMS) para otimização de rotas e sensores telemétricos de nível em tempo real nos silos das fazendas, acionando alertas automáticos de reabastecimento.
+  - Validação Cruzada (5-Fold GroupKFold): $R^2 = 0,9897 \pm 0,0004$, $\text{MAE} = 67,70\text{ g} \pm 0,81\text{ g}$.

@@ -1,11 +1,11 @@
-# 🐥 Predição de Peso e Mortalidade em Aves de Corte & Otimização Logística de Ração
+# 🐥 Predição de Peso e Mortalidade em Aves de Corte
 
 [![Python](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![Framework](https://img.shields.io/badge/Data%20Science-Gompertz%20%7C%20RandomForest%20%7C%20ELI5-green.svg)](docs/premissas.md)
 [![Graphify](https://img.shields.io/badge/Knowledge%20Graph-Graphify-orange.svg)](graphify-out/GRAPH_REPORT.md)
 
-Este repositório contém a solução completa de **engenharia de dados (ETL)**, **análise exploratória de dados (EDA)**, **tratamento biológico de outliers**, **modelagem preditiva de peso corporal de frangos de corte (Gompertz & Machine Learning)**, **avaliações diagnósticas avançadas (Resíduos, Matriz de Confusão, Validação Cruzada 5-Fold e Explicabilidade via ELI5)**, além da arquitetura de solução para eliminar falhas no abastecimento de ração baseada em três pilares estratégicos.
+Este repositório contém a solução completa de **engenharia de dados (ETL)**, **análise exploratória de dados (EDA)**, **tratamento biológico de outliers**, **modelagem preditiva de peso corporal de frangos de corte (Gompertz & Machine Learning)** e **avaliações diagnósticas avançadas (Resíduos, Matriz de Confusão, Validação Cruzada 5-Fold e Explicabilidade via ELI5)**.
 
 ---
 
@@ -81,31 +81,7 @@ Utilizamos a biblioteca **ELI5** para quantificar a contribuição individual de
 
 ---
 
-## 🚚 4. Solução Integrada para Entregas de Ração (Os 3 Pilares)
-
-A predição acurada do ganho de peso diário permite projetar o consumo de ração com alta precisão. A solução para eliminar rupturas no abastecimento de ração apoia-se em 3 pilares:
-
-```mermaid
-graph TD
-    A["Falha de Abastecimento de Ração Eliminada"] --> B["1. Comunicação Eficiente"]
-    A --> C["2. Processos Otimizados"]
-    A --> D["3. Tecnologia Habilitadora"]
-
-    B --> B1["Portal Centralizado Integrador (Fábrica, Logística, Produtor)"]
-    C --> C1["Redesenho do Fluxo Preditivo + Confirmação Automatizada de Pedidos"]
-    D --> D1["Roteamento Inteligente TMS + Sensores Telemétricos nos Silos"]
-```
-
-1. **Comunicação Eficiente (Plataforma Centralizada):**
-   - Implantação de um portal unificado onde a curva predita de consumo de cada lote é visível em tempo real para a equipe de logística, fábrica de ração e extensão rural.
-2. **Processos Otimizados (Redesenho de Fluxo e Confirmação de Pedidos):**
-   - Otimização do fluxo de agendamento acoplado ao modelo de Gompertz/ML, com disparo automatizado de alertas de confirmação de entrega 48h antes do esgotamento previsto.
-3. **Tecnologia Habilitadora (TMS e Sensores de Nível nos Silos):**
-   - Roteamento dinâmico de frotas via TMS integrado com a leitura contínua de **sensores telemétricos nos silos** das fazendas integradas.
-
----
-
-## 🧠 5. Grafo de Conhecimento do Repositório (Graphify)
+## 🧠 4. Grafo de Conhecimento do Repositório (Graphify)
 
 O repositório foi mapeado em um **Grafo de Conhecimento Persistente** via **Graphify**:
 
@@ -115,7 +91,7 @@ O repositório foi mapeado em um **Grafo de Conhecimento Persistente** via **Gra
 
 ---
 
-## 📁 6. Estrutura do Repositório
+## 📁 5. Estrutura do Repositório
 
 ```
 .
@@ -139,7 +115,7 @@ O repositório foi mapeado em um **Grafo de Conhecimento Persistente** via **Gra
 │   ├── modelo_entidade_relacionamento.md # MER e diagrama Mermaid
 │   ├── explicabilidade_eli5.md           # Tabela de importâncias ELI5
 │   ├── explicabilidade_eli5.html         # Relatório HTML interativo ELI5
-│   ├── premissas.md                      # Premissas do projeto e os 3 pilares
+│   ├── premissas.md                      # Premissas do projeto
 │   ├── db_schema.sql                     # Esquema exportado do banco
 │   └── workflow.md                       # Roteiro e status das fases
 ├── graphify-out/
@@ -165,7 +141,7 @@ O repositório foi mapeado em um **Grafo de Conhecimento Persistente** via **Gra
 
 ---
 
-## 🛠️ 7. Guia de Execução Passo a Passo
+## 🛠️ 6. Guia de Execução Passo a Passo
 
 ### 1. Configurar o Ambiente Virtual
 ```bash

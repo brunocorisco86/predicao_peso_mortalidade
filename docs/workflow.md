@@ -17,13 +17,13 @@ Este documento descreve o fluxo de trabalho executado para a predição de peso 
 3. **Modelagem Preditiva (Curvas de Crescimento & Machine Learning) - [CONCLUÍDO]**
    - Ajuste do modelo não-linear biológico de Gompertz: $W(t) = 6281.25 \cdot \exp(-4.7536 \cdot \exp(-0.0449 \cdot t))$ ($R^2 = 0.9848$).
    - Treinamento do modelo de Machine Learning (Random Forest): $R^2 = 0.9903$, $\text{MAE} = 66.59\text{ g}$.
+   - Validação cruzada (5-Fold GroupKFold): $R^2 = 0.9897$, $\text{MAE} = 67.70\text{ g}$.
    - Salvamento dos modelos e visualizações em `src/models/saved/` e `plots/`.
 
-4. **Integração Operacional de Logística de Ração - [CONCLUÍDO]**
-   - Definição da arquitetura de integração baseada em 3 pilares:
-     - **Comunicação Eficiente:** Plataforma centralizada de acompanhamento do lote.
-     - **Processos Otimizados:** Redesenho do fluxo de logística e confirmação automatizada de pedidos.
-     - **Tecnologia Habilitadora:** Integração com TMS e sensores de nível nos silos.
+4. **Diagnósticos Avançados e Explicabilidade ELI5 - [CONCLUÍDO]**
+   - Análise de Resíduos ($\mu = -1.14\text{ g}$, homocedasticidade confirmada).
+   - Matriz de Confusão para classificação da meta de peso de abate (acurácia $98.4\%$).
+   - Explicabilidade de variáveis via ELI5 em `docs/explicabilidade_eli5.md`.
 
 5. **Documentação e Repositório Remoto - [CONCLUÍDO]**
    - Documentação atualizada em `docs/` e `README.md`.
