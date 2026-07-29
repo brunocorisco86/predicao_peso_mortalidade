@@ -134,9 +134,19 @@ def extract_and_load_sheet(sheet_name, excel_path, db_path, header_map):
         if 'c17' in df.columns:
             df['c17'] = df['c17'].astype(str).str.upper()
 
-        # 4. em lote_composto substituir '-0' por '-'
+        # 4. em lote_composto padronizar e remover sufixo de núcleo (-N123)
         if 'lote_composto' in df.columns:
-            df['lote_composto'] = df['lote_composto'].astype(str).str.replace('-0', '-', regex=False)
+            def clean_lote(val):
+                if pd.isna(val) or val is None:
+                    return None
+                val_str = str(val).strip()
+                parts = val_str.split('-')
+                if len(parts) >= 2:
+                    res = f"{parts[0]}-{parts[1]}"
+                else:
+                    res = val_str
+                return res.replace('-0', '-')
+            df['lote_composto'] = df['lote_composto'].apply(clean_lote)
 
         # 5. retire os prefixos 'bin_' e sufixo '_bin' quando houverem (from values)
         for col in df.select_dtypes(include=['object', 'string']).columns:

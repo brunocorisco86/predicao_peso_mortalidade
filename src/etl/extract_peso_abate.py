@@ -36,8 +36,18 @@ def extract_and_load_peso_abate():
         'GMD': 'gmd_abate'
     }, inplace=True)
 
-    # Standardize lote_composto: replace '-0' with '-' and strip whitespace
-    df['lote_composto'] = df['lote_composto'].astype(str).str.strip().str.replace('-0', '-', regex=False)
+    # Standardize lote_composto: remove 3rd part/nucleus, replace '-0' with '-' and strip whitespace
+    def clean_lote(val):
+        if pd.isna(val) or val is None:
+            return None
+        val_str = str(val).strip()
+        parts = val_str.split('-')
+        if len(parts) >= 2:
+            res = f"{parts[0]}-{parts[1]}"
+        else:
+            res = val_str
+        return res.replace('-0', '-')
+    df['lote_composto'] = df['lote_composto'].apply(clean_lote)
 
     # Convert data_producao to YYYY-MM-DD
     if 'data_producao' in df.columns:
