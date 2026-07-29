@@ -1,6 +1,6 @@
 -- SQLite Database Schema Export
 -- Database: /home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/database/prediction_data.db
--- Exported on: 2026-07-29 03:05:24.668957
+-- Exported on: 2026-07-29 18:11:55.890388
 
 -- Table: variables
 CREATE TABLE "variables" (
@@ -83,5 +83,16 @@ CREATE TABLE "extracao_mtech_data" (
   "extensionista" TEXT,
   "id_usurio" TEXT,
   "fazenda" REAL
+);
+
+-- Table: peso_abate
+CREATE TABLE "peso_abate" (
+"lote_composto" TEXT,
+  "idade_abate" INTEGER,
+  "data_producao" TEXT,
+  "peso_medio_abate_kg" REAL,
+  "gmd_abate" REAL,
+  "peso_abate_g" REAL,
+  "fazenda" INTEGER
 );
 

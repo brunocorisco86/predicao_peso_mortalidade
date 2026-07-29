@@ -1,15 +1,15 @@
 ---
 title: "Documentação do Modelo Campeão: Stacking Ensemble com Erro Relativo (%) por Aviário"
-description: "Descrição detalhada da arquitetura, estatística exploratória, validação cruzada, análise de resíduos, matriz de confusão e métricas do modelo mais promissor."
+description: "Descrição detalhada da arquitetura, estatística exploratória, validação cruzada no dataset oficial de abate, análise de resíduos, matriz de confusão e métricas do modelo campeão."
 author: "Equipe Antigravity & C.Vale"
 date: "2026-07-29"
-status: "Produção / Validado em CV GroupKFold"
+status: "Produção / Validado no Dataset Oficial de Abate (export_peso_abate_2023_2026.xlsx)"
 model_type: "StackingRegressor (LightGBM + XGBoost + HistGradientBoosting + RidgeCV)"
 metrics:
-  mae: "92.11 g"
-  rmse: "130.86 g"
-  r2: "0.5814"
-  mape: "~3.0%"
+  mae: "116.47 g"
+  rmse: "149.54 g"
+  r2: "0.5746"
+  mape: "3.55%"
 pilares_estrategicos:
   - "Comunicação Eficiente (Plataforma Centralizada)"
   - "Processos Otimizados (Redesenho de Fluxo e Confirmação de Pedidos)"
@@ -18,132 +18,88 @@ tags:
   - "machine-learning"
   - "poultry-weight-prediction"
   - "stacking-ensemble"
-  - "gompertz"
-  - "arima"
+  - "slaughter-ground-truth"
   - "aviary-relative-error"
   - "cross-validation"
   - "residual-analysis"
   - "confusion-matrix"
 ---
 
-# 🏆 Modelo Campeão: Predição do Peso de Abate de Frangos de Corte
+# 🏆 Modelo Campeão: Predição do Peso de Abate com Ground Truth de Frigorífico
 
 ## 📌 1. Resumo Executivo & Diagnóstico de Desempenho
 
-No processo de avicultura industrial de corte, a previsão acurada do peso corporal das aves na janela de abate (**42 a 60 dias de idade**) é essencial para o planejamento do frigorífico, alocação de caminhões de apanha e otimização logística. 
+Na avicultura industrial da C.Vale, a previsão acurada do peso vivo das aves na janela oficial de abate (**42 a 60 dias de idade**) é vital para o planejamento industrial do abatedouro, otimização da logística de apanha de frangos e programação de ração.
 
-Após a avaliação de 5 iterações metodológicas, o **Modelo de Erro Relativo (%) por Aviário com Stacking Ensemble Tri-Híbrido** consagrou-se como o modelo mais promissor do projeto, atingindo o **recorde histórico de desempenho**:
+Com a incorporação do novo dataset oficial de abatedouro (`data/raw/peso_abate/export_peso_abate_2023_2026.xlsx`), o **Modelo de Erro Relativo (%) por Aviário com Stacking Ensemble Tri-Híbrido** foi retreinado e reavaliado utilizando o alvo exato do frigorífico (`peso_abate_g` e `gmd_abate`), alcançando excelente poder de generalização em **16.039 lotes de abate**:
 
-* **MAE (Erro Médio Absoluto):** **92,11 g** (uma redução expressiva em relação à baseline inicial de 118,80 g).
-* **RMSE (Erro Quadrático Médio):** **130,86 g**
-* **Métrica $R^2$ (Coeficiente de Determinação):** **0,5814** ($58,14\%$ da variância do peso explicada).
-* **Erro Percentual Médio (MAPE):** **~3,0%** (em aves de $3.000\text{g}$).
+* **MAE (Erro Médio Absoluto):** **116,47 g**
+* **RMSE (Erro Quadrático Médio):** **149,54 g**
+* **$R^2$ (Coeficiente de Determinação):** **0,5746** ($57,46\%$ da variância do peso explicada no abate real).
+* **Erro Percentual Médio (MAPE):** **3,55%** (em lotes comerciais com peso médio de $3.290\text{g}$).
 
 ---
 
 ## 🎯 2. Alinhamento com os Pilares Estratégicos do Projeto
 
-A solução proposta para contornar gargalos e otimizar as entregas e previsões na cadeia avícola fundamenta-se em **três pilares estratégicos**:
+A solução fundamenta-se nos **três pilares estratégicos do projeto**:
 
-1. **Comunicação Eficiente (Plataforma Centralizada):** Integração dos dados de pesagem amostral semanal de campo, relatórios de lote e dados do abatedouro em um único fluxo de dados centralizado, permitindo visibilidade em tempo real para zootecnistas e equipes do PCP (Planejamento e Controle da Produção).
-2. **Processos Otimizados (Redesenho de Fluxo e Confirmação de Pedidos):** Redesenho da janela de confirmação de pedidos de ração e escalonamento de apanha de lote com base nas projeções de ganho de peso diário ($\text{GPD}$) e acurácia preditiva dos aviários.
-3. **Tecnologia Habilitadora (TMS, Sensores de Nível nos Silos):** Uso de sistemas de gerenciamento de transporte ($\text{TMS}$) sincronizados às previsões de peso por lote e sensores IoT instalados nos silos de ração para evitar desabastecimento e estresse nutricional nas semanas finais de engorda ($35\text{ a }45\text{ dias}$).
+1. **Comunicação Eficiente (Plataforma Centralizada):** Centralização dos dados de pesagem semanal de campo e do dataset oficial de abatedouro (`peso_abate`) em um único repositório unificado SQLite/CSV, proporcionando visibilidade em tempo real para a equipe de PCP e extensão rural.
+2. **Processos Otimizados (Redesenho de Fluxo e Confirmação de Pedidos):** Ajuste do fluxo de confirmação de pedidos de ração e agendamento da apanha de lotes com base no ganho médio diário ($\text{GMD}$) e viés histórico percentual por aviário.
+3. **Tecnologia Habilitadora (TMS, Sensores de Nível nos Silos):** Integração dos outputs preditivos ao $\text{TMS}$ de transporte e monitoramento de nível de ração via sensores IoT nos silos para evitar estresse nutricional antes do abate.
 
 ---
 
-## 📊 3. Estatística Descritiva & Análise Exploratória (EDA)
+## 📊 3. Estatística Descritiva no Dataset de Abate Sanitizado (`cleaned_data.csv`)
 
-Resumo das variáveis numéricas sanitizadas do dataset de lotes (`cleaned_data.csv`):
+Resumo estatístico dos **16.039 lotes oficiais de abate**:
 
-| Variável | Descrição | Média | Desvio Padrão | Mediana | Mínimo | Máximo | Assimetria (Skewness) |
+| Variável | Descrição | Média | Desvio Padrão | Mediana | Mínimo | Máximo | Assimetria |
 |---|---|:---:|:---:|:---:|:---:|:---:|:---:|
-| `peso_g` | Peso corporal ao abate (g) | 2.945,20 | 320,15 | 2.950,00 | 1.850,00 | 4.100,00 | 0,08 |
-| `idade` | Idade das aves no abate (dias) | 44,82 | 2,15 | 45,00 | 42,00 | 58,00 | 0,92 |
-| `cab_alojadas` | Pintainhos alojados por lote | 28.450 | 5.820 | 27.500 | 10.000 | 48.000 | 0,45 |
-| `mortalidade` | Contagem total de mortes | 845,10 | 312,40 | 790,00 | 120,00 | 2.450,00 | 1,12 |
-| `c15` | Peso inicial do pintainho (g) | 43,15 | 2,80 | 43,00 | 35,00 | 52,00 | 0,15 |
-| `x02` | Distância ao abatedouro (km) | 38,40 | 18,20 | 35,00 | 5,00 | 110,00 | 0,85 |
+| `peso_kg` | Peso real de abate (kg) | 3,29 | 0,24 | 3,30 | 1,81 | 4,22 | -0,12 |
+| `peso_g` | Peso real de abate (g) | 3.290,78 | 240,93 | 3.300,00 | 1.808,50 | 4.223,50 | -0,12 |
+| `idade` | Idade oficial de abate (dias) | 46,38 | 1,78 | 46,00 | 42,00 | 55,00 | 0,48 |
+| `gmd_abate` | Ganho Médio Diário (g/dia) | 71,24 | 4,47 | 71,50 | 45,20 | 84,95 | -0,15 |
+| `cab_alojadas` | Pintainhos alojados por lote | 24.810 | 6.780 | 24.000 | 7.994 | 47.394 | 0,26 |
+| `mortalidade` | Total de mortes acumuladas | 324,37 | 454,57 | 191,50 | 0,00 | 14.141,00 | 7,30 |
 
 ---
 
-## 🔬 4. Arquitetura do Modelo & Engenharia de Atributos
+## 🔬 4. Engenharia de Atributos & Modelo Campeão
 
-O modelo campeão combina modelos matemáticos não-lineares, análise de séries temporais, dimensões longitudinais de crescimento e codificação do viés histórico do aviário.
-
-### Componentes Principais de Engenharia de Atributos:
-
-1. **Curva de Crescimento Não-Linear de Gompertz ($W_{\text{Gompertz}}$):**
-   $$W(t) = A \cdot \exp\left(-b \cdot \exp(-k \cdot t)\right)$$
-   Onde os parâmetros calibrados foram $A = 6.260,16\text{g}$, $b = 4,7378$, $k = 0,0449$.
-
-2. **Tendência Diária Temporal com ARIMA ($W_{\text{ARIMA}}$):**
-   Ajuste de modelo $\text{ARIMA}(1,1,1)$ na série diária de pesos médios.
-
-3. **Correção por Erro Relativo (%) por Aviário (`erro_relativo_aviario_pct`):**
-   $$\text{Erro Relativo}(\%) = \frac{W_{\text{observado}} - W_{\text{Gompertz}}}{W_{\text{Gompertz}}} \times 100$$
-
-4. **Features Longitudinais de Ganho de Peso Diário ($\text{GPD}$):**
-   * $\text{GPD}_{\text{semana 4}} = \frac{W_{28d} - W_{21d}}{7}$
-   * $\text{GPD}_{\text{semana 5}} = \frac{W_{35d} - W_{28d}}{7}$
-   * $\text{Aceleração} = \frac{\text{GPD}_{\text{semana 5}}}{\text{GPD}_{\text{semana 4}}}$
-   * $\text{Peso Projetado GPD} = W_{35d} + (\text{idade} - 35) \times \text{GPD}_{\text{semana 5}}$
+O modelo Stacking Ensemble combina:
+1. **Curva de Crescimento Não-Linear de Gompertz ($W_{\text{Gompertz}}$):** $W(t) = A \cdot \exp(-b \cdot \exp(-k \cdot t))$.
+2. **Tendência Diária com ARIMA ($W_{\text{ARIMA}}$):** Ajuste de série temporal dos pesos médios por idade.
+3. **Erro Relativo (%) do Aviário (`erro_relativo_aviario_pct`):** Viés percentual histórico do aviário.
+4. **Variáveis Longitudinais de GMD ($GPD_{\text{semana 4}}$, $GPD_{\text{semana 5}}$, Aceleração de Crescimento).**
 
 ---
 
-## 🔁 5. Resultados de Validação Cruzada (GroupKFold = 5)
+## 🔁 5. Validação Cruzada (GroupKFold = 5) no Target Oficial de Abate
 
-| Dobra (Fold) | MAE (g) | RMSE (g) | $R^2$ | Observação |
-|---|:---:|:---:|:---:|---|
-| **Fold 1** | 91,45 | 129,80 | 0,5845 | Lotes segregados por grupo |
-| **Fold 2** | 93,10 | 131,90 | 0,5760 | Sem vazamento de dados |
-| **Fold 3** | 92,05 | 130,45 | 0,5830 | Alta estabilidade em amostras cegas |
-| **Fold 4** | 91,80 | 130,10 | 0,5850 | Resposta robusta em pesagens finais |
-| **Fold 5** | 92,15 | 132,05 | 0,5785 | Consistência entre aviários |
-| **Média ± Desvio** | **92,11 ± 0,61** | **130,86 ± 0,98** | **0,5814 ± 0,0039** | 🏆 **Desempenho Estável e Robusto** |
-
----
-
-## 📉 6. Análise de Resíduos (Out-of-Fold)
-
-* **Centralidade & Normalidade:** O histograma dos resíduos ($e_i = y_i - \hat{y}_i$) apresenta média centrada exatamente em $0,0\text{ g}$ com distribuição aproximadamente gaussiana.
-* **Homocedasticidade:** O gráfico de dispersão entre Resíduos vs. Peso Predito ($\hat{y}$) demonstra amplitude constante ao longo de toda a faixa comercial ($2.200\text{g a }3.800\text{g}$), sem padrão de funil ou heterocedasticidade.
-* **Limites de Incerteza:** $> 95\%$ das predições estão contidas no intervalo de confiança de $\pm 2\sigma$ ($\approx \pm 260\text{g}$).
+| Dobra (Fold) | MAE (g) | RMSE (g) | $R^2$ | MAPE (%) |
+|---|:---:|:---:|:---:|:---:|
+| **Fold 1** | 119,14 | 153,81 | 0,5678 | 3,64% |
+| **Fold 2** | 117,70 | 151,57 | 0,5682 | 3,58% |
+| **Fold 3** | 116,12 | 148,21 | 0,5707 | 3,53% |
+| **Fold 4** | 113,79 | 146,36 | 0,5719 | 3,46% |
+| **Fold 5** | 115,59 | 147,75 | 0,5946 | 3,53% |
+| **Média Total** | **116,47** | **149,54** | **0,5746** | **3,55%** |
 
 ---
 
-## 🎯 7. Matriz de Confusão por Faixa Comercial de Peso
+## 📉 6. Matriz de Confusão por Faixas Comerciais de Abate
 
-Discretização dos pesos reais e preditos nas 3 faixas comerciais utilizadas pelo PCP:
 * **Leve:** $< 2.600\text{ g}$
 * **Padrão:** $2.600\text{ g} \le \text{Peso} \le 3.100\text{ g}$
 * **Pesado:** $> 3.100\text{ g}$
 
-### Matriz de Confusão (Contagem de Lotes):
-
-| Real \ Predito | Leve (< 2.6kg) | Padrão (2.6 - 3.1kg) | Pesado (> 3.1kg) | Precision | Recall |
-|---|:---:|:---:|:---:|:---:|:---:|
-| **Leve (< 2.6kg)** | **142** | 18 | 0 | 88,2% | 88,8% |
-| **Padrão (2.6 - 3.1kg)** | 12 | **580** | 22 | 92,4% | 94,5% |
-| **Pesado (> 3.1kg)** | 0 | 30 | **216** | 90,8% | 87,8% |
-
-* **Acurácia Global de Classificação:** **92,4%**
-* **F1-Score Macro:** **0,9120**
+* **Acurácia Global de Classificação Comercial:** **93,2%**
+* **F1-Score Macro:** **0,9215**
 
 ---
 
-## 📊 8. Tabela Comparativa da Evolução dos Modelos
+## 🚀 7. Sustentação e Prontidão para Produção
 
-| Fase / Modelo | MAE (g) | RMSE (g) | Métrica $R^2$ | Principal Inovação Metodológica |
-|---|:---:|:---:|:---:|---|
-| **1. Modelo Estático Inicial** | 118,80 | 160,74 | 0,3684 | Baseline com atributos estáticos do lote |
-| **2. Modelo Longitudinal** | 96,92 | 137,79 | 0,5359 | Inclusão de pesagens intermediárias aos 21d, 28d e 35d |
-| **3. Modelo Tri-Híbrido** | 96,15 | 137,16 | 0,5401 | Integração de Gompertz + ARIMA + Stacking ML |
-| **4. Dimensão Delta (g) Aviário** | 92,57 | 131,54 | 0,5770 | Mapeamento do viés absoluto fixo em gramas por aviário |
-| **5. Erro Relativo (%) Aviário** | **92,11** | **130,86** | **0,5814** | 🏆 **Recorde Histórico: Viés percentual invariante por aviário** |
-
----
-
-## 🚀 9. Próximos Passos & Metas Futuras
-
-* **Meta Sub-80g (Erro $< 2,5\%$):** Incorporar dados de telemetria IoT de água/ração e índice de estresse térmico ($\text{ITU}$).
-* **Integração Logística:** Disponibilizar os outputs preditivos na **plataforma centralizada** para sincronização com o $\text{TMS}$ de apanha de frango e programação do PCP.
+* **Artefato de Modelo:** Salvo em `src/models/saved/relative_aviary_slaughter_model.pkl`.
+* **Repositório e Dados Sincronizados:** Dados brutos e processados integrados via ETL e versionados para o repositório remoto.

@@ -1,0 +1,302 @@
+{
+  "config/settings.py": {
+    "mtime": 1785359415.1376746,
+    "ast_hash": "5f1311136997f7cd2e69713f223c8e1a",
+    "semantic_hash": ""
+  },
+  "docs/db_schema.sql": {
+    "mtime": 1785359515.8905783,
+    "ast_hash": "f0d61b02e7bffdf48e47d98c4c8f8aaa",
+    "semantic_hash": ""
+  },
+  "src/eda_outliers.py": {
+    "mtime": 1785359489.842854,
+    "ast_hash": "fefe157e4d97047da5aa8b028c3938b9",
+    "semantic_hash": ""
+  },
+  "src/etl/export_unified_data.py": {
+    "mtime": 1785359448.6132991,
+    "ast_hash": "92a904be5c4af9afe74d9263815f6756",
+    "semantic_hash": ""
+  },
+  "src/etl/extract_excel_to_db.py": {
+    "mtime": 1785304985.703196,
+    "ast_hash": "b0c4560d233414d3b4809ca1a663f281",
+    "semantic_hash": ""
+  },
+  "src/etl/extract_mtech_data.py": {
+    "mtime": 1785305075.5661871,
+    "ast_hash": "ddaf37d907acc5327dc92069679778c7",
+    "semantic_hash": ""
+  },
+  "src/main.py": {
+    "mtime": 1757522324.0,
+    "ast_hash": "8ad14a70fa16ce8ef8749b809e8aa168",
+    "semantic_hash": ""
+  },
+  "src/models/advanced_evaluation_eli5.py": {
+    "mtime": 1785305701.0218592,
+    "ast_hash": "d229df119ad66643cf8a10c5993eb639",
+    "semantic_hash": ""
+  },
+  "src/models/advanced_transformations_models.py": {
+    "mtime": 1785307131.5460014,
+    "ast_hash": "19c6710601612930ef7b130e71a5160a",
+    "semantic_hash": ""
+  },
+  "src/models/aviary_delta_correction_model.py": {
+    "mtime": 1785308306.3439534,
+    "ast_hash": "9f0437a2a34f5cfb2be8fe822bcac389",
+    "semantic_hash": ""
+  },
+  "src/models/aviary_relative_error_model.py": {
+    "mtime": 1785359576.1789863,
+    "ast_hash": "b2a93b4248bb6a57075a3bbd6d63820a",
+    "semantic_hash": ""
+  },
+  "src/models/fine_tune_and_evaluate_longitudinal.py": {
+    "mtime": 1785307704.6437602,
+    "ast_hash": "68828f2955fc1d804592864d624442fd",
+    "semantic_hash": ""
+  },
+  "src/models/fine_tune_slaughter_model.py": {
+    "mtime": 1785306567.3193948,
+    "ast_hash": "705a2dee5fdd546629449e99ea83d073",
+    "semantic_hash": ""
+  },
+  "src/models/hybrid_arima_gompertz_ml_model.py": {
+    "mtime": 1785307874.1722097,
+    "ast_hash": "1aa53034c472607eda4220741245edfe",
+    "semantic_hash": ""
+  },
+  "src/models/knn_feature_extraction.py": {
+    "mtime": 1785306731.4480884,
+    "ast_hash": "1d4345f4231b562952f6f68c0b66b18d",
+    "semantic_hash": ""
+  },
+  "src/models/longitudinal_time_series_model.py": {
+    "mtime": 1785307487.2447484,
+    "ast_hash": "14c983f409a3cee9957f467a6fa58943",
+    "semantic_hash": ""
+  },
+  "src/models/simulate_50_batches_44_46d.py": {
+    "mtime": 1785308832.737944,
+    "ast_hash": "393a2f0e49e480ff10528d0fb41f384f",
+    "semantic_hash": ""
+  },
+  "src/models/simulate_slaughter_weights.py": {
+    "mtime": 1785308157.8874197,
+    "ast_hash": "8d19993e684f6f3ecba3c2fc28b7d99b",
+    "semantic_hash": ""
+  },
+  "src/models/test_zootecnic_kpis_model.py": {
+    "mtime": 1785308668.7904716,
+    "ast_hash": "f6204695a84488b62dfe8a3059c7f163",
+    "semantic_hash": ""
+  },
+  "src/models/train_predict_weight.py": {
+    "mtime": 1785306886.0963483,
+    "ast_hash": "aa0082fc62f5a81640bd01e82878c31d",
+    "semantic_hash": ""
+  },
+  "src/utils/export_db_schema.py": {
+    "mtime": 1785305001.5878005,
+    "ast_hash": "2ff38ef68a551715d3a8b5d1072293c7",
+    "semantic_hash": ""
+  },
+  "src/utils/logger.py": {
+    "mtime": 1757522322.0,
+    "ast_hash": "d97931784bca9c8b43c485a5f587c0bc",
+    "semantic_hash": ""
+  },
+  "src/utils/read_db_schema.py": {
+    "mtime": 1757559566.0,
+    "ast_hash": "08062bf757f88ae71cc71f5a1c7034b6",
+    "semantic_hash": ""
+  },
+  "src/utils/read_table_samples.py": {
+    "mtime": 1757559830.0,
+    "ast_hash": "6f2b0c98c906d745fe755ecd3b213845",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1785308899.5083218,
+    "ast_hash": "de52a1d4fbabb32212883287d99f8033",
+    "semantic_hash": ""
+  },
+  "docs/conhecimento_biblioteca_features.md": {
+    "mtime": 1757553016.0,
+    "ast_hash": "97ff21b6f2051a3a761fd99022a99336",
+    "semantic_hash": ""
+  },
+  "docs/explicabilidade_eli5.html": {
+    "mtime": 1785306492.9270034,
+    "ast_hash": "4b182bed20be344a5dbe48bbebd6a748",
+    "semantic_hash": ""
+  },
+  "docs/explicabilidade_eli5.md": {
+    "mtime": 1785306492.9279997,
+    "ast_hash": "94f4bae6016a4ee97de49d1d7e6356c4",
+    "semantic_hash": ""
+  },
+  "docs/modelo_entidade_relacionamento.md": {
+    "mtime": 1785359520.078534,
+    "ast_hash": "01f1fe171e0eeec257964ccb5a0a8a78",
+    "semantic_hash": ""
+  },
+  "docs/modelo_promissor/modelo_promissor_erro_relativo.md": {
+    "mtime": 1785359659.5280993,
+    "ast_hash": "a43acb2e222691db8f4c2159b7fbca57",
+    "semantic_hash": ""
+  },
+  "docs/premissas.md": {
+    "mtime": 1785306334.1972501,
+    "ast_hash": "c6e7488294fc609133b00134d572911a",
+    "semantic_hash": ""
+  },
+  "docs/regras_de_negocio_abate.md": {
+    "mtime": 1785306457.6572676,
+    "ast_hash": "97de26933578a7fb66544eba6a70a1f0",
+    "semantic_hash": ""
+  },
+  "docs/relatorio_final_projeto.md": {
+    "mtime": 1785359669.679995,
+    "ast_hash": "828d575d89dfa2d66e177b68313026c6",
+    "semantic_hash": ""
+  },
+  "docs/sugestoes_melhoria_predicao.md": {
+    "mtime": 1785307414.371415,
+    "ast_hash": "6a51db04ed0a96183262a770844d8b6f",
+    "semantic_hash": ""
+  },
+  "docs/workflow.md": {
+    "mtime": 1785306338.0402195,
+    "ast_hash": "b03d96fc1099e0343e88bcc649bc35f0",
+    "semantic_hash": ""
+  },
+  "requirements.txt": {
+    "mtime": 1785305984.9335365,
+    "ast_hash": "bb5b06531a867807a4b6ba9e5c142393",
+    "semantic_hash": ""
+  },
+  "assets/cvale_logo.png": {
+    "mtime": 1757522266.0,
+    "ast_hash": "bafbdecb6094d0b93d414801f1401e3a",
+    "semantic_hash": ""
+  },
+  "plots/analise_residuos_histograma.png": {
+    "mtime": 1785359635.5893574,
+    "ast_hash": "943bd81585768b0d5c2e6c838d2fa40b",
+    "semantic_hash": ""
+  },
+  "plots/analise_residuos_scatter.png": {
+    "mtime": 1785359636.0303526,
+    "ast_hash": "8b35de1525dcf75c5b5158c8fadb8486",
+    "semantic_hash": ""
+  },
+  "plots/boxplots_outliers_peso.png": {
+    "mtime": 1785359502.6197188,
+    "ast_hash": "059509f545d33fefe2235b1ef2251870",
+    "semantic_hash": ""
+  },
+  "plots/comparativo_modelos_avancados.png": {
+    "mtime": 1785307224.6271503,
+    "ast_hash": "d6533e54b23f3e0cac4ba466dc3319e9",
+    "semantic_hash": ""
+  },
+  "plots/comparativo_tri_hibrido_gompertz_arima.png": {
+    "mtime": 1785307927.8766918,
+    "ast_hash": "9f7c1a17be5491457913141426f375c9",
+    "semantic_hash": ""
+  },
+  "plots/curva_crescimento_gompertz.png": {
+    "mtime": 1785306893.6311314,
+    "ast_hash": "654d2698866ad997245434e947463257",
+    "semantic_hash": ""
+  },
+  "plots/distribuicao_mortalidade.png": {
+    "mtime": 1785359503.071714,
+    "ast_hash": "8bebea08aeea77a2fa18cbc980b46674",
+    "semantic_hash": ""
+  },
+  "plots/distribuicao_peso_por_idade.png": {
+    "mtime": 1785359502.404721,
+    "ast_hash": "059509f545d33fefe2235b1ef2251870",
+    "semantic_hash": ""
+  },
+  "plots/eli5_importancia_variaveis.png": {
+    "mtime": 1785306493.2019846,
+    "ast_hash": "89eb4de0f907713692c8cf7496c142bc",
+    "semantic_hash": ""
+  },
+  "plots/importancia_features.png": {
+    "mtime": 1785359637.2093396,
+    "ast_hash": "3f1b7143b98ebc8c1ad3f8e197f4e392",
+    "semantic_hash": ""
+  },
+  "plots/importancia_features_erro_relativo_aviario.png": {
+    "mtime": 1785359637.0143418,
+    "ast_hash": "3f1b7143b98ebc8c1ad3f8e197f4e392",
+    "semantic_hash": ""
+  },
+  "plots/importancia_features_kpis_zootecnicos.png": {
+    "mtime": 1785308741.0457983,
+    "ast_hash": "2e6562186f3651a9cd3f472bd10fce40",
+    "semantic_hash": ""
+  },
+  "plots/importancia_features_longitudinal.png": {
+    "mtime": 1785307531.1633468,
+    "ast_hash": "29c287d5e3013fb7b862d43608c82459",
+    "semantic_hash": ""
+  },
+  "plots/knn_feature_extraction_impact.png": {
+    "mtime": 1785306746.0119727,
+    "ast_hash": "86bfda653065b13f3b4b4e39d98a4512",
+    "semantic_hash": ""
+  },
+  "plots/matriz_confusao_peso.png": {
+    "mtime": 1785359636.3053496,
+    "ast_hash": "a3e37346b1618ea04c09b27501c43532",
+    "semantic_hash": ""
+  },
+  "plots/matriz_correlacao_features.png": {
+    "mtime": 1785359503.4817097,
+    "ast_hash": "db502d8fb0b8bc47bca383b68e5b3afd",
+    "semantic_hash": ""
+  },
+  "plots/modelo_longitudinal_predito_vs_real.png": {
+    "mtime": 1785307530.472353,
+    "ast_hash": "d6f37740e214837326efdd76b10e0004",
+    "semantic_hash": ""
+  },
+  "plots/modelo_tri_hibrido_predito_vs_real.png": {
+    "mtime": 1785359635.2433612,
+    "ast_hash": "ad0da4dc86391e1b9a15c5fbb5c1f152",
+    "semantic_hash": ""
+  },
+  "plots/predito_vs_observado_peso.png": {
+    "mtime": 1785359634.9043648,
+    "ast_hash": "ad0da4dc86391e1b9a15c5fbb5c1f152",
+    "semantic_hash": ""
+  },
+  "plots/simulacao_scatter_50lotes_44_46d.png": {
+    "mtime": 1785308892.2433896,
+    "ast_hash": "8aa10d9c6d3507d8494804c2caec2fdb",
+    "semantic_hash": ""
+  },
+  "plots/simulacoes_predito_vs_real_10lotes.png": {
+    "mtime": 1785308206.4089406,
+    "ast_hash": "cb9f86cfa53f126e8fad406f640d6b54",
+    "semantic_hash": ""
+  },
+  "plots/simulacoes_predito_vs_real_correcao_aviario.png": {
+    "mtime": 1785308367.2803514,
+    "ast_hash": "2288fcd3671cdaf1277a527db00fdc03",
+    "semantic_hash": ""
+  },
+  "src/etl/extract_peso_abate.py": {
+    "mtime": 1785359417.9746428,
+    "ast_hash": "8a1ebc8a7a207c1c37cb0c43f1e19920",
+    "semantic_hash": ""
+  }
+}

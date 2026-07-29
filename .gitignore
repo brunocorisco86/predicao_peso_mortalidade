@@ -15,9 +15,11 @@ __pycache__/
 
 # Dados Brutos e Processados (CSVs pesados)
 data/
+!data/raw/peso_abate/
 data/processed/*.csv
 data/processed/*.zip
 data/raw/
+!data/raw/peso_abate/
 *.parquet
 
 # Artefatos do Graphify Cache

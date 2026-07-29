@@ -1,0 +1,80 @@
+{
+  "files": {
+    "code": [
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/config/settings.py",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/docs/db_schema.sql",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/src/eda_outliers.py",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/src/etl/export_unified_data.py",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/src/etl/extract_excel_to_db.py",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/src/etl/extract_mtech_data.py",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/src/main.py",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/src/models/advanced_evaluation_eli5.py",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/src/models/train_predict_weight.py",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/src/utils/export_db_schema.py",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/src/utils/logger.py",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/src/utils/read_db_schema.py",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/src/utils/read_table_samples.py"
+    ],
+    "document": [
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/README.md",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/docs/conhecimento_biblioteca_features.md",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/docs/explicabilidade_eli5.html",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/docs/explicabilidade_eli5.md",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/docs/modelo_entidade_relacionamento.md",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/docs/premissas.md",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/docs/workflow.md",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/requirements.txt"
+    ],
+    "paper": [],
+    "image": [
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/assets/cvale_logo.png",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/plots/analise_residuos_histograma.png",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/plots/analise_residuos_scatter.png",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/plots/boxplots_outliers.png",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/plots/boxplots_outliers_peso.png",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/plots/correlacao_variaveis.png",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/plots/curva_crescimento_gompertz.png",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/plots/distribuicao_mortalidade.png",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/plots/distribuicao_peso.png",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/plots/distribuicao_peso_por_idade.png",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/plots/eli5_importancia_variaveis.png",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/plots/evolucao_peso_idade.png",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/plots/importancia_features.png",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/plots/matriz_confusao_peso.png",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/plots/matriz_correlacao_features.png",
+      "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/plots/predito_vs_observado_peso.png"
+    ],
+    "video": []
+  },
+  "total_files": 37,
+  "total_words": 173226,
+  "needs_graph": true,
+  "warning": null,
+  "skipped_sensitive": [],
+  "unclassified": [
+    "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/.gitattributes",
+    "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/.gitignore",
+    "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/LICENSE",
+    "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/database/prediction_data.db",
+    "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/notebooks/analise_extracao_dados.ipynb",
+    "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/notebooks/data_quality_extracao_mtech.ipynb",
+    "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/src/models/saved/gompertz_params.pkl",
+    "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/src/models/saved/random_forest_weight_model.pkl"
+  ],
+  "walk_errors": [],
+  "ignored": [
+    "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/data/"
+  ],
+  "pruned_noise_dirs": [
+    "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/.git/",
+    "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/.venv/",
+    "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/config/__pycache__/",
+    "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/graphify-out/",
+    "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/src/__pycache__/",
+    "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/src/etl/__pycache__/",
+    "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/src/models/__pycache__/",
+    "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/src/utils/__pycache__/"
+  ],
+  "graphifyignore_patterns": 21,
+  "scan_root": "/home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality"
+}

@@ -1,0 +1,1344 @@
+{
+  "nodes": [
+    {
+      "id": "config_settings",
+      "label": "settings.py",
+      "file_type": "code",
+      "source_file": "config/settings.py",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "config_settings_settings",
+      "label": "Settings",
+      "file_type": "code",
+      "source_file": "config/settings.py",
+      "source_location": "L9",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_eda_outliers",
+      "label": "eda_outliers.py",
+      "file_type": "code",
+      "source_file": "src/eda_outliers.py",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_eda_outliers_calculate_descriptive_stats",
+      "label": "calculate_descriptive_stats()",
+      "file_type": "code",
+      "source_file": "src/eda_outliers.py",
+      "source_location": "L18",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_eda_outliers_main",
+      "label": "main()",
+      "file_type": "code",
+      "source_file": "src/eda_outliers.py",
+      "source_location": "L60",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_eda_outliers_rationale_19",
+      "label": "Calcule estatística descritiva completa para colunas especificadas.",
+      "file_type": "rationale",
+      "source_file": "src/eda_outliers.py",
+      "source_location": "L19",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_etl_export_unified_data",
+      "label": "export_unified_data.py",
+      "file_type": "code",
+      "source_file": "src/etl/export_unified_data.py",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_etl_extract_excel_to_db",
+      "label": "extract_excel_to_db.py",
+      "file_type": "code",
+      "source_file": "src/etl/extract_excel_to_db.py",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_etl_extract_excel_to_db_extract_and_load_sheet",
+      "label": "extract_and_load_sheet()",
+      "file_type": "code",
+      "source_file": "src/etl/extract_excel_to_db.py",
+      "source_location": "L108",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_etl_extract_excel_to_db_rationale_109",
+      "label": "Extracts data from a specified Excel sheet, renames columns based on a map,…",
+      "file_type": "rationale",
+      "source_file": "src/etl/extract_excel_to_db.py",
+      "source_location": "L109",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_etl_extract_mtech_data",
+      "label": "extract_mtech_data.py",
+      "file_type": "code",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_etl_extract_mtech_data_rationalize_header",
+      "label": "rationalize_header()",
+      "file_type": "code",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L24",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_etl_extract_mtech_data_process_lote_composto",
+      "label": "process_lote_composto()",
+      "file_type": "code",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L36",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_etl_extract_mtech_data_extract_fazenda",
+      "label": "extract_fazenda()",
+      "file_type": "code",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L55",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_etl_extract_mtech_data_run_etl",
+      "label": "run_etl()",
+      "file_type": "code",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L71",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_etl_extract_mtech_data_rationale_25",
+      "label": "Racionaliza o nome do cabeçalho: minúsculas, substitui espaços por underscores,…",
+      "file_type": "rationale",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L25",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_etl_extract_mtech_data_rationale_37",
+      "label": "Processa a coluna 'Lote Composto': - Traz o dado anterior ao segundo hifen \"-\"…",
+      "file_type": "rationale",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L37",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_etl_extract_mtech_data_rationale_56",
+      "label": "Extrai o código da fazenda a partir do lote_composto.",
+      "file_type": "rationale",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L56",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_main",
+      "label": "main.py",
+      "file_type": "code",
+      "source_file": "src/main.py",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_main_run_analysis",
+      "label": "run_analysis()",
+      "file_type": "code",
+      "source_file": "src/main.py",
+      "source_location": "L6",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_models_advanced_evaluation_eli5",
+      "label": "advanced_evaluation_eli5.py",
+      "file_type": "code",
+      "source_file": "src/models/advanced_evaluation_eli5.py",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_models_advanced_evaluation_eli5_run_advanced_evaluations",
+      "label": "run_advanced_evaluations()",
+      "file_type": "code",
+      "source_file": "src/models/advanced_evaluation_eli5.py",
+      "source_location": "L16",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_models_train_predict_weight",
+      "label": "train_predict_weight.py",
+      "file_type": "code",
+      "source_file": "src/models/train_predict_weight.py",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_models_train_predict_weight_gompertz_model",
+      "label": "gompertz_model()",
+      "file_type": "code",
+      "source_file": "src/models/train_predict_weight.py",
+      "source_location": "L14",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_models_train_predict_weight_train_and_evaluate",
+      "label": "train_and_evaluate()",
+      "file_type": "code",
+      "source_file": "src/models/train_predict_weight.py",
+      "source_location": "L25",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_models_train_predict_weight_rationale_15",
+      "label": "Gompertz non-linear growth curve: W(t) = A * exp(-b * exp(-k * t)) t: age in…",
+      "file_type": "rationale",
+      "source_file": "src/models/train_predict_weight.py",
+      "source_location": "L15",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_utils_export_db_schema",
+      "label": "export_db_schema.py",
+      "file_type": "code",
+      "source_file": "src/utils/export_db_schema.py",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_utils_export_db_schema_export_db_schema",
+      "label": "export_db_schema()",
+      "file_type": "code",
+      "source_file": "src/utils/export_db_schema.py",
+      "source_location": "L18",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_utils_logger",
+      "label": "logger.py",
+      "file_type": "code",
+      "source_file": "src/utils/logger.py",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_utils_logger_setup_logging",
+      "label": "setup_logging()",
+      "file_type": "code",
+      "source_file": "src/utils/logger.py",
+      "source_location": "L6",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_utils_read_db_schema",
+      "label": "read_db_schema.py",
+      "file_type": "code",
+      "source_file": "src/utils/read_db_schema.py",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_utils_read_table_samples",
+      "label": "read_table_samples.py",
+      "file_type": "code",
+      "source_file": "src/utils/read_table_samples.py",
+      "source_location": "L1",
+      "_origin": "ast"
+    }
+  ],
+  "edges": [
+    {
+      "source": "config_settings",
+      "target": "os",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "config/settings.py",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "config_settings",
+      "target": "dotenv",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "config/settings.py",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "config_settings",
+      "target": "config_settings_settings",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "config/settings.py",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_eda_outliers",
+      "target": "os",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/eda_outliers.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_eda_outliers",
+      "target": "sys",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/eda_outliers.py",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_eda_outliers",
+      "target": "numpy",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/eda_outliers.py",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_eda_outliers",
+      "target": "pandas",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/eda_outliers.py",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_eda_outliers",
+      "target": "matplotlib_pyplot",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/eda_outliers.py",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_eda_outliers",
+      "target": "seaborn",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/eda_outliers.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_eda_outliers",
+      "target": "scipy",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/eda_outliers.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_eda_outliers",
+      "target": "pathlib",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/eda_outliers.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_eda_outliers",
+      "target": "config_settings",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/eda_outliers.py",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_eda_outliers",
+      "target": "src_utils_logger",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/eda_outliers.py",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_eda_outliers",
+      "target": "src_eda_outliers_calculate_descriptive_stats",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/eda_outliers.py",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_eda_outliers",
+      "target": "src_eda_outliers_main",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/eda_outliers.py",
+      "source_location": "L60",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_eda_outliers_main",
+      "target": "src_eda_outliers_calculate_descriptive_stats",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/eda_outliers.py",
+      "source_location": "L85",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_eda_outliers_rationale_19",
+      "target": "src_eda_outliers_calculate_descriptive_stats",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "src/eda_outliers.py",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_export_unified_data",
+      "target": "sqlite3",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/export_unified_data.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_export_unified_data",
+      "target": "pandas",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/export_unified_data.py",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_export_unified_data",
+      "target": "os",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/export_unified_data.py",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_export_unified_data",
+      "target": "sys",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/export_unified_data.py",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_export_unified_data",
+      "target": "pathlib",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/export_unified_data.py",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_export_unified_data",
+      "target": "config_settings",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/export_unified_data.py",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_excel_to_db",
+      "target": "pandas",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/extract_excel_to_db.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_excel_to_db",
+      "target": "sqlite3",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/extract_excel_to_db.py",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_excel_to_db",
+      "target": "os",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/extract_excel_to_db.py",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_excel_to_db",
+      "target": "sys",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/extract_excel_to_db.py",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_excel_to_db",
+      "target": "pathlib",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/extract_excel_to_db.py",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_excel_to_db",
+      "target": "config_settings",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/extract_excel_to_db.py",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_excel_to_db",
+      "target": "src_etl_extract_excel_to_db_extract_and_load_sheet",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/extract_excel_to_db.py",
+      "source_location": "L108",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_excel_to_db_rationale_109",
+      "target": "src_etl_extract_excel_to_db_extract_and_load_sheet",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/extract_excel_to_db.py",
+      "source_location": "L109",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_mtech_data",
+      "target": "pandas",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_mtech_data",
+      "target": "sqlite3",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_mtech_data",
+      "target": "os",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_mtech_data",
+      "target": "sys",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_mtech_data",
+      "target": "re",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_mtech_data",
+      "target": "pathlib",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_mtech_data",
+      "target": "src_utils_logger",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_mtech_data",
+      "target": "config_settings",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_mtech_data",
+      "target": "src_etl_extract_mtech_data_rationalize_header",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_mtech_data",
+      "target": "src_etl_extract_mtech_data_process_lote_composto",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L36",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_mtech_data",
+      "target": "src_etl_extract_mtech_data_extract_fazenda",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L55",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_mtech_data",
+      "target": "src_etl_extract_mtech_data_run_etl",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L71",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_mtech_data",
+      "target": "src_utils_logger",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L163",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_mtech_data_run_etl",
+      "target": "src_etl_extract_mtech_data_rationalize_header",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L87",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_mtech_data_run_etl",
+      "target": "src_etl_extract_mtech_data_process_lote_composto",
+      "relation": "indirect_call",
+      "context": "argument",
+      "confidence": "INFERRED",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L91",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_mtech_data_run_etl",
+      "target": "src_etl_extract_mtech_data_extract_fazenda",
+      "relation": "indirect_call",
+      "context": "argument",
+      "confidence": "INFERRED",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L97",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_mtech_data_rationale_25",
+      "target": "src_etl_extract_mtech_data_rationalize_header",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L25",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_mtech_data_rationale_37",
+      "target": "src_etl_extract_mtech_data_process_lote_composto",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L37",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_mtech_data_rationale_56",
+      "target": "src_etl_extract_mtech_data_extract_fazenda",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L56",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_main",
+      "target": "src_utils_logger",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.py",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_main",
+      "target": "config_settings",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.py",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_main",
+      "target": "src_main_run_analysis",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_advanced_evaluation_eli5",
+      "target": "pandas",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/advanced_evaluation_eli5.py",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_advanced_evaluation_eli5",
+      "target": "numpy",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/advanced_evaluation_eli5.py",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_advanced_evaluation_eli5",
+      "target": "matplotlib_pyplot",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/advanced_evaluation_eli5.py",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_advanced_evaluation_eli5",
+      "target": "seaborn",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/advanced_evaluation_eli5.py",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_advanced_evaluation_eli5",
+      "target": "os",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/advanced_evaluation_eli5.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_advanced_evaluation_eli5",
+      "target": "eli5",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/advanced_evaluation_eli5.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_advanced_evaluation_eli5",
+      "target": "sklearn_model_selection",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/advanced_evaluation_eli5.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_advanced_evaluation_eli5",
+      "target": "sklearn_ensemble",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/advanced_evaluation_eli5.py",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_advanced_evaluation_eli5",
+      "target": "sklearn_metrics",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/advanced_evaluation_eli5.py",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_advanced_evaluation_eli5",
+      "target": "src_utils_logger",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/advanced_evaluation_eli5.py",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_advanced_evaluation_eli5",
+      "target": "src_models_advanced_evaluation_eli5_run_advanced_evaluations",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/advanced_evaluation_eli5.py",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_advanced_evaluation_eli5",
+      "target": "src_utils_logger",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/advanced_evaluation_eli5.py",
+      "source_location": "L223",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_train_predict_weight",
+      "target": "pandas",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/train_predict_weight.py",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_train_predict_weight",
+      "target": "numpy",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/train_predict_weight.py",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_train_predict_weight",
+      "target": "matplotlib_pyplot",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/train_predict_weight.py",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_train_predict_weight",
+      "target": "seaborn",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/train_predict_weight.py",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_train_predict_weight",
+      "target": "os",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/train_predict_weight.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_train_predict_weight",
+      "target": "scipy_optimize",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/train_predict_weight.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_train_predict_weight",
+      "target": "sklearn_model_selection",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/train_predict_weight.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_train_predict_weight",
+      "target": "sklearn_ensemble",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/train_predict_weight.py",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_train_predict_weight",
+      "target": "sklearn_metrics",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/train_predict_weight.py",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_train_predict_weight",
+      "target": "joblib",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/train_predict_weight.py",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_train_predict_weight",
+      "target": "src_utils_logger",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/train_predict_weight.py",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_train_predict_weight",
+      "target": "src_models_train_predict_weight_gompertz_model",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/train_predict_weight.py",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_train_predict_weight",
+      "target": "src_models_train_predict_weight_train_and_evaluate",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/train_predict_weight.py",
+      "source_location": "L25",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_train_predict_weight",
+      "target": "src_utils_logger",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/train_predict_weight.py",
+      "source_location": "L148",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_train_predict_weight_train_and_evaluate",
+      "target": "src_models_train_predict_weight_gompertz_model",
+      "relation": "indirect_call",
+      "context": "argument",
+      "confidence": "INFERRED",
+      "source_file": "src/models/train_predict_weight.py",
+      "source_location": "L47",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_train_predict_weight_train_and_evaluate",
+      "target": "src_models_train_predict_weight_gompertz_model",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/train_predict_weight.py",
+      "source_location": "L51",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_train_predict_weight_rationale_15",
+      "target": "src_models_train_predict_weight_gompertz_model",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/train_predict_weight.py",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_utils_export_db_schema",
+      "target": "sqlite3",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/export_db_schema.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_utils_export_db_schema",
+      "target": "os",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/export_db_schema.py",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_utils_export_db_schema",
+      "target": "sys",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/export_db_schema.py",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_utils_export_db_schema",
+      "target": "pathlib",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/export_db_schema.py",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_utils_export_db_schema",
+      "target": "src_utils_logger",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/export_db_schema.py",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_utils_export_db_schema",
+      "target": "config_settings",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/export_db_schema.py",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_utils_export_db_schema",
+      "target": "src_utils_export_db_schema_export_db_schema",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/export_db_schema.py",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_utils_export_db_schema",
+      "target": "src_utils_logger",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/export_db_schema.py",
+      "source_location": "L56",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_utils_export_db_schema",
+      "target": "pandas",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/export_db_schema.py",
+      "source_location": "L59",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_utils_logger",
+      "target": "logging",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/logger.py",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_utils_logger",
+      "target": "config_settings",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/logger.py",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_utils_logger",
+      "target": "src_utils_logger_setup_logging",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/logger.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_utils_read_db_schema",
+      "target": "sqlite3",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/read_db_schema.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_utils_read_table_samples",
+      "target": "sqlite3",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/read_table_samples.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_etl_extract_mtech_data",
+      "target": "src_utils_logger_setup_logging",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/etl/extract_mtech_data.py",
+      "source_location": "L163",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_advanced_evaluation_eli5",
+      "target": "src_utils_logger_setup_logging",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/advanced_evaluation_eli5.py",
+      "source_location": "L223",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_models_train_predict_weight",
+      "target": "src_utils_logger_setup_logging",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/models/train_predict_weight.py",
+      "source_location": "L148",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_utils_export_db_schema",
+      "target": "src_utils_logger_setup_logging",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/export_db_schema.py",
+      "source_location": "L56",
+      "weight": 1.0,
+      "_origin": "ast"
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

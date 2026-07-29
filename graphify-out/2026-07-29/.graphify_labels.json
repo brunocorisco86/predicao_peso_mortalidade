@@ -1,0 +1,22 @@
+{
+  "0": "settings.py",
+  "1": "extract_mtech_data.py",
+  "2": "logger.py",
+  "3": "🏆 Modelo Campeão: Predição do Peso de Abate de Frangos de Corte",
+  "4": "train_predict_weight.py",
+  "5": "read_db_schema.py",
+  "6": "read_table_samples.py",
+  "7": "Plano Estratégico de Melhoria Contínua da Predição do Peso de Abate",
+  "8": "Relatório Final de Consolidação do Projeto: Predição do Peso de Abate em Aves de Corte",
+  "9": "🐥 Predição Exclusiva do Peso de Abate em Aves de Corte (Idade $\\ge$ 42 Dias)",
+  "10": "Regras de Negócio: Predição do Peso de Abate em Frangos de Corte",
+  "11": "Premissas do Projeto: Predição de Peso e Mortalidade de Aves",
+  "12": "Modelo Entidade Relacionamento (MER) - Prediction Weight Mortality Database",
+  "13": "Roteiro do Projeto (Workflow): Predição de Peso e Mortalidade",
+  "14": "aviary_relative_error_model.py",
+  "15": "simulate_50_batches_44_46d.py",
+  "16": "simulate_slaughter_weights.py",
+  "17": "test_zootecnic_kpis_model.py",
+  "18": "explicabilidade_eli5.md",
+  "19": "conhecimento_biblioteca_features.md"
+}
