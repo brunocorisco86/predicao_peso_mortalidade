@@ -1,13 +1,18 @@
-# src/utils/export_db_schema.py
-
 import sqlite3
 import os
+import sys
+from pathlib import Path
+
+# Add project root to sys.path
+project_root = Path(__file__).resolve().parent.parent.parent
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
+
 from src.utils.logger import logger
 from config.settings import settings
 
-DATABASE_DIR = 'database/'
-DB_FILE = os.path.join(DATABASE_DIR, 'prediction_data.db')
-SCHEMA_OUTPUT_DIR = 'docs/'
+DB_FILE = settings.DATABASE_PATH
+SCHEMA_OUTPUT_DIR = os.path.join(settings.BASE_DIR, 'docs')
 SCHEMA_FILE = os.path.join(SCHEMA_OUTPUT_DIR, 'db_schema.sql')
 
 def export_db_schema():

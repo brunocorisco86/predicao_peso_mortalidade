@@ -1,102 +1,100 @@
-# Prediction of Mortality Weight
+# Prediction of Mortality & Weight in Poultry Production
 
-Para as premissas detalhadas do projeto, consulte [docs/premissas.md](docs/premissas.md).
-Para o roteiro detalhado do projeto, consulte [docs/workflow.md](docs/workflow.md).
-Para o esquema do banco de dados, consulte [docs/modelo_entidade_relacionamento.md](docs/modelo_entidade_relacionamento.md).
-Para o conhecimento da biblioteca de features, consulte [docs/conhecimento_biblioteca_features.md](docs/conhecimento_biblioteca_features.md).
+Este repositório contém a solução completa de engenharia de dados, análise exploratória (EDA), tratamento de outliers e modelagem preditiva de peso corporal de frangos de corte, além de diretrizes para integração com a logística de abastecimento de ração.
 
-## Estrutura do Projeto
+---
+
+## 📌 Principais Resultados e Métricas
+
+| Modelo | Métrica $R^2$ | MAE (Erro Médio Absoluto) | RMSE (Raiz do Erro Quadrático Médio) |
+|---|---|---|---|
+| **Curva Não-Linear de Gompertz** | **0,9848** | **81,81 g** | **126,81 g** |
+| **Random Forest Regressor (ML)** | **0,9903** | **66,59 g** | **102,00 g** |
+
+### Equação Ajustada de Gompertz:
+$$W(t) = 6281,25 \cdot \exp\left(-4,7536 \cdot \exp(-0,0449 \cdot t)\right)$$
+onde $W(t)$ representa o peso da ave em gramas na idade de $t$ dias.
+
+---
+
+## 🏗️ Estrutura do Projeto
 
 ```
 .
 ├── data/
 │   ├── raw/
-│   │   ├── extracao_mtech/ # Informações de peso e mortalidade dos lotes (tabela fato)
-│   │   └── features/       # Features de cada lote para modelos de predição
-│   └── processed/    # Dados processados
-├── assets/           # Elementos de formatação e mídias (ex: logotipos)
-├── config/           # Arquivos de configuração do projeto
-├── database/         # Arquivos de banco de dados (e.g., SQLite)
-├── notebooks/        # Notebooks Jupyter para EDA e prototipagem
-├── plots/            # Plots e visualizações geradas
-├── src/              # Scripts Python para ETL e modelagem
-│   ├── etl/          # Scripts de Extração, Transformação e Carga (ex: extract_mtech_data.py)
-│   └── utils/        # Utilitários e módulos auxiliares (ex: logger, export_db_schema.py)
-├── .venv/            # Ambiente virtual Python
-├── .gitignore        # Arquivo para ignorar arquivos e pastas no Git
-├── requirements.txt  # Dependências do projeto
-└── README.md         # Este arquivo
+│   │   ├── extracao_mtech/ # Arquivos semanais de dados brutos (tabela fato)
+│   │   └── features/       # BANCO_VARIAVEIS.xlsx (atributos de lote e fazenda)
+│   └── processed/
+│       ├── unified_data.csv            # Base unificada (104.601 registros)
+│       ├── cleaned_data.csv            # Base limpa sem outliers (88.021 registros)
+│       └── descriptive_statistics.csv # Estatística descritiva completa
+├── database/
+│   └── prediction_data.db  # Banco SQLite com as tabelas extracao_mtech_data, variables, constantes
+├── docs/
+│   ├── modelo_entidade_relacionamento.md # MER e diagrama Mermaid
+│   ├── premissas.md                      # Premissas do projeto e os 3 pilares de logística
+│   ├── db_schema.sql                     # Esquema exportado do banco
+│   └── workflow.md                       # Roteiro do projeto e status das fases
+├── plots/                               # Visualizações geradas
+│   ├── distribuicao_peso_por_idade.png
+│   ├── boxplots_outliers_peso.png
+│   ├── distribuicao_mortalidade.png
+│   ├── matriz_correlacao_features.png
+│   ├── curva_crescimento_gompertz.png
+│   ├── predito_vs_observado_peso.png
+│   └── importancia_features.png
+├── src/
+│   ├── etl/
+│   │   ├── extract_mtech_data.py
+│   │   ├── extract_excel_to_db.py
+│   │   └── export_unified_data.py
+│   ├── eda_outliers.py                  # Script de estatística e limpeza de outliers
+│   ├── models/
+│   │   ├── train_predict_weight.py      # Ajuste de Gompertz e treinamento de ML
+│   │   └── saved/                       # Modelos serializados (.pkl)
+│   └── utils/
+│       └── logger.py
+├── requirements.txt
+└── README.md
 ```
 
-## Boas Práticas Adicionais
+---
 
-Para garantir a robustez e manutenibilidade do projeto, foram implementadas as seguintes boas práticas:
+## 🚀 Como Executar o Pipeline Completo
 
--   **Gerenciamento de Configurações:** As configurações do projeto (como credenciais de banco de dados e chaves de API) são gerenciadas através da pasta `config/` e carregadas via variáveis de ambiente (usando `.env`). Isso garante a separação de dados sensíveis e flexibilidade entre ambientes.
--   **Sistema de Logging:** Um sistema de logging robusto foi configurado em `src/utils/logger.py` para facilitar a depuração e o monitoramento da aplicação, permitindo diferentes níveis de detalhe e saídas.
-
-## Configuração do Ambiente
-
-Para configurar o ambiente de desenvolvimento, siga os passos abaixo:
-
-1. **Clone o repositório:**
+1. **Extração e Unificação de Dados (ETL):**
    ```bash
-   git clone <URL_DO_REPOSITORIO>
-   cd prediction_weight_mortality
+   python3 -m src.etl.extract_excel_to_db
+   python3 -m src.etl.extract_mtech_data
+   python3 -m src.etl.export_unified_data
    ```
 
-2. **Crie e ative o ambiente virtual:**
+2. **Análise Exploratória e Limpeza de Outliers (EDA):**
    ```bash
-   python3 -m venv .venv
-   # No Windows
-   .venv\Scripts\activate
-   # No macOS/Linux
-   source .venv/bin/activate
+   python3 -m src.eda_outliers
    ```
 
-3. **Instale as dependências:**
+3. **Treinamento e Avaliação dos Modelos Preditivos:**
    ```bash
-   pip install -r requirements.txt
+   python3 -m src.models.train_predict_weight
    ```
 
-4. **Configure o kernel Jupyter (opcional, mas recomendado para notebooks):**
-   ```bash
-   python -m ipykernel install --user --name=.venv --display-name="Python (.venv)"
-   ```
+---
 
-## Como Rodar o Projeto
+## 🚚 Solução para Falhas na Entrega de Ração (3 Pilares)
 
-### Processamento de Dados ETL
+A predição precisa do peso das aves permite projetar a demanda diária de consumo alimentício por lote. A solução para eliminar falhas no abastecimento de ração apoia-se em três pilares:
 
-Para executar os scripts de ETL que processam os dados e os salvam no banco de dados SQLite, utilize os seguintes comandos a partir da raiz do projeto:
+1. **Comunicação Eficiente (Plataforma Centralizada):**
+   - Unificação das curvas de demanda estimadas em um portal único para integração entre a indústria, logística de frete e o produtor rural.
+2. **Processos Otimizados (Redesenho de Fluxo e Confirmação de Pedidos):**
+   - Automação da agenda de expedição de ração correlacionada com a curva de ganho de peso predita pelo modelo de Gompertz/ML, com gatilhos obrigatórios de validação antes do envio dos caminhões.
+3. **Tecnologia Habilitadora (TMS e Sensores de Nível nos Silos):**
+   - Otimização dinâmica de rotas via sistema de gerenciamento de transporte (TMS) combinada com a medição telemétrica em tempo real dos silos das propriedades.
 
--   **Extração e Transformação de Dados de Features (BANCO_VARIAVEIS.xlsx):**
-    ```bash
-    python -m src.etl.extract_excel_to_db
-    ```
-    Este script extrai dados das abas 'VARIABLES' e 'CONSTANTES' do arquivo `BANCO_VARIAVEIS.xlsx`, aplica transformações (formatação de cabeçalhos, conversão de datas, tratamento de strings) e os salva nas tabelas `variables` e `constantes` no `prediction_data.db`.
+---
 
--   **Extração e Transformação de Dados MTECH (Arquivos Semanais):**
-    ```bash
-    python -m src.etl.extract_mtech_data
-    ```
-    Este script processa os arquivos semanais de `extracao_mtech`, aplica racionalização de cabeçalhos, processa a coluna `lote_composto` (incluindo a criação de `lote_prefixo`), converte tipos de dados e carrega tudo para a tabela `extracao_mtech_data` no `prediction_data.db`.
+## 📄 Licença
 
-### Análise de Qualidade de Dados
-
--   **Notebook de Qualidade de Dados:**
-    Abra o notebook `notebooks/data_quality_extracao_mtech.ipynb` no Jupyter e selecione o kernel `Python (.venv)` para executar as análises de qualidade dos dados da tabela `extracao_mtech_data`.
-
-### Outras Ferramentas
-
--   **Exportar Esquema do Banco de Dados:**
-    Para exportar o esquema do banco de dados para `docs/db_schema.sql` (ou para gerar o MER em `docs/modelo_entidade_relacionamento.md`), utilize:
-    ```bash
-    python -m src.utils.export_db_schema
-    ```
-
-(Instruções detalhadas sobre como rodar outros scripts ou notebooks serão adicionadas aqui conforme o projeto avança.)
-
-## Licença
-
-Este projeto está licenciado sob a Licença Pública Geral GNU (GNU GPLv3). Veja o arquivo `LICENSE` para mais detalhes adicionais.
+Este projeto está licenciado sob a Licença Pública Geral GNU (GNU GPLv3).

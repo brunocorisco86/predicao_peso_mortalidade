@@ -1,10 +1,19 @@
 import sqlite3
 import pandas as pd
 import os
+import sys
+from pathlib import Path
+
+# Add project root to sys.path
+project_root = Path(__file__).resolve().parent.parent.parent
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
+
+from config.settings import settings
 
 # Define paths
-db_path = r'C:\Users\user\code\Git\prediction_weight_mortality\database\prediction_data.db'
-output_dir = r'C:\Users\user\code\Git\prediction_weight_mortality\data\processed'
+db_path = os.path.join('database', 'prediction_data.db')
+output_dir = os.path.join('data', 'processed')
 output_csv_path = os.path.join(output_dir, 'unified_data.csv')
 
 # Ensure output directory exists
@@ -36,7 +45,9 @@ try:
     # Export to CSV
     df.to_csv(output_csv_path, index=False)
 
+    file_size_mb = os.path.getsize(output_csv_path) / (1024 * 1024)
     print(f"Successfully exported unified data to {output_csv_path}")
+    print(f"Export summary: {len(df)} rows, {len(df.columns)} columns, {file_size_mb:.2f} MB")
 
 except sqlite3.Error as e:
     print(f"SQLite error: {e}")
@@ -48,3 +59,4 @@ finally:
     # Close the database connection
     if 'conn' in locals() and conn:
         conn.close()
+

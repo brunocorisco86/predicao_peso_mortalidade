@@ -1,14 +1,21 @@
 import pandas as pd
 import sqlite3
 import os
+import sys
+from pathlib import Path
 
-# Define file paths
-excel_file_path = os.path.join('data', 'raw', 'features', 'BANCO_VARIAVEIS.xlsx')
-db_file_path = os.path.join('database', 'prediction_data.db')
+# Add project root to sys.path
+project_root = Path(__file__).resolve().parent.parent.parent
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
+
+from config.settings import settings
+
+# Define file paths using settings
+excel_file_path = settings.FEATURES_EXCEL_PATH
+db_file_path = settings.DATABASE_PATH
 
 # Mapping from descriptive headers to codes based on the provided markdown table
-# IMPORTANT: This mapping assumes the Excel headers exactly match these descriptions.
-# If they don't, this script will need to be adjusted.
 header_to_code_mapping = {
     'Aviário Convencional': 'a01',
     'Aviário Climatizado': 'a02',
@@ -101,10 +108,13 @@ header_to_code_mapping = {
 def extract_and_load_sheet(sheet_name, excel_path, db_path, header_map):
     """
     Extracts data from a specified Excel sheet, renames columns based on a map,
-    and loads it into an SQLite table.
+    removes duplicate rows to guarantee referential integrity, and loads it into an SQLite table.
     """
     try:
         df = pd.read_excel(excel_path, sheet_name=sheet_name)
+
+        # Drop duplicate rows upfront to ensure clean dimension tables
+        df.drop_duplicates(inplace=True)
 
         # Rename columns that exist in our mapping
         df.rename(columns=header_map, inplace=True)
@@ -112,7 +122,7 @@ def extract_and_load_sheet(sheet_name, excel_path, db_path, header_map):
         # 1. Substitua espaços no header por underscore e letras minusculas no header
         df.columns = df.columns.str.lower().str.replace(' ', '_')
 
-        # NEW: Remove 'bin_' prefix and '_bin' suffix from headers
+        # Remove 'bin_' prefix and '_bin' suffix from headers
         df.columns = df.columns.str.replace('bin_', '', regex=False).str.replace('_bin', '', regex=False)
 
         # 2. data_alojamento é formato de data
@@ -129,24 +139,25 @@ def extract_and_load_sheet(sheet_name, excel_path, db_path, header_map):
             df['lote_composto'] = df['lote_composto'].astype(str).str.replace('-0', '-', regex=False)
 
         # 5. retire os prefixos 'bin_' e sufixo '_bin' quando houverem (from values)
-        for col in df.select_dtypes(include=['object']).columns:
+        for col in df.select_dtypes(include=['object', 'string']).columns:
             df[col] = df[col].astype(str).str.replace('bin_', '', regex=False).str.replace('_bin', '', regex=False)
 
+        # Re-drop duplicates after data cleaning just in case string formatting generated extra matches
+        df.drop_duplicates(inplace=True)
 
         # Connect to SQLite database
         conn = sqlite3.connect(db_path)
 
-        # Explicitly drop table if it exists (as requested by user)
+        # Explicitly drop table if it exists
         cursor = conn.cursor()
         cursor.execute(f"DROP TABLE IF EXISTS {sheet_name.lower()}")
         conn.commit()
 
         # Save DataFrame to SQLite table with lowercase sheet name
-        # if_exists='replace' is redundant here but kept for clarity/safety
         df.to_sql(sheet_name.lower(), conn, if_exists='replace', index=False)
 
         conn.close()
-        print(f"Successfully extracted '{sheet_name}' and loaded into '{db_path}' table '{sheet_name.lower()}'.")
+        print(f"Successfully extracted '{sheet_name}' ({len(df)} unique rows) and loaded into '{db_path}' table '{sheet_name.lower()}'.")
 
     except FileNotFoundError:
         print(f"Error: Excel file not found at {excel_path}")

@@ -1,16 +1,22 @@
-# src/etl/extract_mtech_data.py
-
 import pandas as pd
 import sqlite3
 import os
+import sys
 import re
+from pathlib import Path
+
+# Add project root to sys.path
+project_root = Path(__file__).resolve().parent.parent.parent
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
+
 from src.utils.logger import logger
 from config.settings import settings
 
 # --- Configuration --- #
-EXTRACAO_MTECH_DIR = 'data/raw/extracao_mtech/'
-DATABASE_DIR = 'database/'
-DB_FILE = os.path.join(DATABASE_DIR, 'prediction_data.db')
+EXTRACAO_MTECH_DIR = settings.EXTRACAO_MTECH_DIR
+DB_FILE = settings.DATABASE_PATH
+DATABASE_DIR = os.path.dirname(DB_FILE)
 TABLE_NAME = 'extracao_mtech_data'
 EXCEL_SHEET_NAME = 'ag-grid'
 
@@ -27,24 +33,39 @@ def rationalize_header(header_name: str) -> str:
     # Example: if 'Lote Composto' becomes 'lote_composto', no further change needed here
     return header_name
 
-def process_lote_composto(lote_composto_value: str) -> str:
+def process_lote_composto(lote_composto_value) -> str:
     """
     Processa a coluna 'Lote Composto':
     - Traz o dado anterior ao segundo hifen "-"
     - Substitui "-0" por "-"
     """
-    if not isinstance(lote_composto_value, str):
-        return lote_composto_value # Return as is if not a string
+    if pd.isna(lote_composto_value) or lote_composto_value is None:
+        return None
 
-    parts = lote_composto_value.split('-')
+    val_str = str(lote_composto_value).strip()
+    parts = val_str.split('-')
     if len(parts) >= 2:
-        # Join parts up to the second hyphen (index 1)
         result = '-'.join(parts[:2])
     else:
-        result = lote_composto_value
+        result = val_str
 
     result = result.replace('-0', '-')
     return result
+
+def extract_fazenda(lote_composto_value):
+    """
+    Extrai o código da fazenda a partir do lote_composto.
+    """
+    if pd.isna(lote_composto_value) or lote_composto_value is None:
+        return None
+    val_str = str(lote_composto_value).strip()
+    if '-' in val_str:
+        first_part = val_str.split('-')[0]
+        if first_part.isdigit():
+            return int(first_part)
+    elif val_str.isdigit():
+        return int(val_str)
+    return None
 
 # --- Main ETL Logic --- #
 def run_etl():
@@ -54,7 +75,7 @@ def run_etl():
     # Ensure database directory exists
     os.makedirs(DATABASE_DIR, exist_ok=True)
 
-    for filename in os.listdir(EXTRACAO_MTECH_DIR):
+    for filename in sorted(os.listdir(EXTRACAO_MTECH_DIR)):
         if filename.endswith(('.xlsx', '.xls')) and not filename.startswith('~'):
             file_path = os.path.join(EXTRACAO_MTECH_DIR, filename)
             logger.info(f"Processing file: {filename}")
@@ -73,10 +94,7 @@ def run_etl():
 
                 # Create 'fazenda' column from 'lote_composto'
                 if 'lote_composto' in df.columns:
-                    # Ensure 'lote_composto' is string type before splitting
-                    df['fazenda'] = df['lote_composto'].astype(str).apply(
-                        lambda x: int(x.split('-')[0]) if '-' in x and x.split('-')[0].isdigit() else None
-                    )
+                    df['fazenda'] = df['lote_composto'].apply(extract_fazenda)
                 else:
                     logger.warning(f"'lote_composto' column not found in {filename}. Cannot create 'fazenda'.")
 

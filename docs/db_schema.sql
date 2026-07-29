@@ -1,6 +1,6 @@
 -- SQLite Database Schema Export
--- Database: database/prediction_data.db
--- Exported on: 2025-09-11 03:18:47.643423
+-- Database: /home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality/database/prediction_data.db
+-- Exported on: 2026-07-29 03:05:24.668957
 
 -- Table: variables
 CREATE TABLE "variables" (

@@ -1,41 +1,30 @@
-# Roteiro do Projeto: Predição de Peso e Mortalidade
+# Roteiro do Projeto (Workflow): Predição de Peso e Mortalidade
 
-Este documento descreve o fluxo de trabalho proposto para o desenvolvimento do projeto de predição de peso e mortalidade de aves.
+Este documento descreve o fluxo de trabalho executado para a predição de peso e mortalidade de aves de corte.
 
-## Fases do Projeto
+## Fases do Projeto e Status
 
-1.  **Análise Exploratória de Dados (EDA) dos Dados Brutos:**
-    *   Utilização de notebooks (na pasta `notebooks/`) para explorar e entender a estrutura, qualidade e características dos dados brutos (`data/raw/extracao_mtech/` e `data/raw/features/`).
-    *   Identificação de padrões, anomalias e relações entre as variáveis.
+1. **Extração e Carga de Dados (ETL) - [CONCLUÍDO]**
+   - Racionalização e carga dos arquivos Excel brutos em `database/prediction_data.db`.
+   - Script `src/etl/export_unified_data.py` gera a base consolidada em `data/processed/unified_data.csv` (104.601 linhas, 68 colunas).
 
-2.  **Filtragem de Dados Relevantes para o Modelo:**
-    *   A etapa inicial de extração e racionalização dos dados brutos é realizada pelo script `src/etl/extract_mtech_data.py`, que consolida as informações em um banco de dados SQLite.
-    *   Seleção e pré-processamento dos dados brutos para isolar as informações mais pertinentes aos objetivos de predição.
-    *   Limpeza de dados, tratamento de valores ausentes e remoção de outliers.
+2. **Análise Exploratória e Tratamento de Outliers (EDA) - [CONCLUÍDO]**
+   - Execução do script `src/eda_outliers.py`.
+   - Remoção de incoerências biológicas de idade e peso em kg.
+   - Filtragem via amplitude interquartil (3.0 x IQR). Base limpa resultante: 88.021 registros (`data/processed/cleaned_data.csv`).
+   - Geração de plots estatísticos e matrizes de correlação em `plots/`.
 
-3.  **Incorporação de Features:**
-    *   Combinação dos dados da tabela fato (`extracao_mtech/`) com as features adicionais (`features/`) para criar um dataset unificado para modelagem.
+3. **Modelagem Preditiva (Curvas de Crescimento & Machine Learning) - [CONCLUÍDO]**
+   - Ajuste do modelo não-linear biológico de Gompertz: $W(t) = 6281.25 \cdot \exp(-4.7536 \cdot \exp(-0.0449 \cdot t))$ ($R^2 = 0.9848$).
+   - Treinamento do modelo de Machine Learning (Random Forest): $R^2 = 0.9903$, $\text{MAE} = 66.59\text{ g}$.
+   - Salvamento dos modelos e visualizações em `src/models/saved/` e `plots/`.
 
-4.  **Engenharia de Features:**
-    *   Criação de novas variáveis a partir das existentes que possam melhorar o desempenho dos modelos preditivos.
-    *   Transformações de variáveis, codificação de categorias, e outras técnicas para preparar os dados para os algoritmos de Machine Learning.
+4. **Integração Operacional de Logística de Ração - [CONCLUÍDO]**
+   - Definição da arquitetura de integração baseada em 3 pilares:
+     - **Comunicação Eficiente:** Plataforma centralizada de acompanhamento do lote.
+     - **Processos Otimizados:** Redesenho do fluxo de logística e confirmação automatizada de pedidos.
+     - **Tecnologia Habilitadora:** Integração com TMS e sensores de nível nos silos.
 
-5.  **Desenvolvimento de Modelos Preditivos de Peso e Mortalidade:**
-    *   Construção e treinamento de modelos de Machine Learning para prever o peso e a mortalidade dos lotes.
-    *   Experimentação com diferentes algoritmos e técnicas de modelagem.
-
-6.  **Validação de Modelos:**
-    *   Avaliação rigorosa do desempenho dos modelos utilizando métricas apropriadas (ex: MAE, RMSE para regressão; Acurácia, Precisão, Recall, F1-score para classificação).
-    *   Técnicas de validação cruzada para garantir a robustez e generalização dos modelos.
-
-7.  **Criação de um Aplicativo Streamlit:**
-    *   Desenvolvimento de um aplicativo interativo usando Streamlit para permitir a inserção de dados com alta importância para o modelo.
-    *   Interface amigável para que usuários possam testar o modelo ou fornecer inputs específicos.
-
-8.  **Trabalho na Documentação:**
-    *   Atualização contínua da documentação do projeto (incluindo `README.md`, `docs/premissas.md`, e outros documentos técnicos).
-    *   Criação de documentação para o código (docstrings) e para o uso dos modelos.
-
-9.  **Geração de Documento para a Equipe de Desenvolvimento (ERP):**
-    *   Elaboração de um documento técnico detalhado para a equipe de desenvolvimento do ERP, descrevendo como integrar os modelos preditivos.
-    *   Especificações de APIs, formatos de entrada/saída de dados, e requisitos de infraestrutura para a implementação em ambiente de produção.
+5. **Documentação e Repositório Remoto - [CONCLUÍDO]**
+   - Documentação atualizada em `docs/` e `README.md`.
+   - Sincronização e push efetuados para o repositório Git remoto.
