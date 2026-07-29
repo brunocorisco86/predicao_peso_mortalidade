@@ -1,36 +1,25 @@
-# Data
-data/
-# *.csv
-# *.xlsx
-# *.json
-# *.db
-*.parquet
-
-# Python
+# Python & Virtual Environments
+.venv/
+.venv_linux/
+venv/
+env/
 __pycache__/
 *.pyc
 *.pyd
 *.pyo
-.Python/
-env/
-venv/
-.venv/
-*/venv/
-*/.venv/
 *.log
 
-# Jupyter Notebooks
+# Data
+data/processed/
+*.parquet
+
+# Graphify Temporary Cache Files (Keep graph.html, graph.json, GRAPH_REPORT.md)
+graphify-out/.graphify_*
+
+# Jupyter & IDEs
 .ipynb_checkpoints/
-.jupyter/
-jupyter_notebook_config.py
-
-# IDEs
-.idea/
 .vscode/
-
-# OS generated files
+.idea/
 .DS_Store
 Thumbs.db
-
-# Environment variables
 .env
