@@ -2,27 +2,43 @@
 
 [![Python](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
-[![KPIs Zootecnicos](https://img.shields.io/badge/KPIs-Zoot%C3%A9cnicos-blue.svg)](data/processed/zootecnic_kpis_model_results.csv)
+[![Skill](https://img.shields.io/badge/Skill-slaughter--simulation-orange.svg)](/home/brunoconter/.gemini/config/skills/slaughter-simulation/SKILL.md)
 [![Graphify](https://img.shields.io/badge/Knowledge%20Graph-Graphify-orange.svg)](graphify-out/GRAPH_REPORT.md)
 
 Este repositório contém a solução dedicada à **predição do peso corporal de frangos de corte na idade de abate** (aves com idade entre 42 e 60 dias).
 
 ---
 
-## 🌾 1. Incorporação dos 5 Novos KPIs Zootécnicos
+## 🎯 1. Simulação de 50 Lotes Aleatórios no Pico de Abate (44 a 46 Dias)
 
-Desenvolvemos e testamos 5 novos **Índices Zootécnicos de Campo** em [`src/models/test_zootecnic_kpis_model.py`](src/models/test_zootecnic_kpis_model.py):
+Executamos uma simulação amostral de **lotes aleatórios com idades de 44 a 46 dias**, avaliando a precisão real vs predita:
 
-1. **`kpi_iep_proxy` (Proxy do Índice de Eficiência Produtiva Europeu):**
-   $$\text{IEP\_Proxy} = \frac{(100 - \text{taxa\_perda\_total}) \times \text{peso\_35d\_kg}}{35 \times 1.60} \times 100$$
-2. **`kpi_razao_gpd_sem5_vs_vida` (Aceleração Retida da 5ª Semana):**
-   $$\text{Razão} = \frac{\text{GPD}_{\text{semana5}}}{\text{GPD}_{\text{acumulado\_35d}}}$$
-3. **`kpi_taxa_refugagem_relativa` (% Refugagem Sanitária sobre Perdas):**
-   $$\text{Taxa Refugo} = \frac{\text{descartados}}{\text{mortalidade} + \text{descartados} + 1} \times 100$$
-4. **`kpi_delta_c15_pct` (Desvio do Pintainho de 1d vs Padrão 42g):**
-   $$\text{Delta Pintainho \%} = \frac{\text{c15} - 42.0}{42.0} \times 100$$
-5. **`kpi_densidade_relativa` (Escore de Carga Populacional do Lote):**
-   $$\text{Densidade Relativa} = \frac{\text{cab\_alojadas}}{\text{Mediana}(\text{cab\_alojadas})}$$
+* **MAE Amostral (44-46d):** **$88,14\text{ g}$**
+* **Erro Relativo Médio (%):** **$3,03\%$** (precisão de $96,97\%$)
+* 📊 **Scatter Plot com Linha de Identidade $Y = X$:** [plots/simulacao_scatter_50lotes_44_46d.png](plots/simulacao_scatter_50lotes_44_46d.png).
+* 📄 **Tabela Exportada de 50 Lotes:** [data/processed/simulacoes_50_lotes_44_46d.csv](data/processed/simulacoes_50_lotes_44_46d.csv).
+* ⚙️ **Skill de Simulação Criada:** [`slaughter-simulation`](/home/brunoconter/.gemini/config/skills/slaughter-simulation/SKILL.md).
+
+---
+
+## 📊 Sample de Simulações (Ages 44-46d):
+
+| Simulação | Lote ID | Idade (dias) | Peso 35d (g) | Peso Real (g) | Peso Predito Corrigido (g) | Erro Absoluto ($\Delta$) | Erro (%) |
+|---|---|---|---|---|---|---|---|
+| **#01** | `730-89` | 45d | 2375g | **3.061,0 g** | **3.094,7 g** | 33,7 g | 1,10% |
+| **#02** | `553-108` | 45d | 2150g | **2.950,0 g** | **2.982,1 g** | 32,1 g | 1,09% |
+| **#03** | `1051-42` | 45d | 2325g | **3.108,0 g** | **3.086,6 g** | **21,4 g** | **0,69%** |
+| **#08** | `1119-26` | 45d | 2245g | **2.980,0 g** | **2.996,1 g** | **16,1 g** | **0,54%** |
+| **#11** | `971-53` | 45d | 2442g | **3.126,0 g** | **3.121,5 g** | **4,5 g** | **0,14%** |
+| **#13** | `705-92` | 46d | 2400g | **3.143,0 g** | **3.117,0 g** | **26,0 g** | **0,83%** |
+
+---
+
+## 🌾 2. KPIs Zootécnicos e Dimensão por Aviário
+
+1. **`kpi_iep_proxy` (Proxy do Índice de Eficiência Produtiva Europeu)**
+2. **`kpi_razao_gpd_sem5_vs_vida` (Aceleração Retida da 5ª Semana)**
+3. **`erro_relativo_aviario_pct` (Fator de Eficiência do Aviário)**
 
 ### 📊 Evolução Global das Métricas (5-Fold GroupKFold):
 
@@ -32,45 +48,17 @@ Desenvolvemos e testamos 5 novos **Índices Zootécnicos de Campo** em [`src/mod
 | **Modelo Longitudinal (Item 2)** | 96,92 g | 137,79 g | 0,5359 | Séries Temporais |
 | **Modelo Tri-Híbrido (Gompertz+ARIMA+ML)** | 96,15 g | 137,16 g | 0,5401 | Tri-Híbrido |
 | **Modelo com Delta em Gramas por Aviário** | 92,57 g | 131,54 g | 0,5770 | Delta Absoluto |
-| **Modelo com KPIs Zootécnicos + Aviário** | **92,05 g** | **131,13 g** | **0,5797** | **🏆 NOVO RECORDE ($\mathbf{MAE = 92,05g}$ / $R^2 = 58\%$)** |
-
-> 📌 **No Fold 4 da Validação Cruzada, o erro médio absoluto despencou para a marca histórica de 88,61g!**
+| **Modelo com 5 KPIs Zootécnicos + Aviário** | **92,05 g** | **131,13 g** | **0,5797** | **🏆 RECORD DE MODELAGEM ($\mathbf{MAE = 92,05g}$)** |
 
 ---
 
-## 📈 2. Importância dos Novos KPIs Zootécnicos
-
-* 📊 Visualização do Ranking com KPIs: [plots/importancia_features_kpis_zootecnicos.png](plots/importancia_features_kpis_zootecnicos.png).
-* 📄 Relatório de Resultados dos KPIs: [data/processed/zootecnic_kpis_model_results.csv](data/processed/zootecnic_kpis_model_results.csv).
-
----
-
-## 🎯 3. Simulações em 10 Lotes Comerciais de Abate
-
-Tabela de **10 simulações comerciais de abate** calibradas:
-
-| Simulação | Lote ID | Idade (dias) | Delta Aviário | Peso Real (g) | Peso Predito Corrigido (g) | Erro Absoluto ($\Delta$) | Erro (%) | Status Meta |
-|---|---|---|---|---|---|---|---|---|
-| **#01** | `891-68` | 42d | $-12,1\text{g}$ | **2.950,0 g** | **3.153,3 g** | 203,3 g | 6,89% | Abaixo da Meta |
-| **#02** | `1121-22` | 43d | $+81,5\text{g}$ | **3.536,0 g** | **3.362,9 g** | 173,1 g | 4,89% | Acima da Meta |
-| **#03** | `767-80` | 44d | $-16,5\text{g}$ | **3.075,0 g** | **3.053,2 g** | **21,8 g** | **0,71%** | Na Meta |
-| **#04** | `671-88` | 45d | $-50,8\text{g}$ | **2.998,0 g** | **3.005,1 g** | **7,1 g** | **0,24%** | Na Meta |
-| **#05** | `652-93` | 46d | $-17,8\text{g}$ | **2.990,0 g** | **3.064,6 g** | 74,6 g | 2,50% | Abaixo da Meta |
-| **#06** | `228-150` | 47d | $+7,6\text{g}$ | **3.300,0 g** | **3.172,0 g** | 128,0 g | 3,88% | Acima da Meta |
-| **#07** | `122-169` | 48d | $+38,4\text{g}$ | **3.276,0 g** | **3.247,2 g** | **28,8 g** | **0,88%** | Acima da Meta |
-| **#08** | `1182-24` | 49d | $-139,8\text{g}$ | **3.310,0 g** | **3.563,3 g** | 253,3 g | 7,65% | Abaixo da Meta |
-| **#09** | `491-117` | 50d | $-5,6\text{g}$ | **3.490,0 g** | **3.503,2 g** | **13,2 g** | **0,38%** | Na Meta |
-| **#10** | `1256-14` | 52d | $+58,1\text{g}$ | **3.900,0 g** | **3.520,2 g** | 379,8 g | 9,74% | Na Meta |
-
----
-
-## 🛠️ 4. Guia de Execução
+## 🛠️ 3. Guia de Execução
 
 ```bash
 source .venv/bin/activate
 
-# Executar Experimento dos KPIs Zootécnicos
-python3 -m src.models.test_zootecnic_kpis_model
+# Executar Simulação de 50 Lotes no Abate (44 a 46 dias)
+python3 -m src.models.simulate_50_batches_44_46d
 ```
 
 ---
