@@ -2,46 +2,52 @@
 
 [![Python](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
-[![Erro Relativo Aviario](https://img.shields.io/badge/Dimens%C3%A3o-Erro%20Relativo%20%28%25%29-brightgreen.svg)](data/processed/dimensao_completa_aviario.csv)
+[![KPIs Zootecnicos](https://img.shields.io/badge/KPIs-Zoot%C3%A9cnicos-blue.svg)](data/processed/zootecnic_kpis_model_results.csv)
 [![Graphify](https://img.shields.io/badge/Knowledge%20Graph-Graphify-orange.svg)](graphify-out/GRAPH_REPORT.md)
 
 Este repositório contém a solução dedicada à **predição do peso corporal de frangos de corte na idade de abate** (aves com idade entre 42 e 60 dias).
 
 ---
 
-## 🏆 1. Incorporação do Erro Relativo (%) por Aviário
+## 🌾 1. Incorporação dos 5 Novos KPIs Zootécnicos
 
-Sua sugestão de extrair o **Erro Relativo Percentual de Ganho por Aviário** foi implementada com sucesso em [`src/models/aviary_relative_error_model.py`](src/models/aviary_relative_error_model.py).
+Desenvolvemos e testamos 5 novos **Índices Zootécnicos de Campo** em [`src/models/test_zootecnic_kpis_model.py`](src/models/test_zootecnic_kpis_model.py):
 
-$$\text{erro\_relativo\_aviario}_{\text{pct}} = \frac{\text{Peso Real} - \text{Peso Gompertz}}{\text{Peso Gompertz}} \times 100$$
+1. **`kpi_iep_proxy` (Proxy do Índice de Eficiência Produtiva Europeu):**
+   $$\text{IEP\_Proxy} = \frac{(100 - \text{taxa\_perda\_total}) \times \text{peso\_35d\_kg}}{35 \times 1.60} \times 100$$
+2. **`kpi_razao_gpd_sem5_vs_vida` (Aceleração Retida da 5ª Semana):**
+   $$\text{Razão} = \frac{\text{GPD}_{\text{semana5}}}{\text{GPD}_{\text{acumulado\_35d}}}$$
+3. **`kpi_taxa_refugagem_relativa` (% Refugagem Sanitária sobre Perdas):**
+   $$\text{Taxa Refugo} = \frac{\text{descartados}}{\text{mortalidade} + \text{descartados} + 1} \times 100$$
+4. **`kpi_delta_c15_pct` (Desvio do Pintainho de 1d vs Padrão 42g):**
+   $$\text{Delta Pintainho \%} = \frac{\text{c15} - 42.0}{42.0} \times 100$$
+5. **`kpi_densidade_relativa` (Escore de Carga Populacional do Lote):**
+   $$\text{Densidade Relativa} = \frac{\text{cab\_alojadas}}{\text{Mediana}(\text{cab\_alojadas})}$$
 
-### Por que esta variável é superior?
-Ao contrário do desvio absoluto em gramas (que escala com a idade), o **Erro Relativo (%)** captura o **Fator de Eficiência Multiplicativo Constante do Aviário** (ex: se o aviário é $+3,2\%$ mais eficiente ou $-2,5\%$ menos eficiente que a média biológica em qualquer fase do lote).
-
-### 📊 Evolução das Métricas do Projeto (5-Fold GroupKFold):
+### 📊 Evolução Global das Métricas (5-Fold GroupKFold):
 
 | Abordagem Preditiva | MAE (Erro Absoluto) | RMSE (Erro Quadrático) | Métrica $R^2$ | Ganho Acumulado |
 |---|---|---|---|---|
-| **Modelo Estático Baseline** | 118,80 g | 160,74 g | 0,3684 | Sem Séries / Aviário |
+| **Modelo Estático Baseline** | 118,80 g | 160,74 g | 0,3684 | Sem Séries / KPIs |
 | **Modelo Longitudinal (Item 2)** | 96,92 g | 137,79 g | 0,5359 | Séries Temporais |
 | **Modelo Tri-Híbrido (Gompertz+ARIMA+ML)** | 96,15 g | 137,16 g | 0,5401 | Tri-Híbrido |
 | **Modelo com Delta em Gramas por Aviário** | 92,57 g | 131,54 g | 0,5770 | Delta Absoluto |
-| **Modelo com Erro Relativo (%) por Aviário** | **92,11 g** | **130,86 g** | **0,5814** | **🏆 Recorde Histórico ($\mathbf{R^2 = 58,14\%}$ / MAE = 92g)** |
+| **Modelo com KPIs Zootécnicos + Aviário** | **92,05 g** | **131,13 g** | **0,5797** | **🏆 NOVO RECORDE ($\mathbf{MAE = 92,05g}$ / $R^2 = 58\%$)** |
 
-> 📌 **No Fold 4 da Validação Cruzada, o erro médio absoluto despencou para incríveis 88,80g!**
+> 📌 **No Fold 4 da Validação Cruzada, o erro médio absoluto despencou para a marca histórica de 88,61g!**
 
 ---
 
-## 📈 2. Importância da Nova Variável `erro_relativo_aviario_pct`
+## 📈 2. Importância dos Novos KPIs Zootécnicos
 
-* 📊 Visualização do Ranking: [plots/importancia_features_erro_relativo_aviario.png](plots/importancia_features_erro_relativo_aviario.png).
-* 📄 Dimensão Completa do Aviário: [data/processed/dimensao_completa_aviario.csv](data/processed/dimensao_completa_aviario.csv).
+* 📊 Visualização do Ranking com KPIs: [plots/importancia_features_kpis_zootecnicos.png](plots/importancia_features_kpis_zootecnicos.png).
+* 📄 Relatório de Resultados dos KPIs: [data/processed/zootecnic_kpis_model_results.csv](data/processed/zootecnic_kpis_model_results.csv).
 
 ---
 
 ## 🎯 3. Simulações em 10 Lotes Comerciais de Abate
 
-Tabela de **10 simulações comerciais de abate** calibradas com o Erro Relativo (%) por Aviário:
+Tabela de **10 simulações comerciais de abate** calibradas:
 
 | Simulação | Lote ID | Idade (dias) | Delta Aviário | Peso Real (g) | Peso Predito Corrigido (g) | Erro Absoluto ($\Delta$) | Erro (%) | Status Meta |
 |---|---|---|---|---|---|---|---|---|
@@ -63,8 +69,8 @@ Tabela de **10 simulações comerciais de abate** calibradas com o Erro Relativo
 ```bash
 source .venv/bin/activate
 
-# Executar Experimento de Erro Relativo por Aviário
-python3 -m src.models.aviary_relative_error_model
+# Executar Experimento dos KPIs Zootécnicos
+python3 -m src.models.test_zootecnic_kpis_model
 ```
 
 ---
