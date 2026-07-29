@@ -9,31 +9,30 @@ Este repositório contém a solução refatorada dedicada exclusivamente à **pr
 
 ---
 
-## 📌 1. Principais Resultados e Métricas Otimizadas (Fine-Tuning)
+## 📌 1. Principais Resultados e Métricas Otimizadas
 
-Após **Engenharia de Features** (criando percentuais de perda `mortalidade_pct`, `descartados_pct`, `taxa_perda_total` e suporte a linhagens `c16`/fornecedores `c17`) e **Otimização de Hiperparâmetros (RandomizedSearchCV)** via **5-Fold GroupKFold Cross-Validation**, obteve-se uma redução consistente no erro preditivo:
+Comparações realizadas via **5-Fold GroupKFold Cross-Validation** agrupada por lote (`lote_composto`):
 
-| Abordagem Preditiva | Métrica $R^2$ | MAE (Erro Médio Absoluto) | RMSE (Erro Quadrático Médio) | Redução de Erro / Ganho |
+| Abordagem Preditiva | Métrica $R^2$ | MAE (Erro Médio Absoluto) | RMSE (Erro Quadrático Médio) | Observações |
 |---|---|---|---|---|
-| **Random Forest Baseline (Abate)** | 0,2925 | 127,15 g | 170,56 g | Modelo Inicial |
-| **Extra Trees Regressor** | 0,3148 | 121,49 g | 167,42 g | Algoritmo Alternativo |
-| **HistGradientBoosting Otimizado (Tuned)** | **0,3694** | **119,26 g** | **160,63 g** | **Melhoria de ~10g no RMSE e MAE < 120g** |
+| **Random Forest Baseline** | 0,2925 | 127,15 g | 170,56 g | Modelo Inicial |
+| **HistGradientBoosting + KNN Features** | 0,3455 | 120,73 g | 163,65 g | Experimento de Vizinhança |
+| **HistGradientBoosting Otimizado (Best Model)** | **0,3694** | **119,26 g** | **160,63 g** | **Melhor Desempenho (MAE < 120g)** |
 | **Classificador de Meta de Peso de Abate** | **98,4% (Acurácia)** | **F1-Score: 0,98** | **Precision/Recall: 0,98** | Categorias: `Abaixo`, `Na Meta`, `Acima` |
-
-### ⚙️ Hiperparâmetros Selecionados (`HistGradientBoosting`):
-```json
-{
-  "learning_rate": 0.1,
-  "max_depth": 6,
-  "max_iter": 300,
-  "min_samples_leaf": 10,
-  "l2_regularization": 1.0
-}
-```
 
 ---
 
-## 📋 2. Regras de Negócio Implementadas
+## 🔬 2. Experimento de Extração de Features via KNN (Nearest Neighbors)
+
+Testamos a extração de features de vizinhança espacial/zootécnica no espaço de atributos dos lotes:
+* **Features Extraídas:** `knn_pred_weight_k15`, `knn_pred_weight_k30` (média de peso dos $15$ e $30$ lotes biologicamente mais parecidos), `knn_neighbor_std_k15` (variabilidade regional) e `knn_dist_nearest` (distância até o lote mais próximo).
+* **Conclusão:** As árvores de decisão do `HistGradientBoosting` puro conseguem criar partições hiperpáticas mais nítidas diretamente sem depender de métricas de distância isotrópicas euclidianas do KNN, obtendo o menor erro absoluto (**$119,26\text{ g}$**).
+* 📊 Visualização do Impacto: [knn_feature_extraction_impact.png](plots/knn_feature_extraction_impact.png).
+* 📄 Relatório Salvo: [knn_feature_extraction_results.csv](data/processed/knn_feature_extraction_results.csv).
+
+---
+
+## 📋 3. Regras de Negócio Implementadas
 
 As regras de negócio foram formalizadas no documento [`docs/regras_de_negocio_abate.md`](docs/regras_de_negocio_abate.md):
 
@@ -43,36 +42,33 @@ As regras de negócio foram formalizadas no documento [`docs/regras_de_negocio_a
 
 ---
 
-## 🔬 3. Diagnóstico e Explicabilidade ELI5 no Abate
+## 💡 4. Diagnóstico e Explicabilidade ELI5 no Abate
 
-Com a neutralização do impacto da idade inicial, as variáveis operacionais e genéticas do lote passam a ditar o peso final ao abate.
+### Ranking de Importância de Variáveis ELI5:
 
-### Ranking de Importância de Variáveis ELI5 (Peso de Abate):
-
-| Rank | Variável | Descrição Zootécnica / Operacional | Importância Média ELI5 | Desvio Padrão |
-|---|---|---|---|---|
-| 1 | `c15` | Peso inicial do pintainho de 1 dia (g) | **23,20%** | $\pm 1,47\%$ |
-| 2 | `mortalidade` | Desafio sanitário e mortes acumuladas | **14,75%** | $\pm 1,42\%$ |
-| 3 | `cab_alojadas` | Densidade e quantidade alojada no lote | **13,03%** | $\pm 1,37\%$ |
-| 4 | `x02` | Distância da propriedade ao abatedouro (km) | **11,73%** | $\pm 1,31\%$ |
-| 5 | `idade` | Variação diária entre os dias de abate (42 a 54 dias) | **10,99%** | $\pm 1,76\%$ |
-| 6 | `descartados` | Descartes sanitários no lote | **9,34%** | $\pm 1,25\%$ |
-| 7 | `c12` | Fator multiplicador de peso aos 35 dias acima | **8,40%** | $\pm 0,85\%$ |
-| 8 | `c11` | Fator multiplicador de peso aos 35 dias abaixo | **2,26%** | $\pm 0,58\%$ |
+| Rank | Variável | Descrição Zootécnica / Operacional | Importância Média ELI5 |
+|---|---|---|---|
+| 1 | `c15` | Peso inicial do pintainho de 1 dia (g) | **23,20%** |
+| 2 | `mortalidade` | Desafio sanitário e mortes acumuladas | **14,75%** |
+| 3 | `cab_alojadas` | Densidade e quantidade alojada no lote | **13,03%** |
+| 4 | `x02` | Distância da propriedade ao abatedouro (km) | **11,73%** |
+| 5 | `idade` | Variação diária entre os dias de abate (42 a 54 dias) | **10,99%** |
+| 6 | `descartados` | Descartes sanitários no lote | **9,34%** |
+| 7 | `c12` | Fator multiplicador de peso aos 35 dias acima | **8,40%** |
 
 * 📄 Relatório em Markdown: [docs/explicabilidade_eli5.md](docs/explicabilidade_eli5.md)
 * 🌐 Relatório HTML Interativo: [docs/explicabilidade_eli5.html](docs/explicabilidade_eli5.html)
-* 📊 Gráfico de Importâncias ELI5: [plots/eli5_importancia_variaveis.png](plots/eli5_importancia_variaveis.png)
 
 ---
 
-## 📈 4. Galeria de Gráficos Refatorados (Peso de Abate)
+## 📈 5. Galeria de Gráficos
 
 | Gráfico | Descrição do Diagnóstico de Abate |
 |---|---|
 | [distribuicao_peso_por_idade.png](plots/distribuicao_peso_por_idade.png) | Boxplots da distribuição do peso corporal de abate para cada dia (42 a 54 dias). |
 | [curva_crescimento_gompertz.png](plots/curva_crescimento_gompertz.png) | Ajuste da curva de Gompertz na janela comercial de abate. |
 | [predito_vs_observado_peso.png](plots/predito_vs_observado_peso.png) | Dispersão do modelo Fine-Tuned (MAE de $119\text{g}$ / RMSE de $160\text{g}$). |
+| [knn_feature_extraction_impact.png](plots/knn_feature_extraction_impact.png) | Comparativo de erro entre modelo puro e com extração de KNN. |
 | [boxplots_outliers_peso.png](plots/boxplots_outliers_peso.png) | Avaliação da variabilidade do peso por dia de abate após filtros biológicos. |
 | [matriz_correlacao_features.png](plots/matriz_correlacao_features.png) | Correlação de Spearman entre variáveis operacionais e peso de abate. |
 | [distribuicao_mortalidade.png](plots/distribuicao_mortalidade.png) | Distribuição da mortalidade acumulada no momento do abate. |
@@ -83,63 +79,31 @@ Com a neutralização do impacto da idade inicial, as variáveis operacionais e 
 
 ---
 
-## 🧠 5. Grafo de Conhecimento do Repositório (Graphify)
+## 🧠 6. Grafo de Conhecimento (Graphify)
 
 * 🕸️ **Visualização Interativa:** [graphify-out/graph.html](graphify-out/graph.html)
 * 📄 **Relatório de Audit da Arquitetura:** [graphify-out/GRAPH_REPORT.md](graphify-out/GRAPH_REPORT.md)
 
 ---
 
-## 📁 6. Estrutura do Repositório
-
-```
-.
-├── .venv/                      # Ambiente virtual Python
-├── config/
-│   └── settings.py
-├── data/processed/             # Datasets filtrados de abate e métricas
-├── database/
-│   └── prediction_data.db      # Banco de dados SQLite
-├── docs/
-│   ├── regras_de_negocio_abate.md # Regras de Negócio (idade >= 42 dias)
-│   ├── modelo_entidade_relacionamento.md
-│   ├── explicabilidade_eli5.md
-│   ├── explicabilidade_eli5.html
-│   ├── premissas.md
-│   └── workflow.md
-├── graphify-out/               # Artefatos Graphify
-├── plots/                      # Galeria de gráficos de abate
-├── src/
-│   ├── etl/
-│   ├── eda_outliers.py         # Filtro e EDA de abate (idade >= 42)
-│   ├── models/
-│   │   ├── train_predict_weight.py        # Treino do modelo de abate
-│   │   ├── advanced_evaluation_eli5.py    # Resíduos, Confusão, CV e ELI5
-│   │   ├── fine_tune_slaughter_model.py   # Fine-tuning & comparativo de modelos
-│   │   └── saved/
-│   └── utils/
-├── requirements.txt
-└── README.md
-```
-
----
-
-## 🛠️ 7. Guia de Execução Passo a Passo
+## 🛠️ 7. Guia de Execução
 
 ```bash
-# 1. Configurar Ambiente
 source .venv/bin/activate
 
-# 2. Executar EDA e Filtro de Abate (RN-01 a RN-05)
+# 1. Executar EDA e Filtro de Abate (RN-01 a RN-05)
 python3 -m src.eda_outliers
 
-# 3. Treinar Modelo de Predição do Peso de Abate
+# 2. Treinar Modelo de Predição do Peso de Abate
 python3 -m src.models.train_predict_weight
 
-# 4. Executar Fine-Tuning de Hiperparâmetros
+# 3. Executar Otimização de Hiperparâmetros
 python3 -m src.models.fine_tune_slaughter_model
 
-# 5. Executar Avaliações Avançadas de Abate e ELI5
+# 4. Executar Extração de Features via KNN
+python3 -m src.models.knn_feature_extraction
+
+# 5. Executar Avaliações Avançadas e ELI5
 python3 -m src.models.advanced_evaluation_eli5
 ```
 
