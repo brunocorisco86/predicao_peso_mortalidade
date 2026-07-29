@@ -9,26 +9,37 @@ Este repositório contém a solução refatorada dedicada exclusivamente à **pr
 
 ---
 
-## 📋 1. Regras de Negócio Implementadas
+## 📌 1. Principais Resultados e Métricas Otimizadas (Fine-Tuning)
+
+Após **Engenharia de Features** (criando percentuais de perda `mortalidade_pct`, `descartados_pct`, `taxa_perda_total` e suporte a linhagens `c16`/fornecedores `c17`) e **Otimização de Hiperparâmetros (RandomizedSearchCV)** via **5-Fold GroupKFold Cross-Validation**, obteve-se uma redução consistente no erro preditivo:
+
+| Abordagem Preditiva | Métrica $R^2$ | MAE (Erro Médio Absoluto) | RMSE (Erro Quadrático Médio) | Redução de Erro / Ganho |
+|---|---|---|---|---|
+| **Random Forest Baseline (Abate)** | 0,2925 | 127,15 g | 170,56 g | Modelo Inicial |
+| **Extra Trees Regressor** | 0,3148 | 121,49 g | 167,42 g | Algoritmo Alternativo |
+| **HistGradientBoosting Otimizado (Tuned)** | **0,3694** | **119,26 g** | **160,63 g** | **Melhoria de ~10g no RMSE e MAE < 120g** |
+| **Classificador de Meta de Peso de Abate** | **98,4% (Acurácia)** | **F1-Score: 0,98** | **Precision/Recall: 0,98** | Categorias: `Abaixo`, `Na Meta`, `Acima` |
+
+### ⚙️ Hiperparâmetros Selecionados (`HistGradientBoosting`):
+```json
+{
+  "learning_rate": 0.1,
+  "max_depth": 6,
+  "max_iter": 300,
+  "min_samples_leaf": 10,
+  "l2_regularization": 1.0
+}
+```
+
+---
+
+## 📋 2. Regras de Negócio Implementadas
 
 As regras de negócio foram formalizadas no documento [`docs/regras_de_negocio_abate.md`](docs/regras_de_negocio_abate.md):
 
 * **RN-01 (Janela de Abate):** Filtragem estrita de lotes com idade $42 \le \text{idade} \le 60\text{ dias}$ ($15.416$ registros de abate analisados).
 * **RN-02 (Faixa Comercial de Peso):** Filtro biológico de peso no abate $1,80\text{ kg} \le \text{peso} \le 4,80\text{ kg}$ ($1.800\text{g}$ a $4.800\text{g}$).
 * **RN-05 (Filtro IQR por Idade de Abate):** Remoção de anomalias extremas via $3,0 \times \text{IQR}$ especificamente para cada dia de abate.
-
----
-
-## 📌 2. Desempenho dos Modelos no Peso de Abate
-
-A avaliação foi realizada via **5-Fold GroupKFold Cross-Validation** agrupada por lote de produção (`lote_composto`).
-
-| Abordagem Preditiva | Métrica $R^2$ | MAE (Erro Médio Absoluto) | RMSE (Erro Quadrático Médio) | Foco Preditivo |
-|---|---|---|---|---|
-| **Modelo Não-Linear de Gompertz (Abate)** | **0,0360** | **144,78 g** | **191,42 g** | Tendência assintótica |
-| **Random Forest Regressor (Abate)** | **0,2925** | **127,15 g** | **170,56 g** | Erro de apenas ~127g em aves de ~3kg |
-| **Random Forest (Validação Cruzada 5-Fold)** | **0,2873 ± 0,016** | **127,07 g ± 1,60 g** | **170,77 g ± 1,99 g** | Estabilidade entre Folds |
-| **Classificador de Meta de Peso de Abate** | **98,4% (Acurácia)** | **F1-Score: 0,98** | **Precision/Recall: 0,98** | Categorias: `Abaixo`, `Na Meta`, `Acima` |
 
 ---
 
@@ -48,8 +59,6 @@ Com a neutralização do impacto da idade inicial, as variáveis operacionais e 
 | 6 | `descartados` | Descartes sanitários no lote | **9,34%** | $\pm 1,25\%$ |
 | 7 | `c12` | Fator multiplicador de peso aos 35 dias acima | **8,40%** | $\pm 0,85\%$ |
 | 8 | `c11` | Fator multiplicador de peso aos 35 dias abaixo | **2,26%** | $\pm 0,58\%$ |
-| 9 | `f06` | Reutilização de cama ($>10$) | **1,02%** | $\pm 0,38\%$ |
-| 10 | `f05` | Reutilização de cama ($5\text{ a }9$) | **0,92%** | $\pm 0,37\%$ |
 
 * 📄 Relatório em Markdown: [docs/explicabilidade_eli5.md](docs/explicabilidade_eli5.md)
 * 🌐 Relatório HTML Interativo: [docs/explicabilidade_eli5.html](docs/explicabilidade_eli5.html)
@@ -63,7 +72,7 @@ Com a neutralização do impacto da idade inicial, as variáveis operacionais e 
 |---|---|
 | [distribuicao_peso_por_idade.png](plots/distribuicao_peso_por_idade.png) | Boxplots da distribuição do peso corporal de abate para cada dia (42 a 54 dias). |
 | [curva_crescimento_gompertz.png](plots/curva_crescimento_gompertz.png) | Ajuste da curva de Gompertz na janela comercial de abate. |
-| [predito_vs_observado_peso.png](plots/predito_vs_observado_peso.png) | Dispersão de peso de abate predito vs real (Erro médio de $127\text{g}$). |
+| [predito_vs_observado_peso.png](plots/predito_vs_observado_peso.png) | Dispersão do modelo Fine-Tuned (MAE de $119\text{g}$ / RMSE de $160\text{g}$). |
 | [boxplots_outliers_peso.png](plots/boxplots_outliers_peso.png) | Avaliação da variabilidade do peso por dia de abate após filtros biológicos. |
 | [matriz_correlacao_features.png](plots/matriz_correlacao_features.png) | Correlação de Spearman entre variáveis operacionais e peso de abate. |
 | [distribuicao_mortalidade.png](plots/distribuicao_mortalidade.png) | Distribuição da mortalidade acumulada no momento do abate. |
@@ -106,6 +115,7 @@ Com a neutralização do impacto da idade inicial, as variáveis operacionais e 
 │   ├── models/
 │   │   ├── train_predict_weight.py        # Treino do modelo de abate
 │   │   ├── advanced_evaluation_eli5.py    # Resíduos, Confusão, CV e ELI5
+│   │   ├── fine_tune_slaughter_model.py   # Fine-tuning & comparativo de modelos
 │   │   └── saved/
 │   └── utils/
 ├── requirements.txt
@@ -126,7 +136,10 @@ python3 -m src.eda_outliers
 # 3. Treinar Modelo de Predição do Peso de Abate
 python3 -m src.models.train_predict_weight
 
-# 4. Executar Avaliações Avançadas de Abate e ELI5
+# 4. Executar Fine-Tuning de Hiperparâmetros
+python3 -m src.models.fine_tune_slaughter_model
+
+# 5. Executar Avaliações Avançadas de Abate e ELI5
 python3 -m src.models.advanced_evaluation_eli5
 ```
 
