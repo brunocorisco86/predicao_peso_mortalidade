@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import os
 import joblib
-from sklearn.model_selection import GroupKFold, RandomizedSearchCV
-from sklearn.ensemble import HistGradientBoostingRegressor, StackingRegressor, ExtraTreesRegressor
+from sklearn.model_selection import GroupKFold
+from sklearn.ensemble import HistGradientBoostingRegressor, StackingRegressor
 from sklearn.linear_model import RidgeCV
 from sklearn.metrics import (
     mean_squared_error, mean_absolute_error, r2_score,
@@ -14,7 +14,6 @@ from sklearn.metrics import (
 )
 import lightgbm as lgb
 import xgboost as xgb
-import eli5
 from src.utils.logger import logger
 
 def run_fine_tune_eval_longitudinal():
@@ -179,20 +178,14 @@ def run_fine_tune_eval_longitudinal():
     # 4. Confusion Matrix for Slaughter Target Weight Classification
     logger.info("Building Confusion Matrix for Fine-Tuned Slaughter Target Classification...")
     
-    # Categorize into 3 classes per age: Abaixo da Meta (< P25), Na Meta (P25-P75), Acima da Meta (> P75)
     df_ml['peso_predito_oof'] = oof_preds
-    df_ml['target_class'] = ''
-    df_ml['pred_class'] = ''
+    
+    # Categorize global slaughter target into 3 performance classes
+    q25 = df_ml['peso_g'].quantile(0.25)
+    q75 = df_ml['peso_g'].quantile(0.75)
 
-    for age, group in df_ml.groupby('idade'):
-        q25 = group['peso_g'].quantile(0.25)
-        q75 = group['peso_g'].quantile(0.75)
-
-        target_cat = pd.cut(group['peso_g'], bins=[-np.inf, q25, q75, np.inf], labels=['Abaixo da Meta', 'Na Meta', 'Acima da Meta'])
-        pred_cat = pd.cut(group['peso_predito_oof'], bins=[-np.inf, q25, q75, np.inf], labels=['Abaixo da Meta', 'Na Meta', 'Acima da Meta'])
-
-        df_ml.loc[group.index, 'target_class'] = target_cat
-        df_ml.loc[group.index, 'pred_class'] = pred_cat
+    df_ml['target_class'] = pd.cut(df_ml['peso_g'], bins=[-np.inf, q25, q75, np.inf], labels=['Abaixo da Meta', 'Na Meta', 'Acima da Meta'], duplicates='drop')
+    df_ml['pred_class'] = pd.cut(df_ml['peso_predito_oof'], bins=[-np.inf, q25, q75, np.inf], labels=['Abaixo da Meta', 'Na Meta', 'Acima da Meta'], duplicates='drop')
 
     labels = ['Abaixo da Meta', 'Na Meta', 'Acima da Meta']
     cm = confusion_matrix(df_ml['target_class'], df_ml['pred_class'], labels=labels)
