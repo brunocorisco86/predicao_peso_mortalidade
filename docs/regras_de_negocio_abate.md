@@ -20,7 +20,7 @@ Este documento define formalmente as regras de negócio, limites biológicos e p
 | **RN-03: Integridade do Lote** | `cab_alojadas` | **$> 0$** | Lotes sem cabeças alojadas válidas são desconsiderados. |
 | **RN-04: Sanidade Plausível** | `mortalidade` | **$0 \le \text{mortalidade} \le \text{cab\_alojadas}$** | A mortalidade acumulada até o abate não pode exceder o total de aves alojadas. |
 | **RN-05: Filtro Estatístico de Outliers** | `IQR` por dia de abate | **$Q_1 - 3.0 \times \text{IQR} \le \text{peso} \le Q_3 + 3.0 \times \text{IQR}$** | Limpeza de divergências extremas mantendo a variabilidade real entre fazendas e produtores. |
-| **RN-06: Identificação de Aviário / Fazenda** | `aviario` / `fazenda` | **$100 \le \text{aviario} \le 1500$** | O aviário também é denominado **fazenda** no sistema, sendo representado por um código numérico inteiro entre 100 e 1500. |
+| **RN-06: Identificação de Aviário / Fazenda** | `aviario` / `fazenda` | Número antes do hífen em `LoteComposto` | O aviário (ou **fazenda**) é representado exclusivamente pelo número inteiro localizado antes do primeiro hífen do `LoteComposto` (ex: `100` em `100-39` ou `1223` em `1223-8`). |
 | **RN-07: Composição do Lote Composto** | `lote_composto` / `LoteComposto` | `<aviario>-<lote>` ou `<aviario>-<lote>-N<nucleo>` | O identificador `Lote Composto` (ou `LoteComposto`) é formado pela concatenação do aviário e lote (ex: `1223-8`), podendo opcionalmente incluir a identificação do núcleo prefixado por 'N' (ex: `1223-8-N1`). |
 
 ---

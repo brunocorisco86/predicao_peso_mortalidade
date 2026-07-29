@@ -8,7 +8,7 @@ Este documento define formalmente o **Modelo Entidade-Relacionamento (MER/DER)**
 
 | Regra de Negócio | Entidade / Atributo | Sintaxe / Padrão de Formatação | Definição Zootécnica e Estrutural |
 |---|---|---|---|
-| **RN-06: Aviário / Fazenda** | `aviario` / `fazenda` | **$100 \le \text{aviario} \le 1500$** (Inteiro) | O termo **Aviário** é sinônimo de **Fazenda** nos datasets. Identifica a propriedade/unidade física de produção (número inteiro entre 100 e 1500). |
+| **RN-06: Aviário / Fazenda** | `aviario` / `fazenda` | Número antes do hífen em `LoteComposto` | O termo **Aviário** é sinônimo de **Fazenda** nos datasets. Corresponde exclusivamente ao código numérico inteiro extraído antes do primeiro hífen do `LoteComposto` (ex: `100` em `100-39` ou `1223` em `1223-8`). |
 | **RN-07: Lote Composto** | `lote_composto` / `LoteComposto` | Padrão 1: `<aviario>-<lote>`<br>Padrão 2: `<aviario>-<lote>-N<nucleo>` | Chave universal de junção entre tabelas. Formada pela concatenação do aviário e número do lote (ex: `1223-8`), podendo incluir a identificação do núcleo prefixado por 'N' (ex: `1223-8-N1`). |
 
 ---
@@ -29,7 +29,7 @@ erDiagram
         REAL peso_medio_abate_kg "Peso vivo médio do frigorífico (kg)"
         REAL peso_abate_g "Peso vivo médio em gramas (g)"
         REAL gmd_abate "Ganho Médio Diário acumulado (g/dia)"
-        INTEGER fazenda FK "Código do Aviário / Fazenda (RN-06: 100-1500)"
+        INTEGER fazenda FK "Código do Aviário / Fazenda (RN-06: Número antes do hífen)"
     }
 
     variables {
