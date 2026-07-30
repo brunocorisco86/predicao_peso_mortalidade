@@ -108,6 +108,20 @@ def build_longitudinal_features():
     df_base = df_base.merge(df_const, on='fazenda', how='left', suffixes=('', '_const'))
     df_base = df_base.merge(df_rn12[['lote_composto', 'knn_pred_weight_k15', 'knn_pred_weight_k30', 'knn_neighbor_std_k15', 'knn_dist_nearest']], on='lote_composto', how='left')
     
+    # 4.0 CODIFICAÇÃO DA LINHAGEM GENÉTICA (c16) E INCUBATÓRIO (c17)
+    if 'c16' in df_base.columns:
+        # Preencher nulos com 'DESCONHECIDO' para manter a representatividade
+        df_base['linhagem_nome'] = df_base['c16'].fillna('LINHAGEM_DESCONHECIDA').astype(str).str.upper().str.strip()
+        dummies_linhagem = pd.get_dummies(df_base['linhagem_nome'], prefix='linhagem', dtype=float)
+        df_base = pd.concat([df_base, dummies_linhagem], axis=1)
+        print(f" Linhagem Genética (c16) codificada: {list(dummies_linhagem.columns)}")
+        
+    if 'c17' in df_base.columns:
+        df_base['incubatorio_nome'] = df_base['c17'].fillna('INCUBATORIO_DESCONHECIDO').astype(str).str.upper().str.strip()
+        dummies_inc = pd.get_dummies(df_base['incubatorio_nome'], prefix='incubatorio', dtype=float)
+        df_base = pd.concat([df_base, dummies_inc], axis=1)
+        print(f" Incubatório de Origem (c17) codificado: {list(dummies_inc.columns)}")
+
     print(f"Dataset de lotes unido: {len(df_base):,} registros.")
     
     # 4.1 APLICAR RN-13: Tratamento de Inversão Biométrica & Suavização Monotônica
