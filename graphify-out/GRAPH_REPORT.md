@@ -1,11 +1,11 @@
 # Graph Report - /home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality  (2026-07-30)
 
 ## Corpus Check
-- 46 files · ~45,000 words
+- 47 files · ~45,000 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 173 nodes · 219 edges · 31 communities (17 shown, 14 thin omitted)
+- 181 nodes · 226 edges · 32 communities (18 shown, 14 thin omitted)
 - Extraction: 96% EXTRACTED · 4% INFERRED · 0% AMBIGUOUS · INFERRED: 8 edges (avg confidence: 0.57)
 - Token cost: 0 input · 0 output
 
@@ -38,6 +38,7 @@
 - Comunidade 25
 - Comunidade 26
 - Comunidade 27
+- Comunidade 28
 
 ## God Nodes (most connected - your core abstractions)
 1. `setup_logging()` - 18 edges
@@ -60,11 +61,11 @@
 ## Import Cycles
 - None detected.
 
-## Communities (31 total, 14 thin omitted)
+## Communities (32 total, 14 thin omitted)
 
 ### Community 0 - "Comunidade 0"
 Cohesion: 0.10
-Nodes (6): Settings, gompertz_func(), run_aviary_delta_correction(), gompertz_func(), run_zootecnic_kpis_experiment(), setup_logging()
+Nodes (6): Settings, gompertz_func(), run_aviary_delta_correction(), gompertz_func(), run_hybrid_tri_model(), setup_logging()
 
 ### Community 1 - "Comunidade 1"
 Cohesion: 0.21
@@ -83,38 +84,42 @@ Cohesion: 0.25
 Nodes (10): evaluate_model(), extract_field_features(), load_data(), main(), normalize_peso_kg(), field_weighing_weight_model.py -------------------------------- Modelo de Prediç, Calcula e exibe as métricas globais e por idade de amostragem., Uniformiza a escala de peso para Quilogramas (kg), convertendo gramas (> 10.0) p (+2 more)
 
 ### Community 5 - "Comunidade 5"
-Cohesion: 0.40
-Nodes (4): apply_rn13_isotonic_smoothing(), build_longitudinal_features(), build_longitudinal_features.py -------------------------------- Constrói o datas, RN-13: Identifica Inversão Biométrica (queda de peso > 5% entre pesagens)      e
+Cohesion: 0.25
+Nodes (7): draw_lightgbm_tree(), draw_stacking_architecture(), draw_xgboost_tree(), generate_champion_tree_plots.py --------------------------------- Gera os gráfic, Gera visualização completa do fluxo de árvores para o Meta-Ridge Regressor., Gera visualização esquemática e legível da árvore XGBoost (Level-Wise)., Gera visualização esquemática e legível da árvore LightGBM (Leaf-Wise).
 
 ### Community 6 - "Comunidade 6"
 Cohesion: 0.40
-Nodes (3): pytorch_tabular_model.py ------------------------- Rede Neural Profunda Tabular, run_pytorch_model(), TabularResNet
+Nodes (4): apply_rn13_isotonic_smoothing(), build_longitudinal_features(), build_longitudinal_features.py -------------------------------- Constrói o datas, RN-13: Identifica Inversão Biométrica (queda de peso > 5% entre pesagens)      e
 
 ### Community 7 - "Comunidade 7"
-Cohesion: 0.67
-Nodes (3): mean_absolute_percentage_error(), evaluate_final_champion_model.py ---------------------------------- Avaliação Co, run_champion_evaluation()
+Cohesion: 0.40
+Nodes (3): pytorch_tabular_model.py ------------------------- Rede Neural Profunda Tabular, run_pytorch_model(), TabularResNet
 
 ### Community 8 - "Comunidade 8"
 Cohesion: 0.67
-Nodes (3): mean_absolute_percentage_error(), gpu_optimization_loop.py ------------------------- Loop de Otimização Preditiva, run_gpu_optimization_loop()
+Nodes (3): mean_absolute_percentage_error(), evaluate_final_champion_model.py ---------------------------------- Avaliação Co, run_champion_evaluation()
 
 ### Community 9 - "Comunidade 9"
 Cohesion: 0.67
-Nodes (3): mean_absolute_percentage_error(), optimize_residual_blend.py ---------------------------- Otimização Bayesiana de, run_residual_optimization()
+Nodes (3): mean_absolute_percentage_error(), gpu_optimization_loop.py ------------------------- Loop de Otimização Preditiva, run_gpu_optimization_loop()
 
 ### Community 10 - "Comunidade 10"
 Cohesion: 0.67
-Nodes (3): mean_absolute_percentage_error(), push_mae_below_100.py ----------------------- Ajuste fino final para romper a ba, run_fine_tuning()
+Nodes (3): mean_absolute_percentage_error(), optimize_residual_blend.py ---------------------------- Otimização Bayesiana de, run_residual_optimization()
 
 ### Community 11 - "Comunidade 11"
 Cohesion: 0.67
-Nodes (3): gompertz_model(), Gompertz non-linear biological growth curve:     W(t) = A * exp(-b * exp(-k * t), train_and_evaluate()
+Nodes (3): mean_absolute_percentage_error(), push_mae_below_100.py ----------------------- Ajuste fino final para romper a ba, run_fine_tuning()
 
 ### Community 12 - "Comunidade 12"
 Cohesion: 0.67
-Nodes (3): mean_absolute_percentage_error(), train_xgb_oof_target_encoding.py --------------------------------- XGBoost GPU C, run_oof_target_encoding_experiment()
+Nodes (3): gompertz_model(), Gompertz non-linear biological growth curve:     W(t) = A * exp(-b * exp(-k * t), train_and_evaluate()
 
 ### Community 13 - "Comunidade 13"
+Cohesion: 0.67
+Nodes (3): mean_absolute_percentage_error(), train_xgb_oof_target_encoding.py --------------------------------- XGBoost GPU C, run_oof_target_encoding_experiment()
+
+### Community 14 - "Comunidade 14"
 Cohesion: 0.67
 Nodes (3): mean_absolute_percentage_error(), train_xgb_residual_target.py ------------------------------ Treinamento do XGBoo, run_residual_target_experiment()
 
@@ -126,8 +131,8 @@ Nodes (3): mean_absolute_percentage_error(), train_xgb_residual_target.py ------
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `setup_logging()` connect `Comunidade 0` to `Comunidade 3`, `Comunidade 11`, `Comunidade 24`, `Comunidade 25`, `Comunidade 26`?**
-  _High betweenness centrality (0.036) - this node is a cross-community bridge._
+- **Why does `setup_logging()` connect `Comunidade 0` to `Comunidade 3`, `Comunidade 12`, `Comunidade 25`, `Comunidade 26`, `Comunidade 27`?**
+  _High betweenness centrality (0.033) - this node is a cross-community bridge._
 - **Are the 3 inferred relationships involving `extract_fazenda()` (e.g. with `extract_and_load_sheet()` and `run_etl()`) actually correct?**
   _`extract_fazenda()` has 3 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `Settings` to the rest of the system?**

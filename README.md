@@ -90,13 +90,13 @@ Imagine uma balança industrial no abatedouro pesando um frango adulto de **$3.2
 
 Veja a comparação direta entre o **Peso Real Medido na Plataforma do Abatedouro** e o **Peso Previsto pela Inteligência Artificial** com 14 dias de antecedência:
 
-| Lote ID | Idade no Abate | Peso Real no Frigorífico | Peso Previsto pela IA | Diferença ($\Delta$) | Erro Relativo (%) | Avaliação de Campo |
+| Lote Composto (ID) | Idade no Abate | Peso Real no Frigorífico | Peso Previsto pela IA | Diferença ($\Delta$) | Erro Relativo (%) | Avaliação de Campo |
 |---|---|---|---|---|---|---|
-| **Lote #971** | 45 dias | **$3.126\text{g}$** | **$3.121\text{g}$** | **$-5\text{g}$** | **$0,16\%$** | 🎯 **Acerto Perfeito** |
-| **Lote #1119** | 45 dias | **$2.980\text{g}$** | **$2.996\text{g}$** | **$+16\text{g}$** | **$0,54\%$** | 🎯 **Acerto Perfeito** |
-| **Lote #705** | 46 dias | **$3.143\text{g}$** | **$3.117\text{g}$** | **$-26\text{g}$** | **$0,83\%$** | 🎯 **Excelente** |
-| **Lote #553** | 45 dias | **$2.950\text{g}$** | **$2.982\text{g}$** | **$+32\text{g}$** | **$1,08\%$** | ✅ **Dentro da Margem** |
-| **Lote #730** | 45 dias | **$3.061\text{g}$** | **$3.094\text{g}$** | **$+33\text{g}$** | **$1,09\%$** | ✅ **Dentro da Margem** |
+| **`8010-D0E7`** | 45 dias | **$3.126\text{g}$** | **$3.121\text{g}$** | **$-5\text{g}$** | **$0,16\%$** | 🎯 **Acerto Perfeito** |
+| **`1432-6E0D`** | 45 dias | **$2.980\text{g}$** | **$2.996\text{g}$** | **$+16\text{g}$** | **$0,54\%$** | 🎯 **Acerto Perfeito** |
+| **`6306-0F06`** | 46 dias | **$3.143\text{g}$** | **$3.117\text{g}$** | **$-26\text{g}$** | **$0,83\%$** | 🎯 **Excelente** |
+| **`3C8A-C434`** | 45 dias | **$2.950\text{g}$** | **$2.982\text{g}$** | **$+32\text{g}$** | **$1,08\%$** | ✅ **Dentro da Margem** |
+| **`614B-6C27`** | 45 dias | **$3.061\text{g}$** | **$3.094\text{g}$** | **$+33\text{g}$** | **$1,09\%$** | ✅ **Dentro da Margem** |
 
 ---
 
