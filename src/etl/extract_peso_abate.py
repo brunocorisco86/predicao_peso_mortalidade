@@ -66,9 +66,7 @@ def extract_and_load_peso_abate():
         if pd.isna(lote_str):
             return None
         parts = str(lote_str).split('-')
-        if parts[0].isdigit():
-            return int(parts[0])
-        return None
+        return parts[0]
 
     df['fazenda'] = df['lote_composto'].apply(extract_fazenda)
 

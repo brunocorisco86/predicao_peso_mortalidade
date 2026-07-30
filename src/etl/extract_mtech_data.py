@@ -60,12 +60,8 @@ def extract_fazenda(lote_composto_value):
         return None
     val_str = str(lote_composto_value).strip()
     if '-' in val_str:
-        first_part = val_str.split('-')[0]
-        if first_part.isdigit():
-            return int(first_part)
-    elif val_str.isdigit():
-        return int(val_str)
-    return None
+        return val_str.split('-')[0]
+    return val_str
 
 # --- Main ETL Logic --- #
 def run_etl():
@@ -178,9 +174,9 @@ def run_etl():
         logger.info(f"Rows after age filter: {rows_after_age_filter} (Dropped {rows_after_dedup - rows_after_age_filter})")
         logger.info(f"Age distribution:\n{master_df['idade_ref'].value_counts().sort_index()}")
 
-    # 3. Cast fazenda to INTEGER
+    # 3. Cast fazenda to String
     if 'fazenda' in master_df.columns:
-        master_df['fazenda'] = pd.to_numeric(master_df['fazenda'], errors='coerce').astype('Int64')
+        master_df['fazenda'] = master_df['fazenda'].astype(str)
 
     final_rows = len(master_df)
     logger.info(f"Final rows ready for DB: {final_rows}")

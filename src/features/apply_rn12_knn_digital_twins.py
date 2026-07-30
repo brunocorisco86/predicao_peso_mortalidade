@@ -74,7 +74,7 @@ def apply_rn12_to_database():
     # Montar dataset unificado no nível do lote
     df_lote_base = df_conf.merge(df_abate[['lote_composto', 'idade_abate', 'peso_abate_g']], on='lote_composto', how='inner')
     if 'fazenda' not in df_lote_base.columns:
-        df_lote_base['fazenda'] = df_lote_base['lote_composto'].apply(lambda x: int(str(x).split('-')[0]) if '-' in str(x) else None)
+        df_lote_base['fazenda'] = df_lote_base['lote_composto'].apply(lambda x: str(x).split('-')[0] if '-' in str(x) else None)
         
     df_lote_base = df_lote_base.merge(df_var, on='lote_composto', how='left', suffixes=('', '_var'))
     df_lote_base = df_lote_base.merge(df_const, on='fazenda', how='left', suffixes=('', '_const'))

@@ -4,6 +4,16 @@ Todas as alterações relevantes, refatorações, auditorias e atualizações de
 
 ---
 
+## [v2.6.0] - 2026-07-30
+
+### 🔒 Segurança, Privacidade & Open-Source (RN-14)
+* **Anonimização Determinística com Faker (pt_BR):** Nomes reais de produtores (`produtor`), fazendas (`nome_fazenda`), extensionistas (`extensionista`) e usuários (`id_usurio`) substituídos por dados sintéticos determinísticos.
+* **Codificação Hexadecimal de 4 Caracteres:** Número de aviário/fazenda (`fazenda`) e lote (`lote`) convertidos em strings hexadecimais de 4 caracteres (ex: `3A1F`, `02B4`), com `lote_composto` padronizado como `<aviario_hex>-<lote_hex>`.
+* **Regra de Negócio RN-14:** Formalizada em `docs/regras_de_negocio/rn14_anonimizacao_hash_hexadecimal.md` preservando a estrutura conceitual das regras RN-06 e RN-07.
+* **Saneamento Completo de Artefatos:** Atualizados banco de dados SQLite (`database/prediction_data.db`), datasets CSVs em `data/processed/`, DDLs em `docs/db_schema.sql` e scripts ETL/ML.
+
+---
+
 ## [v2.5.0] - 2026-07-30
 
 ### 🌟 Adicionado

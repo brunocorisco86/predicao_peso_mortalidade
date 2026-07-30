@@ -133,6 +133,7 @@ Todas as transformações, filtros biológicos e tratamentos zootécnicos estão
 11. 📌 **[RN-11: Gateway de Elegibilidade para o Modelo Direto ML](docs/regras_de_negocio/rn11_gateway_elegibilidade_ml.md):** Exige $\text{Score} \ge 7,5$ e pesagem aos 35d para uso do Stacking GPU; lotes restantes usam o Fallback da Fazenda.
 12. 📌 **[RN-12: Gêmeos Digitais por Matriz KNN de Fazenda](docs/regras_de_negocio/rn12_gemeos_digitais_knn.md):** Matriz de similaridade $K=15$ lotes vizinhos para imputação contextual sem data leakage.
 13. 📌 **[RN-13: Suavização Isotônica Monotônica Não-Decrescente](docs/regras_de_negocio/rn13_suavizacao_isotonica_monotonica.md):** Corrige inversões biométricas no campo ($W_{t+1} < 0,95 W_t$) via `IsotonicRegression`.
+14. 📌 **[RN-14: Anonimização de Dados Sensíveis e Codificação Hexadecimal](docs/regras_de_negocio/rn14_anonimizacao_hash_hexadecimal.md):** Codifica aviário e lote em 4 caracteres hexadecimais (ex: `3A1F-02B4`) e anonimiza produtores, extensionistas e usuários com `Faker('pt_BR')`.
 
 ---
 

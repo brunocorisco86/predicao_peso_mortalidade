@@ -148,14 +148,12 @@ def extract_and_load_sheet(sheet_name, excel_path, db_path, header_map):
                 return res.replace('-0', '-')
             df['lote_composto'] = df['lote_composto'].apply(clean_lote)
 
-            # Adicionar coluna fazenda (RN-06: número antes do hífen)
+            # Adicionar coluna fazenda (número/hex antes do hífen)
             def extract_fazenda(lote_str):
                 if pd.isna(lote_str) or lote_str is None:
                     return None
                 parts = str(lote_str).split('-')
-                if parts[0].isdigit():
-                    return int(parts[0])
-                return None
+                return parts[0]
             df['fazenda'] = df['lote_composto'].apply(extract_fazenda)
 
         # 5. retire os prefixos 'bin_' e sufixo '_bin' quando houverem (from values)
