@@ -39,7 +39,11 @@ def export_unified_data():
             sc.categoria_amostragem,
             sc.elegivel_rn11,
             sc.motivo_inelegibilidade,
-            sc.estrategia_predicao
+            sc.estrategia_predicao,
+            rn12.knn_pred_weight_k15,
+            rn12.knn_pred_weight_k30,
+            rn12.knn_neighbor_std_k15,
+            rn12.knn_dist_nearest
         FROM
             extracao_mtech_data emd
         LEFT JOIN
@@ -49,7 +53,9 @@ def export_unified_data():
         LEFT JOIN
             peso_abate pa ON emd.lote_composto = pa.lote_composto
         LEFT JOIN
-            lote_sampling_confidence sc ON emd.lote_composto = sc.lote_composto;
+            lote_sampling_confidence sc ON emd.lote_composto = sc.lote_composto
+        LEFT JOIN
+            lote_rn12_digital_twins rn12 ON emd.lote_composto = rn12.lote_composto;
         """
 
         df = pd.read_sql_query(query, conn)
