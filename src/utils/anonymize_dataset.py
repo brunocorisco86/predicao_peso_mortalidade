@@ -197,12 +197,75 @@ def anonymize_csv_files(processed_dir: str, anonymizer: DatasetAnonymizer):
             
     print("✅ Arquivos CSV anonimizados com sucesso!")
 
+def anonymize_raw_excel_files(raw_dir: str, anonymizer: DatasetAnonymizer):
+    print(f"Anonimizando arquivos Excel brutos em {raw_dir}...")
+    raw_path = Path(raw_dir)
+    
+    for excel_file in raw_path.rglob("*.xlsx"):
+        if excel_file.name.startswith("~") or excel_file.name.startswith(".~lock"):
+            continue
+        print(f"  - Anonimizando arquivo bruto: {excel_file.relative_to(raw_path)}...")
+        try:
+            xl = pd.ExcelFile(excel_file)
+            sheets_dict = {}
+            for sheet in xl.sheet_names:
+                df = pd.read_excel(excel_file, sheet_name=sheet)
+                
+                # Check for lote / lote_composto variations
+                for col in ['lote_composto', 'LoteComposto', 'Lote Composto', 'lote composto']:
+                    if col in df.columns:
+                        df[col] = df[col].apply(anonymizer.transform_lote_composto)
+                        
+                # Check for fazenda variations
+                for col in ['fazenda', 'Fazenda', 'aviario']:
+                    if col in df.columns:
+                        df[col] = df[col].apply(anonymizer.get_fazenda_hex)
+                        
+                # Check for produtor variations
+                for col in ['produtor', 'Produtor']:
+                    if col in df.columns:
+                        df[col] = df[col].apply(anonymizer.get_fake_produtor)
+                        
+                # Check for nome_fazenda variations
+                for col in ['nome_fazenda', 'Nome Fazenda']:
+                    if col in df.columns:
+                        df[col] = df[col].apply(anonymizer.get_fake_nome_fazenda)
+                        
+                # Check for extensionista variations
+                for col in ['extensionista', 'Extensionista']:
+                    if col in df.columns:
+                        df[col] = df[col].apply(anonymizer.get_fake_extensionista)
+                        
+                # Check for usuario variations
+                for col in ['id_usurio_criao', 'ID Usuário Criação']:
+                    if col in df.columns:
+                        df[col] = df[col].apply(anonymizer.get_fake_usuario)
+                        
+                for col in ['id_usurio', 'ID Usuário']:
+                    if col in df.columns:
+                        df[col] = df[col].apply(anonymizer.get_fake_usuario)
+                        
+                sheets_dict[sheet] = df
+                
+            with pd.ExcelWriter(excel_file, engine='openpyxl') as writer:
+                for sheet, df in sheets_dict.items():
+                    df.to_excel(writer, sheet_name=sheet, index=False)
+                    
+        except Exception as e:
+            print(f"    ⚠️ Erro ao processar {excel_file.name}: {e}")
+            
+    print("✅ Arquivos Excel brutos anonimizados com sucesso!")
+
 def run_all_anonymization():
     anonymizer = DatasetAnonymizer(seed=42)
     
     db_path = str(PROJECT_ROOT / "database" / "prediction_data.db")
     processed_dir = str(PROJECT_ROOT / "data" / "processed")
+    raw_dir = str(PROJECT_ROOT / "data" / "raw")
     
+    if os.path.exists(raw_dir):
+        anonymize_raw_excel_files(raw_dir, anonymizer)
+
     if os.path.exists(db_path):
         anonymize_database(db_path, anonymizer)
         

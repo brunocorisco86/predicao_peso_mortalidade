@@ -5,8 +5,8 @@
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 181 nodes · 226 edges · 32 communities (18 shown, 14 thin omitted)
-- Extraction: 96% EXTRACTED · 4% INFERRED · 0% AMBIGUOUS · INFERRED: 8 edges (avg confidence: 0.57)
+- 182 nodes · 229 edges · 32 communities (18 shown, 14 thin omitted)
+- Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 8 edges (avg confidence: 0.57)
 - Token cost: 0 input · 0 output
 
 ## Community Hubs (Navigation)
@@ -42,15 +42,15 @@
 
 ## God Nodes (most connected - your core abstractions)
 1. `setup_logging()` - 18 edges
-2. `DatasetAnonymizer` - 12 edges
+2. `DatasetAnonymizer` - 13 edges
 3. `main()` - 10 edges
 4. `extract_fazenda()` - 5 edges
 5. `gompertz_func()` - 5 edges
 6. `fit_global_gompertz()` - 5 edges
 7. `predict_batch_gompertz()` - 5 edges
-8. `run_etl()` - 4 edges
-9. `TabularResNet` - 4 edges
-10. `load_data()` - 4 edges
+8. `run_all_anonymization()` - 5 edges
+9. `run_etl()` - 4 edges
+10. `TabularResNet` - 4 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `extract_and_load_peso_abate()` --indirect_call--> `extract_fazenda()`  [INFERRED]
@@ -65,7 +65,7 @@
 
 ### Community 0 - "Comunidade 0"
 Cohesion: 0.10
-Nodes (6): Settings, gompertz_func(), run_aviary_delta_correction(), gompertz_func(), run_hybrid_tri_model(), setup_logging()
+Nodes (6): Settings, gompertz_func(), run_aviary_relative_error_experiment(), gompertz_func(), run_hybrid_tri_model(), setup_logging()
 
 ### Community 1 - "Comunidade 1"
 Cohesion: 0.21
@@ -73,7 +73,7 @@ Nodes (17): analyze_residuals(), evaluate_by_confidence(), evaluate_classificati
 
 ### Community 2 - "Comunidade 2"
 Cohesion: 0.22
-Nodes (5): anonymize_csv_files(), anonymize_database(), DatasetAnonymizer, src/utils/anonymize_dataset.py -------------------------------- Utilitário de an, run_all_anonymization()
+Nodes (6): anonymize_csv_files(), anonymize_database(), anonymize_raw_excel_files(), DatasetAnonymizer, src/utils/anonymize_dataset.py -------------------------------- Utilitário de an, run_all_anonymization()
 
 ### Community 3 - "Comunidade 3"
 Cohesion: 0.21
@@ -131,7 +131,7 @@ Nodes (3): mean_absolute_percentage_error(), train_xgb_residual_target.py ------
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `setup_logging()` connect `Comunidade 0` to `Comunidade 3`, `Comunidade 12`, `Comunidade 25`, `Comunidade 26`, `Comunidade 27`?**
+- **Why does `setup_logging()` connect `Comunidade 0` to `Comunidade 3`, `Comunidade 12`, `Comunidade 23`, `Comunidade 25`, `Comunidade 26`, `Comunidade 27`?**
   _High betweenness centrality (0.033) - this node is a cross-community bridge._
 - **Are the 3 inferred relationships involving `extract_fazenda()` (e.g. with `extract_and_load_sheet()` and `run_etl()`) actually correct?**
   _`extract_fazenda()` has 3 INFERRED edges - model-reasoned connections that need verification._
