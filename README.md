@@ -35,14 +35,21 @@ graph TD
 
 ## 📋 2. Regras de Negócio Implementadas (RN-01 a RN-13)
 
-Todas as transformações, tratamentos zootécnicos e de qualidade de dados estão formalizados em [`docs/regras_de_negocio_abate.md`](file:///home/brunoconter/Documentos/1_C.VALE/1%20-%20ANALISES/10%20-%20PESO%20DAS%20AVES/prediction_weight_mortality/docs/regras_de_negocio_abate.md):
+Todas as transformações, filtros biológicos e tratamentos zootécnicos estão documentados individualmente com YAML frontmatter na pasta [`docs/regras_de_negocio/`](docs/regras_de_negocio/):
 
-* **RN-01 a RN-05:** Limites biológicos de abate ($42-60\text{d}$, $1,8-4,8\text{kg}$), sanidade plausível e remoção de outliers IQR.
-* **RN-06 e RN-07:** Estruturação da chave relacional 1:1 `lote_composto` e cast do campo `fazenda` para `INTEGER`.
-* **RN-08:** Coerção de taxas relativas em % (`_mortalidade`, `_descartados`) para evitar colinearidade.
-* **RN-09 a RN-11:** Score de confiança de amostragem e Gateway de Elegibilidade para o Modelo Direto de ML.
-* **RN-12:** Matriz de Gêmeos Digitais ($K=15$ lotes parecidos) para imputação contextual sem data leakage.
-* **RN-13:** Tratamento de Inversão Biométrica via **Regressão Isotônica Monotônica Não-Decrescente** ($W_{t+1} \ge W_t$).
+1. 📌 **[RN-01: Filtro Biológico de Idade de Abate](docs/regras_de_negocio/rn01_filtro_idade_abate.md):** Restringe o conjunto de abate para idades comerciais válidas entre 42 e 60 dias de criatório ($42 \le \text{idade} \le 60\text{d}$).
+2. 📌 **[RN-02: Filtro Biológico de Peso Plausível](docs/regras_de_negocio/rn02_filtro_peso_plausivel.md):** Valida pesos médios de lote no abatedouro entre $1.800\text{g}$ e $4.800\text{g}$ para descarte de erros de digitação.
+3. 📌 **[RN-03: Remoção de Outliers via IQR](docs/regras_de_negocio/rn03_remocao_outliers_iqr.md):** Aplica o filtro de Tukey ($1,5 \times \text{IQR}$) por faixa etária semanal nas pesagens de campo MTech.
+4. 📌 **[RN-04: Eliminação de Duplicatas Absolutas](docs/regras_de_negocio/rn04_eliminacao_duplicatas.md):** Deduplica registros idênticos originados por retransmissão de dados de dispositivos móveis.
+5. 📌 **[RN-05: Saneamento de Cronologia de Datas](docs/regras_de_negocio/rn05_saneamento_datas.md):** Garante a sanidade cronológica $\text{Data Alojamento} \le \text{Data Evento} \le \text{Data Abate}$.
+6. 📌 **[RN-06: Padronização da Chave Relacional (Lote Composto)](docs/regras_de_negocio/rn06_padronizacao_chave_lote.md):** Concatena `fazenda-produtor-lote` para formação da chave primária 1:1.
+7. 📌 **[RN-07: Coerção Numérica do Código da Fazenda](docs/regras_de_negocio/rn07_coercao_fazenda_integer.md):** Força o cast da coluna `fazenda` para `INTEGER`, eliminando sufixos flutuantes `.0`.
+8. 📌 **[RN-08: Priorização de Taxas Relativas (%)](docs/regras_de_negocio/rn08_taxas_relativas_percentuais.md):** Coerção de variáveis de mortalidade e descartes para taxas percentuais (`_mortalidade`, `_descartados`) ajustadas pela densidade.
+9. 📌 **[RN-09: Idades de Referência de Amostragem](docs/regras_de_negocio/rn09_idades_referencia_amostragem.md):** Mapeia as pesagens nas 7 faixas etárias padrão ($4, 7, 14, 21, 28, 35, 42 \pm 1\text{d}$).
+10. 📌 **[RN-10: Score de Confiança de Amostragem do Lote](docs/regras_de_negocio/rn10_score_confianca_lote.md):** Mensura a qualidade e cobertura amostral do lote em uma escala sintética de $0,0$ a $10,0$.
+11. 📌 **[RN-11: Gateway de Elegibilidade para o Modelo Direto ML](docs/regras_de_negocio/rn11_gateway_elegibilidade_ml.md):** Exige $\text{Score} \ge 7,5$ e pesagem aos 35d para uso do Stacking GPU; lotes restantes usam o Fallback da Fazenda.
+12. 📌 **[RN-12: Gêmeos Digitais por Matriz KNN de Fazenda](docs/regras_de_negocio/rn12_gemeos_digitais_knn.md):** Matriz de similaridade $K=15$ lotes vizinhos para imputação contextual sem data leakage.
+13. 📌 **[RN-13: Suavização Isotônica Monotônica Não-Decrescente](docs/regras_de_negocio/rn13_suavizacao_isotonica_monotonica.md):** Corrige inversões biométricas no campo ($W_{t+1} < 0,95 W_t$) via `IsotonicRegression`.
 
 ---
 
