@@ -199,16 +199,16 @@ def generate_plot_suite():
     plt.savefig(STAT_DIR / "02_qq_plot_normalidade_residuos.png", dpi=300)
     plt.close()
     
-    # Plot E3: Heatmap de Densidade 2D (Hexbin) + Linha de Identidade 1:1
+    # Plot E3: Heatmap de Densidade 2D (Hexbin) + Linha de Identidade 1:1 (Frio para Quente)
     plt.figure(figsize=(10, 7))
-    hb = plt.hexbin(y, oof_preds, gridsize=50, cmap='YlOrRd', mincnt=1, edgecolors='none')
+    hb = plt.hexbin(y, oof_preds, gridsize=50, cmap='turbo', mincnt=1, edgecolors='none')
     cb = plt.colorbar(hb)
-    cb.set_label('Concentração / Densidade de Lotes', fontsize=11, fontweight='bold')
+    cb.set_label('Concentração de Lotes (Azul Frio = Poucos Lotes ➔ Vermelho Quente = Alta Densidade)', fontsize=11, fontweight='bold')
     
     min_v, max_v = min(y.min(), oof_preds.min()), max(y.max(), oof_preds.max())
-    plt.plot([min_v, max_v], [min_v, max_v], color='blue', linestyle='--', linewidth=2.5, label='Linha de Identidade Ideal (1:1)')
-    plt.fill_between([min_v, max_v], [min_v - 150, max_v - 150], [min_v + 150, max_v + 150], color='blue', alpha=0.1, label='Banda de Tolerância Operacional PCP (±150g)')
-    plt.title('3. Heatmap de Densidade 2D (Observado vs Predito) com Banda de Tolerância PCP', fontsize=13, fontweight='bold')
+    plt.plot([min_v, max_v], [min_v, max_v], color='black', linestyle='--', linewidth=2.5, label='Linha de Identidade Ideal (1:1)')
+    plt.fill_between([min_v, max_v], [min_v - 150, max_v - 150], [min_v + 150, max_v + 150], color='gray', alpha=0.15, label='Banda de Tolerância Operacional PCP (±150g)')
+    plt.title('3. Heatmap de Densidade 2D (Frio ➔ Quente: Azul a Vermelho) com Banda de Tolerância PCP', fontsize=13, fontweight='bold')
     plt.xlabel('Peso Real no Abate Frigorífico (g)', fontsize=11, fontweight='bold')
     plt.ylabel('Peso Predito pelo Stacking GPU (g)', fontsize=11, fontweight='bold')
     plt.legend(loc='upper left', frameon=True, facecolor='white', framealpha=0.9)
