@@ -79,6 +79,25 @@ def calculate_confidence():
         pts_42d = 2.0 if tem_42d == 1 else 0.0
         
         score_confianca_lote = round(pts_qtd + pts_35d + pts_42d, 2)
+
+        # RN-11: Delineamento Amostral Mínimo para Modelagem Preditiva Direta
+        # Requisitos: >=3 pesagens, presenca de 35d E score >= 7.5 (Ouro ou Prata)
+        motivos = []
+        if tem_35d == 0:
+            motivos.append("Ausência de pesagem aos 35d")
+        if qtd_pesagens < 3:
+            motivos.append("Menos de 3 pesagens válidas")
+        if score_confianca_lote < 7.5:
+            motivos.append(f"Score de confiança insuficiente ({score_confianca_lote:.2f} < 7.5)")
+            
+        if len(motivos) == 0:
+            elegivel_rn11 = 1
+            motivo_inelegibilidade = "Nenhum (Lote Conforme RN-11)"
+            estrategia_predicao = "Modelo Direto (Gompertz / ML)"
+        else:
+            elegivel_rn11 = 0
+            motivo_inelegibilidade = " | ".join(motivos)
+            estrategia_predicao = "Fallback Conservador (Média da Fazenda / Histórico)"
         
         records.append({
             'lote_composto': lote,
@@ -90,7 +109,10 @@ def calculate_confidence():
             'tem_pesagem_42d': tem_42d,
             'elegivel_modelo': elegivel_modelo,
             'categoria_amostragem': categoria_amostragem,
-            'score_confianca_lote': score_confianca_lote
+            'score_confianca_lote': score_confianca_lote,
+            'elegivel_rn11': elegivel_rn11,
+            'motivo_inelegibilidade': motivo_inelegibilidade,
+            'estrategia_predicao': estrategia_predicao
         })
         
     df_lotes = pd.DataFrame(records)
@@ -110,22 +132,21 @@ def calculate_confidence():
     df_lotes.to_sql('lote_sampling_confidence', conn, if_exists='replace', index=False)
     conn.close()
     
-    # Estatísticas de Elegibilidade
+    # Estatísticas de Elegibilidade RN-11
     tot_lotes = len(df_lotes)
-    tot_elegiveis = df_lotes['elegivel_modelo'].sum()
-    pct_elegivel = (tot_elegiveis / tot_lotes) * 100.0
+    tot_rn11 = df_lotes['elegivel_rn11'].sum()
+    pct_rn11 = (tot_rn11 / tot_lotes) * 100.0
     
     logger.info("=======================================================")
-    logger.info(" 🎯 RESULTADOS DA RN-09 E RN-10 (CONFIANÇA DE AMOSTRAGEM)")
+    logger.info(" 🎯 RESULTADOS DA APLICAÇÃO DA RN-11 (DELINEAMENTO MÍNIMO)")
     logger.info("=======================================================")
     logger.info(f" Total de Lotes Analisados: {tot_lotes:,}")
-    logger.info(f" Lotes Elegíveis para o Modelo (RN-09): {tot_elegiveis:,} ({pct_elegivel:.2f}%)")
-    logger.info(f" Lotes Inelegíveis Descartados: {tot_lotes - tot_elegiveis:,} ({100-pct_elegivel:.2f}%)")
-    logger.info(f" Score Médio de Confiança dos Lotes (RN-10): {df_lotes['score_confianca_lote'].mean():.2f} / 10.0")
+    logger.info(f" Lotes Elegíveis para Modelo Direto (RN-11): {tot_rn11:,} ({pct_rn11:.2f}%)")
+    logger.info(f" Lotes Direcionados para Fallback (RN-11): {tot_lotes - tot_rn11:,} ({100-pct_rn11:.2f}%)")
     logger.info("-------------------------------------------------------")
-    logger.info(" Distribuição por Categoria de Maturidade de Amostragem:")
-    for cat, count in df_lotes['categoria_amostragem'].value_counts().items():
-        logger.info(f"  - {cat}: {count:,} lotes ({count/tot_lotes*100:.1f}%)")
+    logger.info(" Distribuição por Estratégia de Predição:")
+    for est, count in df_lotes['estrategia_predicao'].value_counts().items():
+        logger.info(f"  - {est}: {count:,} lotes ({count/tot_lotes*100:.1f}%)")
     logger.info("=======================================================")
     
     return df_lotes

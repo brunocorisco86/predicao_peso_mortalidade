@@ -34,7 +34,12 @@ def export_unified_data():
             pa.data_producao AS data_producao_abate,
             pa.peso_medio_abate_kg,
             pa.peso_abate_g,
-            pa.gmd_abate
+            pa.gmd_abate,
+            sc.score_confianca_lote,
+            sc.categoria_amostragem,
+            sc.elegivel_rn11,
+            sc.motivo_inelegibilidade,
+            sc.estrategia_predicao
         FROM
             extracao_mtech_data emd
         LEFT JOIN
@@ -42,7 +47,9 @@ def export_unified_data():
         LEFT JOIN
             constantes c ON emd.fazenda = c.fazenda
         LEFT JOIN
-            peso_abate pa ON emd.lote_composto = pa.lote_composto;
+            peso_abate pa ON emd.lote_composto = pa.lote_composto
+        LEFT JOIN
+            lote_sampling_confidence sc ON emd.lote_composto = sc.lote_composto;
         """
 
         df = pd.read_sql_query(query, conn)
