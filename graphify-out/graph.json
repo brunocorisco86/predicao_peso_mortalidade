@@ -100,7 +100,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "scripts_run_traditional_graphify",
-      "community": 16,
+      "community": 17,
       "norm_label": "run_traditional_graphify.py"
     },
     {
@@ -110,7 +110,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "scripts_run_traditional_graphify_run_traditional",
-      "community": 16,
+      "community": 17,
       "norm_label": "run_traditional()"
     },
     {
@@ -120,7 +120,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "scripts_run_traditional_graphify_rationale_1",
-      "community": 16,
+      "community": 17,
       "norm_label": "run_traditional_graphify.py ---------------------------- executa o graphify pelo"
     },
     {
@@ -152,6 +152,36 @@
       "id": "scripts_create_champion_notebook_rationale_1",
       "community": 14,
       "norm_label": "create_champion_notebook.py ---------------------------- gera o jupyter notebook"
+    },
+    {
+      "label": "generate_rn_documents.py",
+      "file_type": "code",
+      "source_file": "scripts/generate_rn_documents.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "scripts_generate_rn_documents",
+      "community": 16,
+      "norm_label": "generate_rn_documents.py"
+    },
+    {
+      "label": "generate_all_rn_docs()",
+      "file_type": "code",
+      "source_file": "scripts/generate_rn_documents.py",
+      "source_location": "L506",
+      "_origin": "ast",
+      "id": "scripts_generate_rn_documents_generate_all_rn_docs",
+      "community": 16,
+      "norm_label": "generate_all_rn_docs()"
+    },
+    {
+      "label": "generate_rn_documents.py ------------------------- Gera um documento Markdown de",
+      "file_type": "rationale",
+      "source_file": "scripts/generate_rn_documents.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "scripts_generate_rn_documents_rationale_1",
+      "community": 16,
+      "norm_label": "generate_rn_documents.py ------------------------- gera um documento markdown de"
     },
     {
       "label": "create_complete_champion_notebook.py",
@@ -190,7 +220,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_calculate_sampling_confidence",
-      "community": 18,
+      "community": 19,
       "norm_label": "calculate_sampling_confidence.py"
     },
     {
@@ -200,7 +230,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "src_features_calculate_sampling_confidence_calculate_confidence",
-      "community": 18,
+      "community": 19,
       "norm_label": "calculate_confidence()"
     },
     {
@@ -210,7 +240,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_calculate_sampling_confidence_rationale_1",
-      "community": 18,
+      "community": 19,
       "norm_label": "calculate_sampling_confidence.py ---------------------------------- calcula os c"
     },
     {
@@ -220,7 +250,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_generate_rn11_rn12_plots",
-      "community": 19,
+      "community": 20,
       "norm_label": "generate_rn11_rn12_plots.py"
     },
     {
@@ -230,7 +260,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "src_features_generate_rn11_rn12_plots_generate_dashboard",
-      "community": 19,
+      "community": 20,
       "norm_label": "generate_dashboard()"
     },
     {
@@ -240,7 +270,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_generate_rn11_rn12_plots_rationale_1",
-      "community": 19,
+      "community": 20,
       "norm_label": "generate_rn11_rn12_plots.py ---------------------------- gera o dashboard visual"
     },
     {
@@ -250,7 +280,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_apply_rn12_knn_digital_twins",
-      "community": 17,
+      "community": 18,
       "norm_label": "apply_rn12_knn_digital_twins.py"
     },
     {
@@ -260,7 +290,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "src_features_apply_rn12_knn_digital_twins_apply_rn12_to_database",
-      "community": 17,
+      "community": 18,
       "norm_label": "apply_rn12_to_database()"
     },
     {
@@ -270,7 +300,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_apply_rn12_knn_digital_twins_rationale_1",
-      "community": 17,
+      "community": 18,
       "norm_label": "apply_rn12_knn_digital_twins.py --------------------------------- aplica a regra"
     },
     {
@@ -830,7 +860,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_models_aviary_delta_correction_model",
-      "community": 20,
+      "community": 0,
       "norm_label": "aviary_delta_correction_model.py"
     },
     {
@@ -840,7 +870,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_models_aviary_delta_correction_model_gompertz_func",
-      "community": 20,
+      "community": 0,
       "norm_label": "gompertz_func()"
     },
     {
@@ -850,7 +880,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_models_aviary_delta_correction_model_run_aviary_delta_correction",
-      "community": 20,
+      "community": 0,
       "norm_label": "run_aviary_delta_correction()"
     },
     {
@@ -900,7 +930,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_models_train_compare_ml_models",
-      "community": 26,
+      "community": 27,
       "norm_label": "train_compare_ml_models.py"
     },
     {
@@ -910,7 +940,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_models_train_compare_ml_models_mean_absolute_percentage_error",
-      "community": 26,
+      "community": 27,
       "norm_label": "mean_absolute_percentage_error()"
     },
     {
@@ -920,7 +950,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "src_models_train_compare_ml_models_run_experiment",
-      "community": 26,
+      "community": 27,
       "norm_label": "run_experiment()"
     },
     {
@@ -1460,7 +1490,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_models_test_zootecnic_kpis_model",
-      "community": 0,
+      "community": 26,
       "norm_label": "test_zootecnic_kpis_model.py"
     },
     {
@@ -1470,7 +1500,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_models_test_zootecnic_kpis_model_gompertz_func",
-      "community": 0,
+      "community": 26,
       "norm_label": "gompertz_func()"
     },
     {
@@ -1480,7 +1510,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_models_test_zootecnic_kpis_model_run_zootecnic_kpis_experiment",
-      "community": 0,
+      "community": 26,
       "norm_label": "run_zootecnic_kpis_experiment()"
     },
     {
@@ -1490,7 +1520,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_explainability_generate_shap_analysis",
-      "community": 27,
+      "community": 28,
       "norm_label": "generate_shap_analysis.py"
     },
     {
@@ -1500,7 +1530,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "src_explainability_generate_shap_analysis_main",
-      "community": 27,
+      "community": 28,
       "norm_label": "main()"
     },
     {
@@ -1550,7 +1580,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_utils_read_table_samples",
-      "community": 29,
+      "community": 30,
       "norm_label": "read_table_samples.py"
     },
     {
@@ -1560,7 +1590,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_utils_read_db_schema",
-      "community": 28,
+      "community": 29,
       "norm_label": "read_db_schema.py"
     }
   ],
@@ -1806,6 +1836,28 @@
       "_origin": "ast",
       "source": "scripts_create_champion_notebook_rationale_1",
       "target": "scripts_create_champion_notebook",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate_rn_documents.py",
+      "source_location": "L506",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_generate_rn_documents",
+      "target": "scripts_generate_rn_documents_generate_all_rn_docs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate_rn_documents.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_generate_rn_documents_rationale_1",
+      "target": "scripts_generate_rn_documents",
       "confidence_score": 1.0
     },
     {
@@ -3807,5 +3859,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "602ec343215443e1ef31ce0d99c13fd5d5f70a0e"
+  "built_at_commit": "7f996932803ab284be7714f1975991f5bf231bb8"
 }

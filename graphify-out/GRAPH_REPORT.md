@@ -1,11 +1,11 @@
 # Graph Report - /home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality  (2026-07-30)
 
 ## Corpus Check
-- 44 files · ~55,000 words
+- 45 files · ~55,000 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 156 nodes · 196 edges · 30 communities (16 shown, 14 thin omitted)
+- 159 nodes · 198 edges · 31 communities (16 shown, 15 thin omitted)
 - Extraction: 96% EXTRACTED · 4% INFERRED · 0% AMBIGUOUS · INFERRED: 8 edges (avg confidence: 0.57)
 - Token cost: 0 input · 0 output
 
@@ -37,6 +37,7 @@
 - Módulo do Projeto 24
 - Módulo do Projeto 25
 - Módulo do Projeto 26
+- Módulo do Projeto 27
 
 ## God Nodes (most connected - your core abstractions)
 1. `setup_logging()` - 17 edges
@@ -59,11 +60,11 @@
 ## Import Cycles
 - None detected.
 
-## Communities (30 total, 14 thin omitted)
+## Communities (31 total, 15 thin omitted)
 
 ### Community 0 - "Infraestrutura & ETL SQLite"
 Cohesion: 0.11
-Nodes (4): Settings, gompertz_func(), run_zootecnic_kpis_experiment(), setup_logging()
+Nodes (4): Settings, gompertz_func(), run_aviary_delta_correction(), setup_logging()
 
 ### Community 1 - "Engenharia de Features Longitudinais & RN-13"
 Cohesion: 0.21
@@ -116,13 +117,13 @@ Nodes (3): mean_absolute_percentage_error(), train_xgb_residual_target.py ------
 ## Knowledge Gaps
 - **1 isolated node(s):** `Settings`
   These have ≤1 connection - possible missing edges or undocumented components.
-- **14 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **15 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `setup_logging()` connect `Infraestrutura & ETL SQLite` to `Modelagem Preditiva Stacking & OOF Target Encoding`, `Módulo do Projeto 10`, `Módulo do Projeto 20`, `Módulo do Projeto 23`, `Módulo do Projeto 24`, `Módulo do Projeto 25`?**
-  _High betweenness centrality (0.042) - this node is a cross-community bridge._
+- **Why does `setup_logging()` connect `Infraestrutura & ETL SQLite` to `Modelagem Preditiva Stacking & OOF Target Encoding`, `Módulo do Projeto 10`, `Módulo do Projeto 23`, `Módulo do Projeto 24`, `Módulo do Projeto 25`, `Módulo do Projeto 26`?**
+  _High betweenness centrality (0.040) - this node is a cross-community bridge._
 - **Are the 3 inferred relationships involving `extract_fazenda()` (e.g. with `extract_and_load_sheet()` and `run_etl()`) actually correct?**
   _`extract_fazenda()` has 3 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `Settings` to the rest of the system?**
