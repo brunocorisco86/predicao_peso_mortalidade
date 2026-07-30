@@ -26,6 +26,7 @@ Este documento define formalmente as regras de negócio, limites biológicos e p
 | **RN-09: Elegibilidade Mínima de Pesagens** | `qtd_pesagens`, `tem_pesagem_35d` | Mínimo 3 pesagens + Pesagem obrigatória de 35d | Para entrada no modelo preditivo, o lote DEVE ter no mínimo 3 pesagens de campo e obrigatoriamente a pesagem dos 35 dias (janela 33-37d). Lotes sem pesagem aos 35d são descartados. Ter pesagem aos 42d é altamente desejável. |
 | **RN-10: Índice de Confiança de Amostragem** | `score_confianca_amostragem` | Pontuação contínua de 0,0 a 10,0 | Pontuação atribuída ao lote e agregada por aviário/fazenda baseada na frequência de pesagens, presença dos marcos críticos (35d e 42d) e regularidade do GMD amostral, integrando os datasets preditivos. |
 | **RN-11: Delineamento Amostral Mínimo para Modelagem Preditiva** | `elegivel_rn11`, `score_confianca_lote` | Score $\ge 7.5$, $\ge 3$ pesagens, 35d obrigatório | Define o filtro final de entrada para a esteira de Machine Learning. Lotes com `score_confianca_lote < 7.5` ou sem pesagem de 35d utilizam a estratégia de fallback (média histórica da fazenda) em vez de modelo preditivo direto. |
+| **RN-12: Gêmeos Digitais & Imputação Contextual (KNN Matching)** | `knn_pred_weight_k15`, `knn_neighbor_std_k15`, `knn_dist_nearest` | $K=15$ vizinhos mais próximos | Imputação contextual de dados ausentes em variáveis de infraestrutura/manejo (`variables` e `constantes`) via KNN, proibindo pesagens sintéticas inventadas nas biometrias de campo reais e extraindo features contextuais de Gêmeos Digitais. |
 
 ---
 
