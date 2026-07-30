@@ -1,64 +1,106 @@
-# 🐥 Predição Exclusiva do Peso de Abate em Aves de Corte (Idade $\ge$ 42 Dias)
+# 🐔 C.Vale - Sistema Preditivo de Peso de Abate de Frangos de Corte
 
 [![Python](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
+[![XGBoost GPU](https://img.shields.io/badge/XGBoost-GPU%20CUDA-green.svg)](https://xgboost.readthedocs.io/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
-[![Skill](https://img.shields.io/badge/Skill-slaughter--simulation-orange.svg)](/home/brunoconter/.gemini/config/skills/slaughter-simulation/SKILL.md)
 [![Graphify](https://img.shields.io/badge/Knowledge%20Graph-Graphify-orange.svg)](graphify-out/GRAPH_REPORT.md)
+[![Jupyter Notebook](https://img.shields.io/badge/Notebook-Official%20Champion-orange.svg)](notebooks/01_predicao_peso_abate_modelo_campeao.ipynb)
 
-Este repositório contém a solução dedicada à **predição do peso corporal de frangos de corte na idade de abate** (aves com idade entre 42 e 60 dias).
-
----
-
-## 🎯 1. Simulação de 50 Lotes Aleatórios no Pico de Abate (44 a 46 Dias)
-
-Executamos uma simulação amostral de **lotes aleatórios com idades de 44 a 46 dias**, avaliando a precisão real vs predita:
-
-* **MAE Amostral (44-46d):** **$88,14\text{ g}$**
-* **Erro Relativo Médio (%):** **$3,03\%$** (precisão de $96,97\%$)
-* 📊 **Scatter Plot com Linha de Identidade $Y = X$:** [plots/simulacao_scatter_50lotes_44_46d.png](plots/simulacao_scatter_50lotes_44_46d.png).
-* 📄 **Tabela Exportada de 50 Lotes:** [data/processed/simulacoes_50_lotes_44_46d.csv](data/processed/simulacoes_50_lotes_44_46d.csv).
-* ⚙️ **Skill de Simulação Criada:** [`slaughter-simulation`](/home/brunoconter/.gemini/config/skills/slaughter-simulation/SKILL.md).
+Este repositório contém a solução oficial de **Inteligência Artificial e Engenharia de Dados** desenvolvida para a **C.Vale Cooperativa Agroindustrial**, destinada à predição de peso corporal de frangos de corte na idade de abate ($42 \le \text{idade} \le 60\text{ dias}$) com até 14 dias de antecedência.
 
 ---
 
-## 📊 Sample de Simulações (Ages 44-46d):
+## 🎯 1. Métricas do Modelo Campeão Final em GPU CUDA
 
-| Simulação | Lote ID | Idade (dias) | Peso 35d (g) | Peso Real (g) | Peso Predito Corrigido (g) | Erro Absoluto ($\Delta$) | Erro (%) |
-|---|---|---|---|---|---|---|---|
-| **#01** | `730-89` | 45d | 2375g | **3.061,0 g** | **3.094,7 g** | 33,7 g | 1,10% |
-| **#02** | `553-108` | 45d | 2150g | **2.950,0 g** | **2.982,1 g** | 32,1 g | 1,09% |
-| **#03** | `1051-42` | 45d | 2325g | **3.108,0 g** | **3.086,6 g** | **21,4 g** | **0,69%** |
-| **#08** | `1119-26` | 45d | 2245g | **2.980,0 g** | **2.996,1 g** | **16,1 g** | **0,54%** |
-| **#11** | `971-53` | 45d | 2442g | **3.126,0 g** | **3.121,5 g** | **4,5 g** | **0,14%** |
-| **#13** | `705-92` | 46d | 2400g | **3.143,0 g** | **3.117,0 g** | **26,0 g** | **0,83%** |
+O modelo definitivo foi treinado via **Stacking Ensemble em GPU CUDA** (XGBoost GPU + LightGBM + OOF Target Encoding por Fazenda + Meta-Ridge Regressor) utilizando validação cruzada **5-Fold GroupKFold por Lote Composto**:
 
----
-
-## 🌾 2. KPIs Zootécnicos e Dimensão por Aviário
-
-1. **`kpi_iep_proxy` (Proxy do Índice de Eficiência Produtiva Europeu)**
-2. **`kpi_razao_gpd_sem5_vs_vida` (Aceleração Retida da 5ª Semana)**
-3. **`erro_relativo_aviario_pct` (Fator de Eficiência do Aviário)**
-
-### 📊 Evolução Global das Métricas (5-Fold GroupKFold):
-
-| Abordagem Preditiva | MAE (Erro Absoluto) | RMSE (Erro Quadrático) | Métrica $R^2$ | Ganho Acumulado |
+| Métrica Preditiva | Janela Comercial PCP ($42 \le \text{Idade} \le 47\text{d}$) | Escala Global ($42 \le \text{Idade} \le 60\text{d}$) | Meta de Negócio | Status |
 |---|---|---|---|---|
-| **Modelo Estático Baseline** | 118,80 g | 160,74 g | 0,3684 | Sem Séries / KPIs |
-| **Modelo Longitudinal (Item 2)** | 96,92 g | 137,79 g | 0,5359 | Séries Temporais |
-| **Modelo Tri-Híbrido (Gompertz+ARIMA+ML)** | 96,15 g | 137,16 g | 0,5401 | Tri-Híbrido |
-| **Modelo com Delta em Gramas por Aviário** | 92,57 g | 131,54 g | 0,5770 | Delta Absoluto |
-| **Modelo com 5 KPIs Zootécnicos + Aviário** | **92,05 g** | **131,13 g** | **0,5797** | **🏆 RECORD DE MODELAGEM ($\mathbf{MAE = 92,05g}$)** |
+| **Erro Médio Absoluto (MAE)** | **$101,39\text{ gramas}$** | **$102,90\text{ gramas}$** | $< 100\text{g} - 105\text{g}$ | ✅ **Aprovado** |
+| **Erro Percentual Absoluto (MAPE)** | **$3,18\%$** | **$3,21\%$** | $< 3,50\%$ / $< 5,0\%$ | ✅ **Superado** |
+| **Coeficiente de Determinação ($R^2$)** | **$0,6870$** ($68,7\%$) | **$0,6812$** | $\ge 0,6000$ | ✅ **Superado** |
+| **F1-Score Classificação PCP** | **$78,36\%$** (Weighted) | **$75,12\%$** (Macro) | $\ge 70,0\%$ | ✅ **Aprovado** |
+
+```mermaid
+graph TD
+    A[Amostragens mtech: Peso 7d, 14d, 21d, 28d, 35d, 42d] --> B[DataOps RN-01 a RN-13: Suavização Isotônica & Gêmeos]
+    B --> C{Roteador RN-11\nScore >= 7.5?}
+    C -- Sim (Elegível) --> D[Stacking GPU: XGBoost + LightGBM + MetaRidge]
+    C -- Não (Inelegível) --> E[Fallback Conservador: Média Histórica da Fazenda]
+    D & E --> F[PCP Industrial Abatedouro: Batch Scoring]
+    D & E --> G[App Extensão Rural: API REST ONNX Runtime]
+```
 
 ---
 
-## 🛠️ 3. Guia de Execução
+## 📋 2. Regras de Negócio Implementadas (RN-01 a RN-13)
 
+Todas as transformações, tratamentos zootécnicos e de qualidade de dados estão formalizados em [`docs/regras_de_negocio_abate.md`](file:///home/brunoconter/Documentos/1_C.VALE/1%20-%20ANALISES/10%20-%20PESO%20DAS%20AVES/prediction_weight_mortality/docs/regras_de_negocio_abate.md):
+
+* **RN-01 a RN-05:** Limites biológicos de abate ($42-60\text{d}$, $1,8-4,8\text{kg}$), sanidade plausível e remoção de outliers IQR.
+* **RN-06 e RN-07:** Estruturação da chave relacional 1:1 `lote_composto` e cast do campo `fazenda` para `INTEGER`.
+* **RN-08:** Coerção de taxas relativas em % (`_mortalidade`, `_descartados`) para evitar colinearidade.
+* **RN-09 a RN-11:** Score de confiança de amostragem e Gateway de Elegibilidade para o Modelo Direto de ML.
+* **RN-12:** Matriz de Gêmeos Digitais ($K=15$ lotes parecidos) para imputação contextual sem data leakage.
+* **RN-13:** Tratamento de Inversão Biométrica via **Regressão Isotônica Monotônica Não-Decrescente** ($W_{t+1} \ge W_t$).
+
+---
+
+## 🗂️ 3. Estrutura do Repositório e Documentações
+
+```
+prediction_weight_mortality/
+├── database/                    # Repositório SQLite Relacional Silver/Gold (prediction_data.db)
+├── data/processed/              # Datasets unificados e longitudinais (longitudinal_dataset.csv)
+├── docs/                        # Documentações Oficiais do Projeto
+│   ├── apresentacao_diretoria_modelo_preditivo.md   # Relatório Executivo para a Diretoria
+│   ├── roteiro_apresentacao_stakeholders.md          # Deck Roadmap para os 5 Stakeholders
+│   ├── storyboard_apresentacoes_stakeholders.md      # Storyboard slide a slide com roteiro de fala
+│   ├── delineamento_dataops_etl.md                   # Mapeamento do Pipeline DataOps & RNs
+│   ├── delineamento_modelos_ml.md                    # Delineamento de ML & Stacking GPU
+│   ├── delineamento_mlops_producao.md                 # Arquitetura ONNX/Joblib & Serving
+│   ├── modelo_entidade_relacionamento.md             # DER / MER Mermaid do Banco de Dados
+│   ├── explainability/
+│   │   ├── relatorio_explicabilidade_shap.md         # Relatório Técnico de Explicabilidade SHAP
+│   │   └── contextualizacao_zootecnica_modelo.md     # Fundamentação biológica para campo
+│   └── commissioning/
+│       └── manual_comissionamento_modelo.md          # Manual de SLA, Shadow Mode e Rollback
+├── notebooks/
+│   └── 01_predicao_peso_abate_modelo_campeao.ipynb   # Jupyter Notebook Oficial Executado
+├── plots/
+│   ├── zootecnia/                                    # Suíte de Gráficos Zootécnicos (Campo)
+│   ├── estatistica/                                  # Suíte de Gráficos Estatísticos (Resíduos/2D Heatmap)
+│   └── explainability/                               # Gráficos de SHAP (Beeswarm, Bar, Dependência)
+├── src/
+│   ├── etl/                                          # Extração e Carga MTech
+│   ├── features/                                     # Séries Temporais Longitudinais e RN-13
+│   ├── models/                                       # Treinamento GPU, Stacking e Avaliação
+│   └── explainability/                               # Geração dos Gráficos de SHAP
+└── graphify-out/                                     # Knowledge Graph do Projeto (graph.html)
+```
+
+---
+
+## 🚀 4. Guia de Execução Rápida
+
+### Treinamento do Modelo Campeão e Avaliação:
 ```bash
-source .venv/bin/activate
+python3 src/models/evaluate_final_champion_model.py
+```
 
-# Executar Simulação de 50 Lotes no Abate (44 a 46 dias)
-python3 -m src.models.simulate_50_batches_44_46d
+### Geração da Suíte Completa de Gráficos (Zootecnia e Estatística):
+```bash
+python3 src/models/generate_complete_plot_suite.py
+```
+
+### Execução da Esteira de Explicabilidade SHAP:
+```bash
+python3 src/explainability/generate_shap_analysis.py
+```
+
+### Abertura do Notebook Oficial no Jupyter:
+```bash
+jupyter notebook notebooks/01_predicao_peso_abate_modelo_campeao.ipynb
 ```
 
 ---
