@@ -1,37 +1,52 @@
-# Graph Report - .  (2026-07-29)
+# Graph Report - /home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality  (2026-07-30)
 
 ## Corpus Check
-- 37 files · ~15,000 words
+- 41 files · ~45,000 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 62 nodes · 96 edges · 16 communities (9 shown, 7 thin omitted)
-- Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 5 edges (avg confidence: 0.62)
+- 147 nodes · 190 edges · 28 communities (15 shown, 13 thin omitted)
+- Extraction: 96% EXTRACTED · 4% INFERRED · 0% AMBIGUOUS · INFERRED: 8 edges (avg confidence: 0.57)
 - Token cost: 0 input · 0 output
 
 ## Community Hubs (Navigation)
-- Modulo 0
-- Modulo 1
-- Modulo 2
-- Modulo 3
-- Modulo 5
-- Modulo 6
-- Modulo 8
-- Modulo 9
-- Modulo 10
-- Modulo 12
+- Comunidade 0
+- Comunidade 1
+- Comunidade 2
+- Comunidade 3
+- Comunidade 4
+- Comunidade 5
+- Comunidade 6
+- Comunidade 7
+- Comunidade 8
+- Comunidade 9
+- Comunidade 10
+- Comunidade 11
+- Comunidade 12
+- Comunidade 13
+- Comunidade 14
+- Comunidade 15
+- Comunidade 16
+- Comunidade 17
+- Comunidade 18
+- Comunidade 19
+- Comunidade 20
+- Comunidade 21
+- Comunidade 22
+- Comunidade 23
+- Comunidade 24
 
 ## God Nodes (most connected - your core abstractions)
-1. `setup_logging()` - 19 edges
-2. `extract_fazenda()` - 5 edges
-3. `run_etl()` - 4 edges
-4. `extract_and_load_sheet()` - 3 edges
-5. `rationalize_header()` - 3 edges
-6. `process_lote_composto()` - 3 edges
-7. `gompertz_model()` - 3 edges
-8. `extract_and_load_peso_abate()` - 2 edges
-9. `gompertz_func()` - 2 edges
-10. `run_slaughter_simulations()` - 2 edges
+1. `setup_logging()` - 17 edges
+2. `main()` - 10 edges
+3. `extract_fazenda()` - 5 edges
+4. `gompertz_func()` - 5 edges
+5. `fit_global_gompertz()` - 5 edges
+6. `predict_batch_gompertz()` - 5 edges
+7. `run_etl()` - 4 edges
+8. `TabularResNet` - 4 edges
+9. `load_data()` - 4 edges
+10. `main()` - 4 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `extract_and_load_peso_abate()` --indirect_call--> `extract_fazenda()`  [INFERRED]
@@ -42,35 +57,69 @@
 ## Import Cycles
 - None detected.
 
-## Communities (16 total, 7 thin omitted)
+## Communities (28 total, 13 thin omitted)
 
-### Community 0 - "Modulo 0"
-Cohesion: 0.15
-Nodes (3): gompertz_func(), run_aviary_delta_correction(), setup_logging()
+### Community 1 - "Comunidade 1"
+Cohesion: 0.21
+Nodes (17): analyze_residuals(), evaluate_by_confidence(), evaluate_classification_metrics(), fit_global_gompertz(), generate_markdown_report(), generate_plots(), gompertz_func(), load_and_prepare_data() (+9 more)
 
-### Community 1 - "Modulo 1"
-Cohesion: 0.24
-Nodes (9): extract_and_load_sheet(), Extracts data from a specified Excel sheet, renames columns based on a map,, extract_fazenda(), process_lote_composto(), Racionaliza o nome do cabeçalho: minúsculas, substitui espaços por underscores,, Processa a coluna 'Lote Composto':     - Traz o dado anterior ao segundo hifen ", Extrai o código da fazenda a partir do lote_composto., rationalize_header() (+1 more)
+### Community 2 - "Comunidade 2"
+Cohesion: 0.21
+Nodes (10): extract_and_load_sheet(), Extracts data from a specified Excel sheet, renames columns based on a map,, extract_fazenda(), process_lote_composto(), Racionaliza o nome do cabeçalho: minúsculas, substitui espaços por underscores,, Processa a coluna 'Lote Composto':     - Traz o dado anterior ao segundo hifen ", Extrai o código da fazenda a partir do lote_composto., rationalize_header() (+2 more)
 
-### Community 3 - "Modulo 3"
+### Community 3 - "Comunidade 3"
+Cohesion: 0.25
+Nodes (10): evaluate_model(), extract_field_features(), load_data(), main(), normalize_peso_kg(), field_weighing_weight_model.py -------------------------------- Modelo de Prediç, Calcula e exibe as métricas globais e por idade de amostragem., Uniformiza a escala de peso para Quilogramas (kg), convertendo gramas (> 10.0) p (+2 more)
+
+### Community 4 - "Comunidade 4"
+Cohesion: 0.40
+Nodes (4): apply_rn13_isotonic_smoothing(), build_longitudinal_features(), build_longitudinal_features.py -------------------------------- Constrói o datas, RN-13: Identifica Inversão Biométrica (queda de peso > 5% entre pesagens)      e
+
+### Community 5 - "Comunidade 5"
+Cohesion: 0.40
+Nodes (3): pytorch_tabular_model.py ------------------------- Rede Neural Profunda Tabular, run_pytorch_model(), TabularResNet
+
+### Community 6 - "Comunidade 6"
+Cohesion: 0.67
+Nodes (3): mean_absolute_percentage_error(), evaluate_final_champion_model.py ---------------------------------- Avaliação Co, run_champion_evaluation()
+
+### Community 7 - "Comunidade 7"
+Cohesion: 0.67
+Nodes (3): mean_absolute_percentage_error(), gpu_optimization_loop.py ------------------------- Loop de Otimização Preditiva, run_gpu_optimization_loop()
+
+### Community 8 - "Comunidade 8"
+Cohesion: 0.67
+Nodes (3): mean_absolute_percentage_error(), optimize_residual_blend.py ---------------------------- Otimização Bayesiana de, run_residual_optimization()
+
+### Community 9 - "Comunidade 9"
+Cohesion: 0.67
+Nodes (3): mean_absolute_percentage_error(), push_mae_below_100.py ----------------------- Ajuste fino final para romper a ba, run_fine_tuning()
+
+### Community 10 - "Comunidade 10"
 Cohesion: 0.67
 Nodes (3): gompertz_model(), Gompertz non-linear biological growth curve:     W(t) = A * exp(-b * exp(-k * t), train_and_evaluate()
+
+### Community 11 - "Comunidade 11"
+Cohesion: 0.67
+Nodes (3): mean_absolute_percentage_error(), train_xgb_oof_target_encoding.py --------------------------------- XGBoost GPU C, run_oof_target_encoding_experiment()
+
+### Community 12 - "Comunidade 12"
+Cohesion: 0.67
+Nodes (3): mean_absolute_percentage_error(), train_xgb_residual_target.py ------------------------------ Treinamento do XGBoo, run_residual_target_experiment()
 
 ## Knowledge Gaps
 - **1 isolated node(s):** `Settings`
   These have ≤1 connection - possible missing edges or undocumented components.
-- **7 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **13 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `setup_logging()` connect `Modulo 0` to `Modulo 1`, `Modulo 2`, `Modulo 3`, `Modulo 4`, `Modulo 5`, `Modulo 6`, `Modulo 7`, `Modulo 8`, `Modulo 9`, `Modulo 10`, `Modulo 11`, `Modulo 12`?**
-  _High betweenness centrality (0.328) - this node is a cross-community bridge._
-- **Why does `extract_fazenda()` connect `Modulo 1` to `Modulo 12`?**
-  _High betweenness centrality (0.069) - this node is a cross-community bridge._
+- **Why does `setup_logging()` connect `Comunidade 0` to `Comunidade 2`, `Comunidade 10`, `Comunidade 17`, `Comunidade 20`, `Comunidade 21`, `Comunidade 22`, `Comunidade 23`?**
+  _High betweenness centrality (0.047) - this node is a cross-community bridge._
 - **Are the 3 inferred relationships involving `extract_fazenda()` (e.g. with `extract_and_load_sheet()` and `run_etl()`) actually correct?**
   _`extract_fazenda()` has 3 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 2 inferred relationships involving `run_etl()` (e.g. with `extract_fazenda()` and `process_lote_composto()`) actually correct?**
-  _`run_etl()` has 2 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `Settings` to the rest of the system?**
   _1 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `Comunidade 0` be split into smaller, more focused modules?**
+  _Cohesion score 0.12 - nodes in this community are weakly interconnected._
