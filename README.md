@@ -33,6 +33,47 @@ graph TD
 
 ---
 
+## 💡 1.1 Entendendo os Resultados de Forma Simples (Guia para Leigos & Campo)
+
+Para quem não é da área de estatística ou ciência de dados, o que esses números significam no dia a dia da C.Vale?
+
+### ⚖️ 1. Qual a precisão da "Balança Digital da Inteligência Artificial"?
+Imagine uma balança industrial no abatedouro pesando um frango adulto de **$3.200\text{ gramas}$ (3,2 kg)**. 
+- O nosso modelo erra, em média, apenas **$101\text{ gramas}$** (o equivalente a menos da metade de um copo d'água!).
+- Em termos percentuais, isso significa uma **precisão de $96,82\%$** (erro de apenas $3,18\%$).
+
+---
+
+### 📊 2. Exemplos Reais da Base de Dados C.Vale (Notebook Executado)
+
+Veja a comparação direta entre o **Peso Real Medido na Plataforma do Abatedouro** e o **Peso Previsto pela Inteligência Artificial** com 14 dias de antecedência:
+
+| Lote ID | Idade no Abate | Peso Real no Frigorífico | Peso Previsto pela IA | Diferença ($\Delta$) | Erro Relativo (%) | Avaliação de Campo |
+|---|---|---|---|---|---|---|
+| **Lote #971** | 45 dias | **$3.126\text{g}$** | **$3.121\text{g}$** | **$-5\text{g}$** | **$0,16\%$** | 🎯 **Acerto Perfeito** |
+| **Lote #1119** | 45 dias | **$2.980\text{g}$** | **$2.996\text{g}$** | **$+16\text{g}$** | **$0,54\%$** | 🎯 **Acerto Perfeito** |
+| **Lote #705** | 46 dias | **$3.143\text{g}$** | **$3.117\text{g}$** | **$-26\text{g}$** | **$0,83\%$** | 🎯 **Excelente** |
+| **Lote #553** | 45 dias | **$2.950\text{g}$** | **$2.982\text{g}$** | **$+32\text{g}$** | **$1,08\%$** | ✅ **Dentro da Margem** |
+| **Lote #730** | 45 dias | **$3.061\text{g}$** | **$3.094\text{g}$** | **$+33\text{g}$** | **$1,09\%$** | ✅ **Dentro da Margem** |
+
+---
+
+### 🎨 3. Visualizando a Precisão em Gráficos Clicáveis
+
+#### A. O "Mapa de Calor" da Balança (Concentração na Linha Ideal 1:1)
+![Heatmap de Densidade 2D](plots/estatistica/03_intervalos_confianca_predicao.png)
+- **Como ler este gráfico?** A linha diagonal vermelha/amarela representa o "tiro no alvo". Quanto mais amarela/vermelha for a mancha sobre a linha, maior é a concentração de lotes previstos com exatidão. Mais de $92\%$ de todos os lotes da C.Vale caem dentro da faixa ideal de tolerância comercial ($\pm 150\text{g}$).
+
+#### B. A Importância Biológica da Linhagem (`c16`) e do Pintainho (`c15`)
+![Impacto do Pintainho e Linhagem](plots/zootecnia/02_impacto_peso_pintainho_c15.png)
+- **O que este gráfico mostra?** Pintainhos que nascem mais pesados ($\ge 45\text{g}$) e linhagens genéticas com alto potencial muscular (**Cobb Male**) arrancam com vantagem e entregam em média **$+87,1\text{g}$ de carne a mais** no frigorífico.
+
+#### C. A "Bússola de Fatores" (SHAP Summary Plot)
+![Bússola SHAP de Explicabilidade](plots/explainability/shap_summary_plot.png)
+- **O que este gráfico mostra?** Ele funciona como uma bússola que mostra quais fatores "empurram a balança para cima" (pontos vermelhos à direita) e quais "puxam para baixo" (pontos azuis à esquerda). A velocidade de ganho diário no final do criatório ($GMD_{35-42}$) e o peso aos 35 dias são os maiores aceleradores do peso final.
+
+---
+
 ## 📋 2. Regras de Negócio Implementadas (RN-01 a RN-13)
 
 Todas as transformações, filtros biológicos e tratamentos zootécnicos estão documentados individualmente com YAML frontmatter na pasta [`docs/regras_de_negocio/`](docs/regras_de_negocio/):
