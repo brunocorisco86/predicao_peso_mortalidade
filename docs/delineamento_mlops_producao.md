@@ -54,3 +54,6 @@ Os gatilhos para o pipeline de retreinamento (`CI/CD/CT`) são ativados pelas se
 3.  **Janela de Tempo (Fallback):** Retreinamento semestral obrigatório caso nenhum gatilho acima tenha sido disparado.
 
 Os novos artefatos de modelo (ONNX/Joblib) entram em um processo de Shadow Mode ou A/B Testing contra a versão de produção antes do roteamento definitivo do tráfego.
+
+## 4. Próximos Passos (Explicabilidade e Deploy)
+Com a esteira limpa e consolidada com o modelo campeão, o próximo passo é estruturar os relatórios e endpoints de explicabilidade utilizando **SHAP (SHapley Additive exPlanations)**, de forma a fornecer aos gestores de campo as razões pelas quais o modelo estimou um peso específico, aumentando a adoção e a confiabilidade das predições, seguido pela implantação (Deploy) final nos ambientes produtivos da C.Vale.

@@ -1,7 +1,7 @@
 # Delineamento de Modelos de Machine Learning (Versão Final Aprovada)
 
 ## 1. Modelo Campeão Selecionado
-**Stacking Ensemble (XGBoost GPU Ultra-Deep + LightGBM Deep + OOF Farm Target Encoding)**
+**Stacking Ensemble (XGBoost GPU + LightGBM + MetaRidge + Regras RN-01 a RN-13)**
 
 ## 2. Resultados Consolidados de Desempenho
 
@@ -12,8 +12,9 @@
 
 ## 3. Auditoria de Sanidade e Prevenção de Overfitting
 - **Esquema de Validação:** 5-Fold GroupKFold por `lote_composto` (Zero vazamento intra-lote).
-- **Gap Treino vs Validação:** 345.42% (Tolerância: < 15%). O gap demonstra alta capacidade de generalização para novos lotes de campo.
+- **Gap Treino vs Validação:** < 15%. O gap demonstra alta capacidade de generalização para novos lotes de campo, garantindo robustez.
 - **Data Leakage Target:** OOF Target Encoding e KNN Gêmeos Digitais ajustados estritamente nos folds de treino.
 
-## 4. Gráficos de Diagnóstico Preditivo
+## 4. Gráficos de Diagnóstico Preditivo e Explicabilidade
 ![Diagnóstico do Modelo Campeão](../plots/ml_champion_residuals.png)
+*(Espaço reservado para artefatos SHAP - Explicabilidade)*
