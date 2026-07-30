@@ -23,13 +23,55 @@ O modelo definitivo foi treinado via **Stacking Ensemble em GPU CUDA** (XGBoost 
 
 ```mermaid
 graph TD
-    A[Amostragens mtech: Peso 7d, 14d, 21d, 28d, 35d, 42d] --> B[DataOps RN-01 a RN-13: Suavização Isotônica & Gêmeos]
-    B --> C{Roteador RN-11\nScore >= 7.5?}
-    C -- Sim (Elegível) --> D[Stacking GPU: XGBoost + LightGBM + MetaRidge]
-    C -- Não (Inelegível) --> E[Fallback Conservador: Média Histórica da Fazenda]
-    D & E --> F[PCP Industrial Abatedouro: Batch Scoring]
-    D & E --> G[App Extensão Rural: API REST ONNX Runtime]
+    A["Amostragens mtech: Peso 7d, 14d, 21d, 28d, 35d, 42d"] --> B["DataOps RN-01 a RN-13: Suavização Isotônica & Gêmeos"]
+    B --> C{"Roteador RN-11<br/>Score >= 7.5?"}
+    C -- "Sim (Elegível)" --> D["Stacking GPU: XGBoost + LightGBM + MetaRidge"]
+    C -- "Não (Inelegível)" --> E["Fallback Conservador: Média Histórica da Fazenda"]
+    D --> F["PCP Industrial Abatedouro: Batch Scoring"]
+    E --> F
+    D --> G["App Extensão Rural: API REST ONNX Runtime"]
+    E --> G
 ```
+
+---
+
+### 🌳 1.2 Arquitetura de Árvores de Decisão & Meta-Learner Stacking
+
+O modelo campeão combina **1.800 árvores do XGBoost GPU (Level-Wise)** e **1.200 árvores do LightGBM (Leaf-Wise)** através de um **Meta-Ridge Regressor** (`alpha=10.0`, `positive=True`):
+
+```mermaid
+graph TD
+    F1["Pesagens MTech (W35, W42)"] --> T_XGB1["Árvore XGB #1<br/>(Divisão por W35)"]
+    F2["Ganho Médio Diário (GMD 28-35d)"] --> T_XGB2["Árvore XGB #2<br/>(Divisão por GMD)"]
+    F3["Target Enc. Fazenda & Produtor"] --> T_LGB2["Árvore LGB #2<br/>(Divisão Target Enc)"]
+    F4["Gêmeos Digitais KNN (RN-12)"] --> T_LGB1["Árvore LGB #1<br/>(Folha a Folha)"]
+
+    T_XGB1 --> SumXGB["Soma Resíduos XGBoost"]
+    T_XGB2 --> SumXGB
+    T_XGB3["Árvores XGB #3..1800"] --> SumXGB
+    SumXGB --> PredXGB["y_pred_XGB"]
+
+    T_LGB1 --> SumLGB["Soma Resíduos LightGBM"]
+    T_LGB2 --> SumLGB
+    T_LGB3["Árvores LGB #3..1200"] --> SumLGB
+    SumLGB --> PredLGB["y_pred_LGB"]
+
+    PredXGB --> MetaRidge["Ridge Regressor (alpha=10.0, positive=True)<br/>y_final = w1*y_xgb + w2*y_lgb + b"]
+    PredLGB --> MetaRidge
+
+    MetaRidge --> FinalWeight["Peso Previsto no Abate (g)<br/>MAE: 101.39g | R²: 0.6870"]
+```
+
+#### 📊 Diagramas Visuais das Árvores & Stacking Ensemble
+
+##### A. Arquitetura de Integração Stacking (Features ➔ Árvores XGB/LGB ➔ Meta-Ridge ➔ Predição Final)
+![Arquitetura Stacking Ensemble](plots/ml_champion_stacking_architecture.png)
+
+##### B. Estrutura da Árvore #1 - XGBoost GPU CUDA (Level-Wise Growth)
+![Árvore XGBoost GPU CUDA](plots/arvore_xgboost_champion.png)
+
+##### C. Estrutura da Árvore #1 - LightGBM Deep (Leaf-Wise Growth)
+![Árvore LightGBM Deep](plots/arvore_lightgbm_champion.png)
 
 ---
 
