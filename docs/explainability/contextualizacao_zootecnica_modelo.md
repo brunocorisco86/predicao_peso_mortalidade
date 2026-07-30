@@ -34,7 +34,53 @@ O modelo de aprendizado de máquina foi treinado com variáveis que representam 
 
 ---
 
-## 2. Diretrizes Práticas para Veterinários e Extensionistas
+## 3. Guia de Interferência Prática para Leigos e Extensionistas
+
+Para que produtores e técnicos de campo entendam exatamente o que o modelo "pensa" ao olhar para cada dado, apresentamos o quadro prático de interferência:
+
+```
+[ Dado de Entrada / Medição ] 
+         ⬇️ 
+[ Modelo Preditivo (XGBoost GPU) ] 
+         ⬇️ 
+[ Impacto na Balança de Abate (+/- Gramas) ]
+```
+
+### Detalhamento por Variável:
+
+1. **Pesagens Amostrais de Campo (`peso_d35` e `peso_d42`)**
+   - **Por que é importante?** É a foto real da ave no momento presente.
+   - **Quanto interfere?** Muda a previsão final em **$\pm 300\text{g}$ a $\pm 450\text{g}$**.
+   - **Se o dado for MAIOR ⬆️:** O modelo assume que o lote é de alto ganho e projeta um abate bem acima da meta comercial.
+   - **Se o dado for MENOR ⬇️:** O modelo assume atraso de desenvolvimento e reduz drasticamente a estimativa de abate.
+
+2. **Ganho Médio Diário nas Últimas Semanas ($GMD_{28-35}$ e $GMD_{35-42}$)**
+   - **Por que é importante?** Mede a velocidade de crescimento (o "arranque" muscular final).
+   - **Quanto interfere?** Muda a previsão final em **$\pm 100\text{g}$ a $\pm 200\text{g}$**.
+   - **Se o dado for MAIOR ⬆️ (GMD $> 85\text{g/dia}$):** Sinaliza excelente conversão alimentar; o modelo soma gramas valiosas na previsão.
+   - **Se o dado for MENOR ⬇️ (GMD $< 65\text{g/dia}$):** Sinaliza estresse ou problemas de digestão; o modelo desconta peso na estimativa final.
+
+3. **Gêmeos Digitais da RN-12 (`knn_pred_weight_k15`)**
+   - **Por que é importante?** É a memória da cooperativa. O modelo pergunta aos 15 lotes mais parecidos do passado o quanto eles pesaram.
+   - **Quanto interfere?** Serve como âncora de segurança de **$\pm 100\text{g}$ a $\pm 150\text{g}$**.
+   - **Se o dado for MAIOR ⬆️:** Se os lotes parecidos do passado fecharam pesados, o modelo ganha confiança e eleva a estimativa.
+   - **Se o dado for MENOR ⬇️:** Se os lotes parecidos do passado foram leves, o modelo impõe uma trava de prudência.
+
+4. **Peso do Pintainho ao Nascer (`c15`)**
+   - **Por que é importante?** O vigor e reserva inicial do pintainho de 1 dia.
+   - **Quanto interfere?** Impacta em **$\pm 40\text{g}$ a $\pm 80\text{g}$**.
+   - **Se o dado for MAIOR ⬆️ ($\ge 45\text{g}$):** Vigor inicial alto; o modelo adiciona até $+60\text{g}$ ao final.
+   - **Se o dado for MENOR ⬇️ ($< 40\text{g}$):** Pintainho fraco na 1ª semana; o modelo reduz até $-80\text{g}$ da previsão final.
+
+5. **Mortalidade Acumulada % (`_mortalidade`)**
+   - **Por que é importante?** Reflete a saúde do lote.
+   - **Quanto interfere?** Penaliza em até **$-150\text{g}$**.
+   - **Se o dado for MAIOR ⬆️ ($> 4\%$):** Indica surto sanitário; o modelo entende que as aves vivas também sofreram e reduz o peso final.
+   - **Se o dado for MENOR ⬇️ ($< 1,5\%$):** Lote saudável; o modelo não aplica penalidade.
+
+---
+
+## 4. Diretrizes Práticas para Veterinários e Extensionistas
 
 Para extrair o máximo valor das predições do modelo no campo, a equipe técnica da C.Vale deve seguir estas diretrizes:
 
