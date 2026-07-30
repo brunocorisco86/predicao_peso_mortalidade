@@ -86,8 +86,8 @@ Abaixo um exemplo de amostragem de 1 lote conectando as quatro principais tabela
 
 | Campo (Tabela Origem) | Valor no Banco | Descrição |
 |---|---|---|
-| `lote_composto` (Todas) | `1021-39` | Chave de conexão universal |
-| `fazenda` (`constantes`) | `1021` | Código da fazenda (RN-06) |
+| `lote_composto` (Todas) | `3A1F-02B4` | Chave de conexão universal (RN-07 / RN-14) |
+| `fazenda` (`constantes`) | `3A1F` | Código Hexadecimal da fazenda (RN-06 / RN-14) |
 | `c15` (`variables`) | `42.5` | Peso inicial do pintainho |
 | `a01` (`constantes`) | `1` | Aviário convencional |
 | `idade_ref` (`extracao_mtech_data`) | `28` | Idade de referência |
