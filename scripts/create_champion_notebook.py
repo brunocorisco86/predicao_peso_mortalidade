@@ -238,20 +238,28 @@ def create_notebook():
         ]
     })
 
-    # Cell 10: Plot Display Code
+    # Cell 10: Plot Display Code with 2D Density Heatmap (Hexbin)
     cells.append({
         "cell_type": "code",
         "execution_count": None,
         "metadata": {},
         "outputs": [],
         "source": [
-            "plt.figure(figsize=(10, 6))\n",
-            "sns.scatterplot(x=y, y=oof_preds, alpha=0.4, color='#2c3e50', s=20)\n",
-            "plt.plot([y.min(), y.max()], [y.min(), y.max()], 'r--', linewidth=2, label='Ideal 1:1')\n",
-            "plt.title(f'Modelo Campeão: Peso Observado vs Predito (R² = {r2_global:.4f}, MAE = {mae_global:.1f}g)', fontsize=13, fontweight='bold')\n",
-            "plt.xlabel('Peso Real no Abate (g)')\n",
-            "plt.ylabel('Peso Predito em GPU (g)')\n",
-            "plt.legend()\n",
+            "plt.figure(figsize=(10, 7))\n",
+            "# Heatmap de Densidade 2D (Hexbin) para evitar sobreposição de 18.000+ pontos\n",
+            "hb = plt.hexbin(y, oof_preds, gridsize=50, cmap='YlOrRd', mincnt=1, edgecolors='none')\n",
+            "cb = plt.colorbar(hb)\n",
+            "cb.set_label('Concentração / Densidade de Lotes', fontsize=11, fontweight='bold')\n",
+            "\n",
+            "min_v, max_v = min(y.min(), oof_preds.min()), max(y.max(), oof_preds.max())\n",
+            "plt.plot([min_v, max_v], [min_v, max_v], 'b--', linewidth=2.5, label='Linha de Identidade Ideal (1:1)')\n",
+            "plt.fill_between([min_v, max_v], [min_v - 150, max_v - 150], [min_v + 150, max_v + 150], color='blue', alpha=0.1, label='Tolerância PCP (±150g)')\n",
+            "\n",
+            "plt.title(f'Modelo Campeão: Heatmap de Densidade 2D (Observado vs Predito)\\nR² = {r2_global:.4f} | MAE = {mae_global:.1f}g | MAPE = {mape_global:.2f}%', fontsize=13, fontweight='bold')\n",
+            "plt.xlabel('Peso Real no Abate Frigorífico (g)', fontsize=11, fontweight='bold')\n",
+            "plt.ylabel('Peso Predito pelo Stacking GPU (g)', fontsize=11, fontweight='bold')\n",
+            "plt.legend(loc='upper left', frameon=True, facecolor='white', framealpha=0.9)\n",
+            "plt.tight_layout()\n",
             "plt.show()"
         ]
     })
