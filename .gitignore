@@ -35,4 +35,4 @@ jupyter_notebook_config.py
 # Sistema Operacional & Variáveis de Ambiente
 .DS_Store
 Thumbs.db
-.env
+.envgraphify-out/2026-07-30/

@@ -1,11 +1,11 @@
 # Graph Report - /home/brunoconter/Documentos/1_C.VALE/1 - ANALISES/10 - PESO DAS AVES/prediction_weight_mortality  (2026-07-30)
 
 ## Corpus Check
-- 41 files · ~45,000 words
+- 43 files · ~45,000 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 147 nodes · 190 edges · 28 communities (15 shown, 13 thin omitted)
+- 153 nodes · 194 edges · 30 communities (15 shown, 15 thin omitted)
 - Extraction: 96% EXTRACTED · 4% INFERRED · 0% AMBIGUOUS · INFERRED: 8 edges (avg confidence: 0.57)
 - Token cost: 0 input · 0 output
 
@@ -35,6 +35,8 @@
 - Comunidade 22
 - Comunidade 23
 - Comunidade 24
+- Comunidade 25
+- Comunidade 26
 
 ## God Nodes (most connected - your core abstractions)
 1. `setup_logging()` - 17 edges
@@ -57,7 +59,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (28 total, 13 thin omitted)
+## Communities (30 total, 15 thin omitted)
 
 ### Community 1 - "Comunidade 1"
 Cohesion: 0.21
@@ -110,13 +112,13 @@ Nodes (3): mean_absolute_percentage_error(), train_xgb_residual_target.py ------
 ## Knowledge Gaps
 - **1 isolated node(s):** `Settings`
   These have ≤1 connection - possible missing edges or undocumented components.
-- **13 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **15 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `setup_logging()` connect `Comunidade 0` to `Comunidade 2`, `Comunidade 10`, `Comunidade 17`, `Comunidade 20`, `Comunidade 21`, `Comunidade 22`, `Comunidade 23`?**
-  _High betweenness centrality (0.047) - this node is a cross-community bridge._
+- **Why does `setup_logging()` connect `Comunidade 0` to `Comunidade 2`, `Comunidade 10`, `Comunidade 19`, `Comunidade 22`, `Comunidade 23`, `Comunidade 24`, `Comunidade 25`?**
+  _High betweenness centrality (0.043) - this node is a cross-community bridge._
 - **Are the 3 inferred relationships involving `extract_fazenda()` (e.g. with `extract_and_load_sheet()` and `run_etl()`) actually correct?**
   _`extract_fazenda()` has 3 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `Settings` to the rest of the system?**
