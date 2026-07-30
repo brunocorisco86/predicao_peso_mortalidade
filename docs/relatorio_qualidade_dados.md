@@ -28,7 +28,7 @@ Análise de linhas duplicadas absolutas e por chaves (`lote_composto` e `fazenda
 - **peso_abate**: 0 duplicatas absolutas e 0 duplicatas de chave. (Chave Primária 100% única)
 - **variables**: 0 duplicatas absolutas e 0 duplicatas de chave. (Chave Primária 100% única)
 - **constantes**: 0 duplicatas absolutas.
-- **extracao_mtech_data**: 186 duplicatas absolutas. Como esta tabela é um histórico (série temporal), observamos 125.398 repetições para a chave (`lote_composto`, `fazenda`). Isso é esperado, visto que a chave real (granularidade) deveria incluir a `data_evento` ou `idade`. As 186 duplicatas absolutas devem ser removidas.
+- **extracao_mtech_data**: Originalmente possuía 186 duplicatas absolutas. *Ação Corretiva: As 186 linhas duplicadas absolutas foram removidas no script de ingestão.*
 
 ## 3. Validade e Limites Biológicos Zootécnicos (Validity & Range Checks)
 
@@ -41,6 +41,24 @@ Verificação das regras e limites biológicos:
   - `cab_alojadas` inválidas ($\le 0$): **11 registros**.
   - `_mortalidade` fora do limite ($0\% \le taxa \le 100\%$): **678 registros**.
   - `_descartados` fora do limite ($0\% \le taxa \le 100\%$): **2 registros**.
+
+### 3.1. Auditoria e Padronização de Idade (Nova RN Aplicada)
+Uma nova regra de negócio de filtragem de idades foi aplicada diretamente no fluxo de extração para a tabela `extracao_mtech_data`, garantindo que apenas idades padronizadas de pesagem (4, 7, 14, 21, 28, 35, 42 dias) com tolerância de $\pm1$ dia fossem mantidas. 
+
+**Métricas da Limpeza de Idades:**
+- **Linhas iniciais (sem duplicatas):** 147.630
+- **Linhas finais (pós-filtro de idade):** 128.394
+- **Dados mantidos:** 86,97%
+- **Dados descartados (fora da tolerância de idade):** 19.236 registros (13,03%)
+
+**Contagem por Idade de Referência (`idade_ref`):**
+- **4 dias:** 2 registros
+- **7 dias:** 21.557 registros
+- **14 dias:** 21.438 registros
+- **21 dias:** 21.143 registros
+- **28 dias:** 20.527 registros
+- **35 dias:** 19.438 registros
+- **42 dias:** 24.289 registros
 
 ## 4. Integridade Referencial e Órfãos (Referential Integrity)
 
@@ -58,17 +76,15 @@ O esquema dos dados confere com as expectativas (tipagem do SQLite):
 - Os campos de datas estão corretamente tipados como `TEXT` (SQLite não tem tipo Date nativo).
 - Valores numéricos fracionários estão como `REAL` e inteiros como `INTEGER`.
 - Textos e Chaves como `TEXT`.
-- Exceção para o campo `fazenda` em `extracao_mtech_data`, que foi ingerido como `REAL` onde o esperado seria `INTEGER` (ou `TEXT`), enquanto nas outras tabelas está como `INTEGER`.
+- Exceção para o campo `fazenda` em `extracao_mtech_data`, que foi ingerido como `REAL` onde o esperado seria `INTEGER` (ou `TEXT`). *Ação Corretiva: O campo `fazenda` agora sofre cast para `INTEGER` (Int64) diretamente na extração, resolvendo o problema de consistência (fim dos .0).*
 
 ## 6. Recomendações e Próximos Passos (Cleaning Recommendations)
 
-1. **Limpeza de Duplicadas:**
-   - Realizar `DROP DUPLICATES` absoluto na tabela `extracao_mtech_data` para remover as 186 linhas 100% idênticas.
-2. **Correção de Anomalias Biológicas (Outliers):**
+1. **Correção de Anomalias Biológicas (Outliers):**
    - Investigar e tratar (imputação ou exclusão) os 7 pesos de abate anômalos.
    - Corrigir ou remover as 11 medições com cabeças alojadas nulas/negativas.
    - Avaliar as 678 taxas de mortalidade fora de padrão em `extracao_mtech_data`.
-3. **Resolução de Órfãos:**
+2. **Resolução de Órfãos:**
    - Realizar cruzamentos (INNER JOINs) nas modelagens preditivas, descartando temporariamente os dados órfãos, ou atualizar as tabelas dimensão (`variables` e `constantes`) para contemplar todos os lotes e fazendas históricas.
-4. **Cast de Tipos:**
-   - Converter `fazenda` na tabela `extracao_mtech_data` de `REAL` para `INTEGER` para perfeita correspondência (JOIN) com as demais tabelas.
+3. **Engenharia de Features - Estrutura Fato vs Pivot:**
+   - O banco de dados preserva a tabela `extracao_mtech_data` no formato **Fato Longa**, garantindo 3NF. O processo de pivotagem/melt (para colunas no formato Wide `_mortalidade_7`, `_mortalidade_14`, `peso_7`, etc) deve ser realizado exclusivamente nas etapas posteriores (Feature Engineering), mantendo o banco resiliente e normalizado.

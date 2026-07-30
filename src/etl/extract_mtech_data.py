@@ -147,7 +147,43 @@ def run_etl():
 
     # Concatenate all dataframes
     master_df = pd.concat(all_dataframes, ignore_index=True)
-    logger.info(f"Total rows processed: {len(master_df)}")
+    initial_rows = len(master_df)
+    logger.info(f"Initial total rows combined: {initial_rows}")
+
+    # --- Data Quality Rules --- #
+    # 1. Remove absolute duplicates
+    master_df.drop_duplicates(inplace=True)
+    rows_after_dedup = len(master_df)
+    logger.info(f"Rows after dropping duplicates: {rows_after_dedup} (Dropped {initial_rows - rows_after_dedup})")
+
+    # 2. Filter valid ages and map to idade_ref
+    def get_idade_ref(idade):
+        if pd.isna(idade):
+            return pd.NA
+        try:
+            idade_int = int(float(idade))
+        except (ValueError, TypeError):
+            return pd.NA
+        valid_ages = [4, 7, 14, 21, 28, 35, 42]
+        for ref in valid_ages:
+            if ref - 1 <= idade_int <= ref + 1:
+                return ref
+        return pd.NA
+
+    if 'idade' in master_df.columns:
+        master_df['idade_ref'] = master_df['idade'].apply(get_idade_ref)
+        master_df.dropna(subset=['idade_ref'], inplace=True)
+        master_df['idade_ref'] = master_df['idade_ref'].astype(int)
+        rows_after_age_filter = len(master_df)
+        logger.info(f"Rows after age filter: {rows_after_age_filter} (Dropped {rows_after_dedup - rows_after_age_filter})")
+        logger.info(f"Age distribution:\n{master_df['idade_ref'].value_counts().sort_index()}")
+
+    # 3. Cast fazenda to INTEGER
+    if 'fazenda' in master_df.columns:
+        master_df['fazenda'] = pd.to_numeric(master_df['fazenda'], errors='coerce').astype('Int64')
+
+    final_rows = len(master_df)
+    logger.info(f"Final rows ready for DB: {final_rows}")
 
     # Save to SQLite database
     try:

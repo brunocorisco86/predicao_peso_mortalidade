@@ -60,19 +60,40 @@ erDiagram
 
     extracao_mtech_data {
         TEXT lote_composto FK "Chave Lógica Universal (RN-07)"
-        REAL fazenda FK "Código do Aviário / Fazenda (RN-06: 100-1500)"
+        INTEGER fazenda FK "Código do Aviário / Fazenda (RN-06: 100-1500)"
         TEXT data_alojamento "Data de alojamento do lote"
         TEXT data_evento "Data da medição amostral em campo"
-        REAL idade "Idade da ave no evento (1 a 60 dias)"
+        REAL idade "Idade exata da ave no evento (dias)"
+        INTEGER idade_ref "Idade de referência validada (4, 7, 14, 21, 28, 35, 42)"
         REAL peso "Peso corporal amostral de campo (kg)"
         REAL cab_alojadas "Aves alojadas inicialmente"
         REAL estoque_aves "Aves vivas restantes no aviário"
         INTEGER mortalidade "Mortes no dia (cabeças)"
-        REAL _mortalidade "Taxa de mortalidade acumulada (%)"
+        REAL _mortalidade "Taxa de mortalidade acumulada (%) - PRIORIZAR (RN-08)"
         INTEGER descartados "Descartes no dia (cabeças)"
-        REAL _descartados "Taxa de descartes acumulada (%)"
+        REAL _descartados "Taxa de descartes acumulada (%) - PRIORIZAR (RN-08)"
     }
 ```
+
+> [!NOTE]
+> A tabela `extracao_mtech_data` mantém a estrutura **Fato Longa** no banco de dados SQLite para garantir integridade estrutural (3NF) e flexibilidade. A operação de pivotagem/melt (para o formato wide, ex: `peso_7`, `_mortalidade_7`) deve ser realizada estritamente na camada de feature engineering / views.
+
+---
+
+## 🔍 3. Amostragem de Dados Conectados (Exemplo Real)
+
+Abaixo um exemplo de amostragem de 1 lote conectando as quatro principais tabelas (demonstrando a prioridade de taxas relativas % conforme **RN-08**):
+
+| Campo (Tabela Origem) | Valor no Banco | Descrição |
+|---|---|---|
+| `lote_composto` (Todas) | `1021-39` | Chave de conexão universal |
+| `fazenda` (`constantes`) | `1021` | Código da fazenda (RN-06) |
+| `c15` (`variables`) | `42.5` | Peso inicial do pintainho |
+| `a01` (`constantes`) | `1` | Aviário convencional |
+| `idade_ref` (`extracao_mtech_data`) | `28` | Idade de referência |
+| `_mortalidade` (`extracao_mtech_data`) | `1.45` | Taxa relativa (%) priorizada (RN-08) |
+| `_descartados` (`extracao_mtech_data`) | `0.30` | Taxa relativa (%) priorizada (RN-08) |
+| `peso_medio_abate_kg` (`peso_abate`) | `2.95` | Peso médio final no frigorífico |
 
 ---
 
