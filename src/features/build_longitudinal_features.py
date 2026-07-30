@@ -17,6 +17,7 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 from scipy.optimize import curve_fit
+from sklearn.isotonic import IsotonicRegression
 import os
 import sys
 
@@ -25,6 +26,39 @@ OUTPUT_CSV = Path("data/processed/longitudinal_dataset.csv")
 
 def gompertz_func(t, A, B, k):
     return A * np.exp(-B * np.exp(-k * t))
+
+def apply_rn13_isotonic_smoothing(row):
+    """
+    RN-13: Identifica Inversão Biométrica (queda de peso > 5% entre pesagens) 
+    e aplica Suavização Monotônica Isométrica (Regressão Isotônica não-decrescente).
+    """
+    ages = [4, 7, 14, 21, 28, 35, 42]
+    valid_ages = []
+    valid_weights = []
+    
+    for age in ages:
+        col = f"peso_d{age:02d}"
+        if col in row and pd.notna(row[col]) and row[col] > 0:
+            valid_ages.append(age)
+            valid_weights.append(row[col])
+            
+    if len(valid_weights) <= 1:
+        return row, 0
+        
+    has_inversion = 0
+    # Checar se há inversão biométrica (> 5% de queda)
+    for i in range(len(valid_weights) - 1):
+        if valid_weights[i+1] < valid_weights[i] * 0.95:
+            has_inversion = 1
+            break
+            
+    if has_inversion:
+        iso = IsotonicRegression(increasing=True, out_of_bounds='clip')
+        smoothed_weights = iso.fit_transform(valid_ages, valid_weights)
+        for age, w_smooth in zip(valid_ages, smoothed_weights):
+            row[f"peso_d{age:02d}"] = float(w_smooth)
+            
+    return row, has_inversion
 
 def build_longitudinal_features():
     print("=======================================================")
@@ -75,6 +109,22 @@ def build_longitudinal_features():
     df_base = df_base.merge(df_rn12[['lote_composto', 'knn_pred_weight_k15', 'knn_pred_weight_k30', 'knn_neighbor_std_k15', 'knn_dist_nearest']], on='lote_composto', how='left')
     
     print(f"Dataset de lotes unido: {len(df_base):,} registros.")
+    
+    # 4.1 APLICAR RN-13: Tratamento de Inversão Biométrica & Suavização Monotônica
+    print("\nAplicando RN-13 (Detecção de Inversão Biométrica e Suavização Isotônica)...")
+    flags_inversao = []
+    
+    for idx in range(len(df_base)):
+        row = df_base.iloc[idx]
+        row_smoothed, flag_inv = apply_rn13_isotonic_smoothing(row)
+        flags_inversao.append(flag_inv)
+        if flag_inv:
+            for col_p in [c for c in row_smoothed.index if c.startswith('peso_d')]:
+                df_base.at[idx, col_p] = row_smoothed[col_p]
+                
+    df_base['flag_inversao_biometrica'] = flags_inversao
+    total_inversoes = sum(flags_inversao)
+    print(f" RN-13 Processada: {total_inversoes:,} lotes ({total_inversoes/len(df_base)*100.0:.2f}%) apresentavam inversão biométrica e foram suavizados.")
     
     # 5. Engenharia de Features Longitudinais & Velocidades (GMD)
     print("\nCalculando velocidades (GMD), acelerações e interações...")
