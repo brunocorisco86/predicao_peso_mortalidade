@@ -1,65 +1,38 @@
-# Manual de Comissionamento, Validação e Implantação em Produção
+# Manual Oficial de Comissionamento e Implantação do Modelo
 
-**Sistema:** Modelo Preditivo de Peso de Abate em Frangos de Corte (C.Vale)  
-**Versão do Artefato:** v1.0.0 (Campeão XGBoost GPU + LightGBM + MetaRidge + RN-01 a RN-13)  
-**Data de Emissão:** 30 de Julho de 2026
+## 1. Introdução
+Este manual descreve as diretrizes operacionais e de Governança de Machine Learning para a implantação do modelo final (Predição de Peso de Aves e Mortalidade) nos ambientes de homologação e produção da C.Vale.
 
----
+## 2. Service Level Agreement (SLA)
+A arquitetura de inferência do modelo tem os seguintes acordos de nível de serviço (SLA):
+- **Tempo de Resposta (Inference Latency):** P95 < 2.5 segundos para requisições em batch de até 500 lotes;
+- **Disponibilidade (Uptime):** 99.9% de disponibilidade em horário operacional de PCP (Planejamento e Controle da Produção).
+- **Frequência de Atualização dos Dados (Batch Ingestion):** Re-scoring diário dos lotes previstos para abate nas próximas 2 semanas.
 
-## 1. Escopo de Comissionamento
+## 3. Plano de Testes de Aceitação (PCP do Abatedouro)
+Antes da virada de chave no fluxo operacional do abatedouro, a equipe de PCP deve executar testes de aceitação em ambiente *Shadow Mode*:
+1. **Período de Comparação:** Acompanhar as predições de modelo vs. amostragens reais de campo (pesagens aos 28 e 35 dias) por 14 dias contínuos.
+2. **KPIs a validar:**
+   - MAE <= Limiar de Aceitação (Aderência do peso real de abate vs. predito).
+   - MAE no segmento de Idade (42-47 dias e 48+ dias) devendo se manter estável;
+3. **Aceitação do Processo:** O encarregado de abate ratifica que o uso da predição reduz a divergência do planejamento industrial e aciona a homologação.
 
-Este manual estabelece os procedimentos operacionais padrão (SOP), requisitos de SLA, protocolo de testes de aceitação e plano de transição para a entrada em produção do modelo preditivo de peso de abate nas plantas industriais e no aplicativo de extensão rural da C.Vale.
+## 4. Monitoramento de Saúde do Modelo (Model Health & Drift)
+Para evitar a degradação de performance do modelo frente a sazonalidades ou mudanças na genética:
+- **Monitoramento de Data Drift:** Monitoramento quinzenal (ex: via teste de Kolmogorov-Smirnov) nas principais features apontadas no relatório SHAP (GMD, peso do pintainho c15, pesos intermediários).
+- **Monitoramento de Concept Drift:** Avaliação semanal do MAE do modelo contra os dados reais de abate retornados do frigorífico. Alertas devem ser gerados se o erro médio superar 5% (MAPE > 5%).
+- **Retreinamento:** O modelo é agendado para ciclo de avaliação de retreinamento a cada 3 meses.
 
----
+## 5. Procedimentos de Rollback
+Em caso de degradação crítica, indisponibilidade do banco de dados analítico ou falha na integração via API:
+1. **Fallback para Histórico (Cold-start):** Utilizar médias históricas estratificadas por idade e produtor como baseline substituto temporário.
+2. **Reversão de Versão de Modelo:** Ativar a versão N-1 do modelo campeão no Model Registry, garantindo o retorno da integração em até 1 hora útil.
+3. **Comunicado à Operação:** Disparar alerta imediato à operação de que os pesos planejados estão sob baseline, aumentando margem de erro.
 
-## 2. Requisitos de SLA e Latência de Inferência
-
-| Canal de Consumo | Modo de Implantação | Formato de Serialização | Latência Máxima Permitida (SLA) | Frequência de Execução |
-|---|---|---|---|---|
-| **Planejamento de Abate (PCP Industrial)** | Batch Inference | `Joblib` / Scikit-Learn | $< 120\text{ segundos}$ (para 25.000 lotes) | Diário (Madrugada às 02:00) |
-| **Extensão Rural (App Médicos Vet/Zoot)** | API REST Real-time | `ONNX Runtime` (C++ Backend) | $< 45\text{ ms}$ por requisição | Sob demanda (Campo) |
-
----
-
-## 3. Protocolo de Testes de Aceitação de Campo (PCP Abatedouro)
-
-Antes da aprovação de comissionamento de cada abatedouro (Palotina, Toledo, etc.), o sistema deve passar pelo período de **Shadow Testing (Teste Sombra)** durante 14 dias:
-
-```mermaid
-graph TD
-    A[Dados de Amostragem do Lote aos 35d] --> B[Roteador RN-11]
-    B -- Elegivel RN-11 == 1 --> C[Inferencia Modelo Campeao ONNX/Joblib]
-    B -- Inelegivel RN-11 == 0 --> D[Fallback Conservador Media Fazenda]
-    C --> E[Predicao Sombra]
-    D --> E
-    E --> F{Retorno do Frigorifico Pós-Abate}
-    F --> G[Calcular MAE Sombra de 14 Dias]
-    G --> H{MAE <= 105g & MAPE <= 3.5%?}
-    H -- Sim --> I[✅ Modelo Aprovado para Comissionamento Definitivo]
-    H -- Nao --> J[⚠️ Disparar Alarme e Manter Fallback]
-```
-
-### Critérios de Aceitação Obrigatórios (Go/No-Go):
-1. **MAE Global de Validação:** $\le 105,0\text{ gramas}$.
-2. **MAPE Operacional PCP:** $\le 3,50\%$.
-3. **Disponibilidade da API REST:** $\ge 99,9\%$.
-4. **Resiliência do Roteador RN-11:** $100\%$ dos lotes inelegíveis devem cair no Fallback Conservador sem gerar exceção HTTP 500.
-
----
-
-## 4. Checklist de Comissionamento e Liberação Produção
-
-- [x] **Data Quality & ETL:** Sanitização MTech, tipagem `INTEGER` em fazendas, remoção de duplicatas.
-- [x] **Regras de Negócio Implementadas:** RN-01 até RN-13 (incluindo Inversão Biométrica e Suavização Isotônica).
-- [x] **Validação Anti-Overfitting:** 5-Fold GroupKFold por `lote_composto` com gap $< 15\%$.
-- [x] **Explicabilidade SHAP:** Relatório e gráficos de impacto zootécnico aprovados.
-- [ ] **Shadow Mode (14 Dias):** Em execução no PCP Industrial.
-- [ ] **Assinatura do Termo de Comissionamento:** Equipes de TI, PCP e Extensão Rural C.Vale.
-
----
-
-## 5. Procedimento de Rollback e Contingência
-Se a API REST de inferência ou o job do PCP falhar por mais de 15 minutos consecutivos:
-1. O Gateway intercepta e ativa o **Modo de Contingência Nível 1 (RN-11 Fallback)**.
-2. Todas as consultas de peso de abate passam a utilizar a **Média Histórica dos Últimos 3 Lotes da Fazenda**.
-3. Notificação automática enviada via PagerDuty/Email para a equipe de MLOps.
+## 6. Checklist de Comissionamento Final
+- [ ] Validação SHAP e Documentação de Explicabilidade concluída.
+- [ ] Gráficos de Resíduos e Otimização gerados.
+- [ ] Teste A/B (Shadow Mode) concluído pelo Abatedouro.
+- [ ] Integração com repositório unificado / Model Registry feita.
+- [ ] Monitoramento de Drift configurado.
+- [ ] Manual operacional e de Rollback aprovado pela gestão.

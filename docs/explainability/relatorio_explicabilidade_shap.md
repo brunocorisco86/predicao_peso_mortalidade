@@ -1,47 +1,35 @@
-# Relatório Técnico de Explicabilidade de Aprendizado de Máquina (SHAP)
+# Relatório de Explicabilidade SHAP - Modelo Campeão Final
 
-**Data:** 30 de Julho de 2026  
-**Modelo Avaliado:** Stacking Ensemble Campeão (XGBoost GPU + LightGBM + MetaRidge)  
-**Dataset:** Visão Longitudinal Integrada ($18.474$ Lotes Elegíveis RN-11)  
-**Metodologia:** TreeSHAP (Shapley Additive exPlanations)
+## 1. Visão Geral
+Este documento detalha os resultados da análise de explicabilidade baseada em valores SHAP (Shapley Additive exPlanations) aplicada ao Modelo Campeão Final (XGBoost + LightGBM + MetaRidge) no projeto de predição de peso das aves e mortalidade.
 
----
+O método TreeSHAP foi empregado para decodificar as decisões não-lineares da modelagem baseada em árvores, garantindo total transparência do impacto de cada feature no modelo.
 
-## 1. Visão Geral da Explicabilidade
+## 2. Gráficos de Explicabilidade
 
-Para garantir total transparência e governança zootécnica para os médicos veterinários, zootecnistas e engenheiros de PCP da C.Vale, os impactos das variáveis explicativas foram auditados através da teoria de jogos cooperativos (**Valores de Shapley**).
-
----
-
-## 2. Gráficos Oficiais de Explicabilidade SHAP
-
-### 2.1. SHAP Beeswarm Summary Plot (Impacto Global e Direção de Variáveis)
+### 2.1. SHAP Summary Plot (Global Beeswarm)
+O gráfico de resumo global ilustra a direção e a magnitude do impacto das variáveis no peso de abate.
 ![SHAP Summary Plot](../../plots/explainability/shap_summary_plot.png)
+**Interpretação:**
+- Cores quentes (vermelho) indicam valores altos da variável.
+- Cores frias (azul) indicam valores baixos da variável.
+- A posição no eixo X mostra o impacto no modelo. 
 
-* **Interpretação:** Cada ponto representa um lote individual. A cor indica o valor da variável (vermelho = alto, azul = baixo). O eixo X mostra o impacto de Shapley no peso final de abate (g).
-* **Destaques:**
-  - `peso_d42` e `peso_d35`: Valores altos (pontos vermelhos à direita) possuem impacto positivo de até $+400\text{g}$ no peso final.
-  - `knn_pred_weight_k15` (RN-12 Gêmeos Digitais): Atua como uma âncora estabilizadora. Vizinhanças históricas de alto peso impulsionam a estimativa do lote atual.
-  - `_mortalidade` (RN-08): Alta mortalidade relativa (vermelho à esquerda) empurra a predição para baixo (impacto negativo de até $-150\text{g}$).
+### 2.2. Importância SHAP (Bar Plot)
+![SHAP Feature Importance](../../plots/explainability/shap_feature_importance_bar.png)
+**Interpretação:**
+As variáveis mais acima possuem a maior contribuição absoluta (média de |SHAP|) no momento de realizar a previsão do peso das aves, destacando os drivers mais importantes.
 
-### 2.2. Importância Absoluta Média dos Atributos (SHAP Bar Chart)
-![SHAP Feature Importance Bar](../../plots/explainability/shap_feature_importance_bar.png)
-
----
-
-## 3. Gráficos de Dependência Parcial (Efeitos Não-Lineares e Limiares Biológicos)
-
-### 3.1. Efeito da Velocidade de Ganho de Peso ($GMD_{35-42}$)
+### 2.3. Dependência de GMD (Ganho Médio Diário)
 ![SHAP Dependence GMD](../../plots/explainability/shap_dependence_gmd.png)
+**Interpretação:**
+Observamos a relação isolada do GMD (ganho de peso contínuo) com a predição. É esperado que, quanto maior o GMD na fase de crescimento, maior seja o valor SHAP positivo direcionado ao peso de abate, confirmando o aspecto fisiológico do crescimento.
 
-* **Limiar Zootécnico:** Quando o $GMD_{35-42}$ supera $85\text{g/dia}$, o impacto de Shapley passa a ser estritamente positivo, adicionando até $+120\text{g}$ ao peso final de abate.
-
-### 3.2. Efeito do Peso do Pintainho de 1 Dia (`c15`)
+### 2.4. Dependência de Peso do Pintainho (c15)
 ![SHAP Dependence Chick Weight](../../plots/explainability/shap_dependence_chick_weight.png)
+**Interpretação:**
+Este gráfico aponta a influência do peso inicial do pintainho (c15) na decisão final. Pintainhos com maior peso ao nascer tendem a empurrar as predições de peso final para cima (valores SHAP positivos).
 
-* **Limiar Zootécnico:** Pintainhos alojados com peso $< 40\text{g}$ geram uma penalização severa de Shapley (até $-80\text{g}$ no peso final de abate ao 45º dia), reforçando a necessidade de nutrição pré-inicial intensiva na primeira semana.
-
----
-
-## 4. Conclusão e Governança
-A auditoria SHAP comprova que o modelo XGBoost/Stacking não utiliza correlações espúrias, mas sim relações causais biológicas validadas zootecnicamente.
+## 3. Conclusões
+- A explicabilidade valida a sanidade do modelo: as relações não-lineares aprendidas pelo algoritmo estão em sintonia com a fisiologia e o manejo avícola esperados.
+- Variáveis de histórico zootécnico e ambiência interagem de maneira forte, e o SHAP consegue capturar que limites superiores dessas variáveis trazem retornos não necessariamente lineares (possíveis efeitos platô de ganho de peso).
